@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="60dip" >
+
+	<LinearLayout
+		android:id="@+id/formatTitle0"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:visibility="visible"
+		android:orientation="horizontal"
+		android:background="@color/android_blue">
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/formatTitle1"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:visibility="invisible"
+		android:orientation="horizontal"
+		android:background="@color/spacee_blue">
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="80"
+			android:layout_height="match_parent"/>
+
+		<TextView
+			android:id="@+id/titleText1"
+			android:layout_width="0dip"
+			android:layout_weight="860"
+			android:layout_height="match_parent"
+			android:gravity="center_vertical"
+			android:textSize="24sp"
+			android:textColor="@color/text_white"
+			android:text="初期設定中・・しばらくお待ちください" />
+
+		<LinearLayout
+			android:layout_width="0dip"
+			android:layout_weight="210"
+			android:layout_height="match_parent"
+			android:orientation="vertical" >
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="10" />
+
+			<TextClock
+				android:id="@+id/titleDate1"
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="25"
+				android:gravity="center_vertical|right"
+				android:format24Hour="yyyy年MM月dd日(E)"
+				android:textSize="16sp"
+				android:textColor="@color/text_white" />
+
+			<TextClock
+				android:id="@+id/titleTime1"
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="25"
+				android:gravity="center_vertical|right"
+				android:format24Hour="kk:mm:ss"
+				android:textSize="18sp"
+				android:textColor="@color/text_white" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="10" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="40"
+			android:layout_height="match_parent" />
+
+		<LinearLayout
+			android:layout_width="0dip"
+			android:layout_weight="48"
+			android:layout_height="match_parent"
+			android:orientation="vertical" >
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="17" />
+
+			<ImageView
+				android:id="@+id/btnPlace1"
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="36"
+				android:layout_gravity="center"
+				android:scaleType="center"
+				android:background="@drawable/ic_pin" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="17" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="42"
+			android:layout_height="match_parent"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/formatTitle2"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:visibility="invisible"
+		android:orientation="horizontal"
+		android:background="@color/spacee_blue">
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="20"
+			android:layout_height="match_parent" />
+
+		<LinearLayout
+			android:layout_width="0dip"
+			android:layout_weight="48"
+			android:layout_height="match_parent"
+			android:orientation="vertical" >
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="17" />
+
+			<ImageView
+				android:id="@+id/btnBack2"
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="36"
+				android:layout_gravity="center"
+				android:scaleType="center"
+				android:background="@drawable/ic_back" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="17" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="42"
+			android:layout_height="match_parent"/>
+
+		<LinearLayout
+			android:layout_width="0dip"
+			android:layout_weight="48"
+			android:layout_height="match_parent"
+			android:orientation="vertical" >
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="17" />
+
+			<ImageView
+				android:id="@+id/btnHome2"
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="36"
+				android:layout_gravity="center"
+				android:scaleType="center"
+				android:background="@drawable/ic_home" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="17" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="42"
+			android:layout_height="match_parent"/>
+
+		<TextView
+			android:id="@+id/titleText2"
+			android:layout_width="0dip"
+			android:layout_weight="740"
+			android:layout_height="match_parent"
+			android:gravity="center_vertical"
+			android:textSize="26sp"
+			android:textColor="@color/text_white" />
+
+		<LinearLayout
+			android:layout_width="0dip"
+			android:layout_weight="210"
+			android:layout_height="match_parent"
+			android:orientation="vertical" >
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="10" />
+
+			<TextClock
+				android:id="@+id/titleDate2"
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="25"
+				android:gravity="center_vertical|right"
+				android:format24Hour="yyyy年MM月dd日(E)"
+				android:textSize="16sp"
+				android:textColor="@color/text_white" />
+
+			<TextClock
+				android:id="@+id/titleTime2"
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="25"
+				android:gravity="center_vertical|right"
+				android:format24Hour="kk:mm:ss"
+				android:textSize="18sp"
+				android:textColor="@color/text_white" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="10" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="40"
+			android:layout_height="match_parent" />
+
+		<LinearLayout
+			android:layout_width="0dip"
+			android:layout_weight="48"
+			android:layout_height="match_parent"
+			android:orientation="vertical" >
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="17" />
+
+			<ImageView
+				android:id="@+id/btnPlace2"
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="36"
+				android:layout_gravity="center"
+				android:scaleType="center"
+				android:background="@drawable/ic_pin" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="17" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="42"
+			android:layout_height="match_parent"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/formatTitle3"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:visibility="invisible"
+		android:orientation="horizontal"
+		android:background="@color/spacee_blue">
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="20"
+			android:layout_height="match_parent" />
+
+		<LinearLayout
+			android:layout_width="0dip"
+			android:layout_weight="48"
+			android:layout_height="match_parent"
+			android:orientation="vertical" >
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="17" />
+
+			<ImageView
+				android:id="@+id/btnBack3"
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="36"
+				android:layout_gravity="center"
+				android:scaleType="center"
+				android:background="@drawable/ic_back" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="17" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="42"
+			android:layout_height="match_parent"/>
+
+		<LinearLayout
+			android:layout_width="0dip"
+			android:layout_weight="48"
+			android:layout_height="match_parent"
+			android:orientation="vertical" >
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="17" />
+
+			<ImageView
+				android:id="@+id/btnHome3"
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="36"
+				android:layout_gravity="center"
+				android:scaleType="center"
+				android:background="@drawable/ic_home" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="17" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="42"
+			android:layout_height="match_parent"/>
+
+		<TextView
+			android:id="@+id/titleText3"
+			android:layout_width="0dip"
+			android:layout_weight="465"
+			android:layout_height="match_parent"
+			android:gravity="center_vertical"
+			android:textSize="26sp"
+			android:textColor="@color/text_white"
+			android:text="title3" />
+
+		<LinearLayout
+			android:layout_width="0dip"
+			android:layout_weight="210"
+			android:layout_height="match_parent"
+			android:orientation="vertical" >
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="10" />
+
+			<TextClock
+				android:id="@+id/titleDate3"
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="25"
+				android:gravity="center_vertical|right"
+				android:format24Hour="yyyy年MM月dd日(E)"
+				android:textSize="16sp"
+				android:textColor="@color/text_white" />
+
+			<TextClock
+				android:id="@+id/titleTime3"
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="25"
+				android:gravity="center_vertical|right"
+				android:format24Hour="kk:mm:ss"
+				android:textSize="18sp"
+				android:textColor="@color/text_white" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="10" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="40"
+			android:layout_height="match_parent" />
+
+		<LinearLayout
+			android:layout_width="0dip"
+			android:layout_weight="48"
+			android:layout_height="match_parent"
+			android:orientation="vertical" >
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="17" />
+
+			<ImageView
+				android:id="@+id/btnPlace3"
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="36"
+				android:layout_gravity="center"
+				android:scaleType="center"
+				android:background="@drawable/ic_pin" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="17" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="21"
+			android:layout_height="match_parent"/>
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="21"
+			android:layout_height="match_parent"
+			android:background="@color/spacee_blue_dark" />
+
+		<LinearLayout
+			android:layout_width="0dip"
+			android:layout_weight="275"
+			android:layout_height="match_parent"
+			android:orientation="horizontal"
+			android:background="@color/spacee_blue_dark" >
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="24"
+				android:layout_height="match_parent" />
+
+			<ImageView
+				android:layout_width="0dip"
+				android:layout_weight="36"
+				android:layout_height="36dip"
+				android:layout_gravity="center"
+				android:scaleType="center"
+				android:background="@drawable/ic_logout" />
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="15"
+				android:layout_height="match_parent" />
+
+			<TextView
+				android:id="@+id/btnOpt3"
+				android:layout_width="0dip"
+				android:layout_weight="200"
+				android:layout_height="match_parent"
+				android:text="xxx@yyy.com\nからログアウト"
+				android:textSize="14sp"
+				android:textColor="@color/text_white"
+				android:maxLines="2"
+				android:gravity="center_vertical" />
+		</LinearLayout>
+	</LinearLayout>
+</FrameLayout>

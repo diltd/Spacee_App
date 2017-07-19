@@ -1,0 +1,83 @@
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/fragmentLoginIC"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/base" >
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical" >
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="45" />
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="710"
+			android:orientation="horizontal" >
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="72"
+				android:layout_height="match_parent" />
+
+			<ImageView
+				android:id="@+id/floorMap"
+				android:layout_width="0dip"
+				android:layout_weight="1136"
+				android:layout_height="match_parent"
+				android:background="@color/text_white" />
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="72"
+				android:layout_height="match_parent" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="45" />
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical" >
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="90"
+			android:orientation="horizontal" >
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="1163"
+				android:layout_height="match_parent" />
+
+			<ImageView
+				android:id="@+id/btnClose"
+				android:layout_width="0dip"
+				android:layout_weight="90"
+				android:layout_height="match_parent"
+				android:src="@drawable/ic_middle_btnclose" />
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="27"
+				android:layout_height="match_parent" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="710"  />
+	</LinearLayout>
+</FrameLayout>

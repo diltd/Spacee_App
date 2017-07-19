@@ -1,0 +1,466 @@
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/fragmentWorkDetail"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent" >
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/light_grey_white"
+		android:orientation="horizontal">
+
+		<LinearLayout
+			android:layout_width="0dip"
+			android:layout_weight="400"
+			android:layout_height="match_parent"
+			android:orientation="vertical" >
+
+			<ImageView
+				android:id="@+id/imgSpace"
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="300"
+				android:scaleType="fitXY"
+				android:background="@drawable/img_area" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="10" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="30"
+				android:orientation="horizontal" >
+
+				<View
+					android:layout_width="0dip"
+					android:layout_weight="40"
+					android:layout_height="match_parent" />
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_weight="160"
+					android:layout_height="match_parent"
+					android:text="収容人数"
+					android:textColor="@color/spacee_blue"
+					android:textSize="18sp"
+					android:gravity="center_vertical" />
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_weight="200"
+					android:layout_height="match_parent"
+					android:text="広さ"
+					android:textColor="@color/spacee_blue"
+					android:textSize="18sp"
+					android:gravity="center_vertical" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="40"
+				android:orientation="horizontal" >
+
+				<View
+					android:layout_width="0dip"
+					android:layout_weight="40"
+					android:layout_height="match_parent" />
+
+				<TextView
+					android:id="@+id/capacity"
+					android:layout_width="0dip"
+					android:layout_weight="160"
+					android:layout_height="match_parent"
+					android:text="～32人"
+					android:textColor="@color/text_black"
+					android:textSize="24sp"
+					android:gravity="center_vertical" />
+
+				<TextView
+					android:id="@+id/areaSquare"
+					android:layout_width="0dip"
+					android:layout_weight="200"
+					android:layout_height="match_parent"
+					android:text="76m2"
+					android:textColor="@color/text_black"
+					android:textSize="24sp"
+					android:gravity="center_vertical" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="20" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="340"
+				android:orientation="horizontal" >
+
+				<View
+					android:layout_width="0dip"
+					android:layout_weight="40"
+					android:layout_height="match_parent" />
+
+				<LinearLayout
+					android:layout_width="0dip"
+					android:layout_weight="360"
+					android:layout_height="match_parent"
+					android:orientation="vertical" >
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="0dip"
+						android:layout_weight="30"
+						android:text="設備"
+						android:textColor="@color/spacee_blue"
+						android:textSize="18sp"
+						android:gravity="center_vertical" />
+
+					<TextView
+						android:id="@+id/facilities"
+						android:layout_width="match_parent"
+						android:layout_height="0dip"
+						android:layout_weight="300"
+						android:text="●トイレ（男女兼用）\n●テーブル（二人掛けテーブル）\n●プロジェクター\n●プロジェクター用スクリーン"
+						android:textColor="@color/text_black"
+						android:textSize="18sp"
+						android:maxLines="8" />
+				</LinearLayout>
+			</LinearLayout>
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="0dip"
+			android:layout_height="match_parent"
+			android:layout_weight="880"
+			android:orientation="vertical">
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="10" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="70"
+				android:orientation="horizontal" >
+
+				<View
+					android:layout_width="0dip"
+					android:layout_height="match_parent"
+					android:layout_weight="60"/>
+
+				<TextClock
+					android:id="@+id/btnDateList"
+					android:layout_width="0dip"
+					android:layout_weight="300"
+					android:layout_height="60dip"
+					android:format24Hour=" MM月dd日(今日)"
+					android:textColor="@color/text_black"
+					android:gravity="center_vertical"
+					android:textSize="24sp"
+					android:layout_gravity="center_vertical"
+					android:background="@xml/shape_spinner" />
+
+				<View
+					android:layout_width="0dip"
+					android:layout_height="match_parent"
+					android:layout_weight="170"/>
+
+				<LinearLayout
+					android:layout_width="0dip"
+					android:layout_weight="150"
+					android:layout_height="match_parent"
+					android:orientation="vertical">
+
+					<View
+						android:layout_width="match_parent"
+						android:layout_height="0dip"
+						android:layout_weight="10"/>
+
+					<TextView
+						android:id="@+id/status"
+						android:layout_width="match_parent"
+						android:layout_height="0dip"
+						android:layout_weight="50"
+						android:text="利用可"
+						android:textColor="@color/text_black"
+						android:gravity="center"
+						android:textSize="18sp"
+						android:background="@xml/shape_oval2" />
+
+					<View
+						android:layout_width="match_parent"
+						android:layout_height="0dip"
+						android:layout_weight="10"/>
+				</LinearLayout>
+
+				<TextView
+					android:id="@+id/availNo"
+					android:layout_width="0dip"
+					android:layout_height="match_parent"
+					android:layout_weight="140"
+					android:text="59／60 席"
+					android:textColor="@color/text_black"
+					android:gravity="center_vertical|right"
+					android:textSize="20sp"/>
+
+				<View
+					android:layout_width="0dip"
+					android:layout_height="match_parent"
+					android:layout_weight="60"/>
+			</LinearLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="10" />
+
+			<ImageView
+				android:id="@+id/timeLine"
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="145" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="30"
+				android:background="@color/white" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="55"
+				android:orientation="horizontal"
+				android:background="@color/white" >
+
+				<View
+					android:layout_width="0dip"
+					android:layout_height="match_parent"
+					android:layout_weight="80"/>
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_height="match_parent"
+					android:layout_marginLeft="10sp"
+					android:layout_weight="280"
+					android:gravity="center_vertical"
+					android:text="チェックイン"
+					android:textColor="@color/spacee_blue"
+					android:textSize="22sp"/>
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_height="match_parent"
+					android:layout_marginLeft="10sp"
+					android:layout_weight="520"
+					android:gravity="center_vertical"
+					android:text="ご利用時間"
+					android:textColor="@color/spacee_blue"
+					android:textSize="22sp"/>
+			</LinearLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="10"
+				android:background="@color/white" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="80"
+				android:orientation="horizontal"
+				android:background="@color/white" >
+
+				<View
+					android:layout_width="0dip"
+					android:layout_height="match_parent"
+					android:layout_weight="80"/>
+
+				<Spinner
+					android:id="@+id/startTime"
+					android:layout_width="0dip"
+					android:layout_height="match_parent"
+					android:layout_weight="200"
+					android:background="@xml/shape_spinner" />
+
+				<!--TextView
+					android:layout_width="0dip"
+					android:layout_height="match_parent"
+					android:layout_marginLeft="10sp"
+					android:layout_weight="80"
+					android:gravity="center_vertical"
+					android:text="から"
+					android:textColor="@color/text_black"
+					android:textSize="22sp"/ -->
+
+				<View
+					android:layout_width="0dip"
+					android:layout_weight="20"
+					android:layout_height="match_parent" />
+
+				<Spinner
+					android:id="@+id/useHour"
+					android:layout_width="0dip"
+					android:layout_weight="120"
+					android:layout_height="match_parent"
+					android:background="@xml/shape_spinner" />
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_height="match_parent"
+					android:layout_marginLeft="10sp"
+					android:layout_weight="80"
+					android:gravity="center_vertical"
+					android:text="時間"
+					android:textColor="@color/text_black"
+					android:textSize="22sp"/>
+
+				<Spinner
+					android:id="@+id/useMin"
+					android:layout_width="0dip"
+					android:layout_height="match_parent"
+					android:layout_weight="120"
+					android:background="@xml/shape_spinner" />
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_height="match_parent"
+					android:layout_marginLeft="10sp"
+					android:layout_weight="80"
+					android:gravity="center_vertical"
+					android:text="分"
+					android:textColor="@color/text_black"
+					android:textSize="22sp"/>
+
+				<View
+					android:layout_width="0dip"
+					android:layout_height="match_parent"
+					android:layout_weight="180"/>
+			</LinearLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="40"
+				android:background="@color/white" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="290"
+				android:orientation="horizontal"
+				android:background="@color/white" >
+
+				<View
+					android:layout_width="0dip"
+					android:layout_height="match_parent"
+					android:layout_weight="60"/>
+
+				<LinearLayout
+					android:layout_width="0dip"
+					android:layout_weight="400"
+					android:layout_height="match_parent"
+					android:orientation="vertical" >
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="0dip"
+						android:layout_weight="50"
+						android:gravity="center_vertical|left"
+						android:text="料金プラン"
+						android:textColor="@color/spacee_blue"
+						android:textSize="20sp" />
+
+					<ListView
+						android:id="@+id/priceList"
+						android:layout_width="match_parent"
+						android:layout_height="0dip"
+						android:layout_weight="240" />
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="0dip"
+					android:layout_weight="360"
+					android:layout_height="match_parent"
+					android:orientation="vertical">
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_weight="50"
+						android:layout_height="0dip"
+						android:text="ご利用料金"
+						android:textColor="@color/spacee_blue"
+						android:textSize="20sp"
+						android:gravity="bottom|right" />
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="0dip"
+						android:layout_weight="65"
+						android:orientation="horizontal">
+
+						<TextView
+							android:id="@+id/amount"
+							android:layout_width="0dip"
+							android:layout_weight="310"
+							android:layout_height="match_parent"
+							android:text="1,400"
+							android:textColor="@color/text_black"
+							android:textSize="40sp"
+							android:gravity="bottom|right" />
+
+						<TextView
+							android:layout_width="0dip"
+							android:layout_weight="50"
+							android:layout_height="match_parent"
+							android:text="円"
+							android:textColor="@color/text_black"
+							android:textSize="20sp"
+							android:gravity="bottom|center_horizontal" />
+					</LinearLayout>
+
+					<View
+						android:layout_width="match_parent"
+						android:layout_weight="35"
+						android:layout_height="0dip" />
+
+					<TextView
+						android:id="@+id/btnSelect"
+						android:layout_width="match_parent"
+						android:layout_weight="80"
+						android:layout_height="0dip"
+						android:gravity="center"
+						android:text="このスペースを借りる"
+						android:textColor="@color/text_white"
+						android:textSize="22sp"
+						android:background="@drawable/shape_button_blue"/>
+
+					<View
+						android:layout_width="match_parent"
+						android:layout_weight="60"
+						android:layout_height="0dip" />
+				</LinearLayout>
+
+				<View
+					android:layout_width="0dip"
+					android:layout_height="match_parent"
+					android:layout_weight="60"/>
+			</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+
+	<include
+		android:id="@+id/errorMessagePanel"
+		layout="@layout/layout_error_message" />
+</FrameLayout>

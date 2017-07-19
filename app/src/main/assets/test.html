@@ -1,0 +1,24 @@
+<html>
+<head>
+    <script type="text/javascript" src="https://pt01.mul-pay.jp/ext/js/token.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        function getGmoTokenCallback(response) {
+            Native.setToken(response.resultCode, response.tokenObject.token);
+        }
+
+        window.getGmoToken = function(shopId, cardNo, expire, secCode, holderName) {
+            Multipayment.init(shopId);
+            Multipayment.getToken({
+                cardno: cardNo,
+                expire: expire,
+                securitycode: secCode,
+                holdername: holderName
+            }, getGmoTokenCallback);
+        }
+    </script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/black_overlay"
+	android:visibility="invisible" >
+
+	<LinearLayout
+		android:layout_width="540dip"
+		android:layout_height="240dip"
+		android:orientation="vertical"
+		android:layout_centerVertical="true"
+		android:layout_centerHorizontal="true"
+		android:background="@xml/shape_error_message"
+		android:clickable="true">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="54"
+			android:orientation="horizontal">
+
+			<TextView
+				android:id="@+id/errorTitle"
+				android:layout_width="0dip"
+				android:layout_weight="810"
+				android:layout_height="match_parent"
+				android:text="エラー！"
+				android:textSize="30sp"
+				android:textColor="@color/alert"
+				android:gravity="center_vertical"
+				android:layout_marginLeft="50sp" />
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="10"
+				android:layout_height="match_parent" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="6"
+			android:background="@color/alert" />
+
+		<TextView
+			android:id="@+id/errorMessage"
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="180"
+			android:maxLines="5"
+			android:text="エラーメッセージ\nエラーメッセージ\nエラーメッセージ\nエラーメッセージ\nエラーメッセージ"
+			android:textSize="24sp"
+			android:textColor="@color/alert"
+			android:gravity="center"
+			android:paddingLeft="50sp" />
+	</LinearLayout>
+
+	<ImageView
+		android:id="@+id/messageOff"
+		android:layout_width="60dip"
+		android:layout_height="60dip"
+		android:layout_alignParentTop="true"
+		android:layout_marginTop="123dp"
+		android:layout_alignParentLeft="true"
+		android:layout_marginLeft="720dp"
+		android:background="@drawable/ic_middle_btnclose" />
+</RelativeLayout>

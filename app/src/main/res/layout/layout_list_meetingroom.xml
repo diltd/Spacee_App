@@ -1,0 +1,135 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="187dip"
+	android:background="@color/light_grey_white"
+	android:orientation="horizontal">
+
+	<ImageView
+		android:id="@+id/imgSpace"
+		android:layout_width="0dip"
+		android:layout_weight="300"
+		android:layout_height="match_parent"
+		android:layout_margin="10dp"
+		android:background="@drawable/img_area" />
+
+	<View
+		android:layout_width="0dip"
+		android:layout_weight="20"
+		android:layout_height="match_parent" />
+
+	<LinearLayout
+		android:layout_width="0dip"
+		android:layout_weight="840"
+		android:layout_height="match_parent"
+		android:orientation="vertical" >
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="44"
+			android:orientation="horizontal" >
+
+			<TextView
+				android:id="@+id/status"
+				android:layout_width="0dip"
+				android:layout_weight="120"
+				android:layout_height="match_parent"
+				android:text="利用可"
+				android:textColor="@color/text_black"
+				android:textSize="20sp"
+				android:gravity="center" />
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="140"
+				android:layout_height="match_parent" />
+
+			<ImageView
+				android:id="@+id/timeLine"
+				android:layout_width="0dip"
+				android:layout_weight="580"
+				android:layout_height="match_parent" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="70"
+			android:orientation="horizontal" >
+
+			<TextView
+				android:id="@+id/placeName"
+				android:layout_width="0dip"
+				android:layout_weight="600"
+				android:layout_height="match_parent"
+				android:text="ワークスペース"
+				android:textColor="@color/text_black"
+				android:textSize="30sp"
+				android:gravity="center_vertical" />
+
+			<TextView
+				android:id="@+id/price"
+				android:layout_width="0dip"
+				android:layout_weight="150"
+				android:layout_height="match_parent"
+				android:text="600"
+				android:textColor="@color/text_black"
+				android:textSize="40sp"
+				android:gravity="center_vertical|right" />
+
+			<TextView
+				android:layout_width="0dip"
+				android:layout_weight="90"
+				android:layout_height="match_parent"
+				android:text=" 円/1h"
+				android:textColor="@color/text_black"
+				android:textSize="20sp"
+				android:layout_marginTop="10dip"
+				android:gravity="center_vertical" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="60"
+			android:orientation="horizontal" >
+
+			<LinearLayout
+				android:layout_width="0dip"
+				android:layout_weight="640"
+				android:layout_height="match_parent"
+				android:orientation="vertical" >
+
+				<TextView
+					android:id="@+id/placeExp"
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="30"
+					android:text="ワークスペース"
+					android:textColor="@color/text_black"
+					android:textSize="15sp" />
+
+				<TextView
+					android:id="@+id/facilities"
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="30"
+					android:text="あいうえおかきくけこ"
+					android:textColor="@color/text_black"
+					android:textSize="15sp" />
+			</LinearLayout>
+
+			<TextView
+				android:id="@+id/remarks"
+				android:layout_width="0dip"
+				android:layout_weight="200"
+				android:layout_height="match_parent"
+				android:text="・aaaaa\n・bbbbb/"
+				android:textColor="@color/text_black"
+				android:textSize="15sp"
+				android:maxLines="5" />
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>

@@ -1,0 +1,309 @@
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/fragmentEntryCard"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/light_grey_white" >
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="50" />
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="100"
+			android:text="ログイン方法を選択してください"
+			android:textSize="28sp"
+			android:textColor="@color/spacee_blue"
+			android:gravity="center" />
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="350"
+			android:orientation="horizontal" >
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="270"
+				android:layout_height="match_parent" />
+
+			<LinearLayout
+				android:id="@+id/btnLoginQR"
+				android:layout_width="0dip"
+				android:layout_weight="350"
+				android:layout_height="match_parent"
+				android:orientation="vertical"
+				android:background="@xml/shape_large_button" >
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="60" />
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="180"
+					android:orientation="horizontal">
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="85"
+						android:layout_height="match_parent" />
+
+					<ImageView
+						android:layout_width="0dip"
+						android:layout_weight="180"
+						android:layout_height="match_parent"
+						android:background="@drawable/ic_middle_qr"
+						android:scaleType="fitCenter"
+						android:layout_gravity="center" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="85"
+						android:layout_height="match_parent" />
+				</LinearLayout>
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="110"
+					android:text="アプリのＱＲコード"
+					android:textColor="@color/text_black"
+					android:textSize="18sp"
+					android:gravity="center" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="40"
+				android:layout_height="match_parent" />
+
+			<LinearLayout
+				android:id="@+id/btnLoginPW"
+				android:layout_width="0dip"
+				android:layout_weight="350"
+				android:layout_height="match_parent"
+				android:orientation="vertical"
+				android:background="@xml/shape_large_button" >
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="60" />
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="180"
+					android:orientation="horizontal">
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="85"
+						android:layout_height="match_parent" />
+
+					<ImageView
+						android:layout_width="0dip"
+						android:layout_weight="180"
+						android:layout_height="match_parent"
+						android:background="@drawable/ic_middle_idpass"
+						android:scaleType="fitCenter"
+						android:layout_gravity="center" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="85"
+						android:layout_height="match_parent" />
+				</LinearLayout>
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="110"
+					android:text="ＩＤ／パスワードを入力"
+					android:textColor="@color/text_black"
+					android:textSize="18sp"
+					android:gravity="center" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="270"
+				android:layout_height="match_parent" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="100" />
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="80"
+			android:orientation="horizontal" >
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="60"
+				android:layout_height="match_parent" />
+
+			<TextView
+				android:layout_width="0dip"
+				android:layout_weight="470"
+				android:layout_height="match_parent"
+				android:text="未会員の方は会員登録を\n行って下さい"
+				android:textColor="@color/text_black"
+				android:textSize="18sp"
+				android:maxLines="2"
+				android:gravity="center_vertical" />
+
+			<LinearLayout
+				android:id="@+id/btnRegByApp"
+				android:layout_width="0dip"
+				android:layout_weight="330"
+				android:layout_height="match_parent"
+				android:orientation="horizontal"
+				android:background="@xml/shape_button_white" >
+
+				<View
+					android:layout_width="0dip"
+					android:layout_weight="34"
+					android:layout_height="match_parent" />
+
+				<LinearLayout
+					android:layout_width="0dip"
+					android:layout_weight="36"
+					android:layout_height="match_parent"
+					android:orientation="vertical">
+
+					<View
+						android:layout_width="match_parent"
+						android:layout_height="0dip"
+						android:layout_weight="22" />
+
+					<ImageView
+						android:layout_width="match_parent"
+						android:layout_height="0dip"
+						android:layout_weight="36"
+						android:background="@drawable/ic_phone"
+						android:scaleType="center"
+						android:layout_gravity="center" />
+
+					<View
+						android:layout_width="match_parent"
+						android:layout_height="0dip"
+						android:layout_weight="22" />
+				</LinearLayout>
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_weight="260"
+					android:layout_height="match_parent"
+					android:text="アプリで会員登録"
+					android:textColor="@color/text_black"
+					android:textSize="18sp"
+					android:gravity="center_vertical"
+					android:paddingLeft="10sp" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="30"
+				android:layout_height="match_parent" />
+
+			<LinearLayout
+				android:id="@+id/btnRegByInput"
+				android:layout_width="0dip"
+				android:layout_weight="330"
+				android:layout_height="match_parent"
+				android:orientation="horizontal"
+				android:background="@xml/shape_button_white" >
+
+				<View
+					android:layout_width="0dip"
+					android:layout_weight="30"
+					android:layout_height="match_parent" />
+
+				<LinearLayout
+					android:layout_width="0dip"
+					android:layout_weight="50"
+					android:layout_height="match_parent"
+					android:orientation="vertical">
+
+					<View
+						android:layout_width="match_parent"
+						android:layout_height="0dip"
+						android:layout_weight="22" />
+
+					<ImageView
+						android:layout_width="match_parent"
+						android:layout_height="0dip"
+						android:layout_weight="36"
+						android:background="@drawable/ic_tablet"
+						android:scaleType="center"
+						android:layout_gravity="center" />
+
+					<View
+						android:layout_width="match_parent"
+						android:layout_height="0dip"
+						android:layout_weight="22" />
+				</LinearLayout>
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_weight="250"
+					android:layout_height="match_parent"
+					android:text="この端末で会員登録"
+					android:textColor="@color/text_black"
+					android:textSize="18sp"
+					android:gravity="center_vertical"
+					android:paddingLeft="10sp" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="60"
+				android:layout_height="match_parent" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="60" />
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+
+		<TextView
+			android:id="@+id/WarningMsg"
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="100"
+			android:text="アカウントとの連携が済んでいません。\nログインして連携してください。"
+			android:textColor="@color/text_white"
+			android:textSize="20sp"
+			android:gravity="center"
+			android:background="@color/alert"  />
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="640"
+			android:background="@color/see_through" />
+	</LinearLayout>
+</FrameLayout>

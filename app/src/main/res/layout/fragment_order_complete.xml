@@ -1,0 +1,370 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/fragmentOrderComplete"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/light_grey_white"
+	android:orientation="vertical">
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="40" />
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="70"
+		android:orientation="horizontal" >
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="60"
+			android:layout_height="match_parent" />
+
+		<TextView
+			android:layout_width="0dip"
+			android:layout_weight="865"
+			android:layout_height="match_parent"
+			android:text="チェックインしました。お時間までご利用ください"
+			android:textColor="@color/spacee_blue"
+			android:textSize="24sp"
+			android:gravity="center_vertical" />
+
+		<LinearLayout
+			android:id="@+id/btnFloorGuide"
+			android:layout_width="0dip"
+			android:layout_weight="295"
+			android:layout_height="70dip"
+			android:layout_gravity="center_vertical"
+			android:background="@xml/shape_button_white"
+			android:orientation="horizontal" >
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="29"
+				android:layout_height="match_parent" />
+
+			<LinearLayout
+				android:layout_width="0dip"
+				android:layout_weight="54"
+				android:layout_height="match_parent"
+				android:orientation="vertical" >
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="17" />
+
+				<ImageView
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="36"
+					android:background="@drawable/ic_pin_red"
+					android:gravity="center"
+					android:scaleType="fitXY" />
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="17" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="10"
+				android:layout_height="match_parent" />
+
+			<TextView
+				android:layout_width="0dip"
+				android:layout_weight="202"
+				android:layout_height="match_parent"
+				android:text="フロアガイド"
+				android:textColor="@color/text_black"
+				android:textSize="18sp"
+				android:gravity="center_vertical" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="60"
+			android:layout_height="match_parent" />
+	</LinearLayout>
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="30" />
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="600"
+		android:orientation="horizontal" >
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="60"
+			android:layout_height="match_parent" />
+
+		<LinearLayout
+			android:layout_width="0dip"
+			android:layout_weight="620"
+			android:layout_height="match_parent"
+			android:orientation="vertical" >
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="35"
+				android:text="スペース名"
+				android:textColor="@color/spacee_blue"
+				android:textSize="18sp"
+				android:gravity="center_vertical" />
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="85"
+				android:text="コワーキングスペース"
+				android:textColor="@color/text_black"
+				android:textSize="28sp"
+				android:gravity="center_vertical" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="35"
+				android:orientation="horizontal" >
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_weight="230"
+					android:layout_height="match_parent"
+					android:text="日付"
+					android:textColor="@color/spacee_blue"
+					android:textSize="18sp"
+					android:gravity="center_vertical" />
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_weight="220"
+					android:layout_height="match_parent"
+					android:text="チェックイン"
+					android:textColor="@color/spacee_blue"
+					android:textSize="18sp"
+					android:gravity="center_vertical" />
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_weight="190"
+					android:layout_height="match_parent"
+					android:text="チェックアウト"
+					android:textColor="@color/spacee_blue"
+					android:textSize="18sp"
+					android:gravity="center_vertical" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="60"
+				android:orientation="horizontal">
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_weight="60"
+					android:layout_height="match_parent"
+					android:text="06"
+					android:textColor="@color/text_black"
+					android:textSize="40sp"
+					android:gravity="center_horizontal|bottom" />
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_weight="30"
+					android:layout_height="match_parent"
+					android:text="月"
+					android:textColor="@color/text_black"
+					android:textSize="20sp"
+					android:gravity="bottom" />
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_weight="60"
+					android:layout_height="match_parent"
+					android:text="30"
+					android:textColor="@color/text_black"
+					android:textSize="40sp"
+					android:gravity="center_horizontal|bottom" />
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_weight="30"
+					android:layout_height="match_parent"
+					android:text="日"
+					android:textColor="@color/text_black"
+					android:textSize="20sp"
+					android:gravity="bottom" />
+
+				<View
+					android:layout_width="0dip"
+					android:layout_weight="30"
+					android:layout_height="match_parent" />
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_weight="130"
+					android:layout_height="match_parent"
+					android:text="12:34"
+					android:textColor="@color/text_black"
+					android:textSize="40sp"
+					android:gravity="center_horizontal|bottom" />
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_weight="90"
+					android:layout_height="match_parent"
+					android:text="から"
+					android:textColor="@color/text_black"
+					android:textSize="20sp"
+					android:gravity="bottom" />
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_weight="130"
+					android:layout_height="match_parent"
+					android:text="12:34"
+					android:textColor="@color/text_black"
+					android:textSize="40sp"
+					android:gravity="center_horizontal|bottom" />
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_weight="80"
+					android:layout_height="match_parent"
+					android:text="まで"
+					android:textColor="@color/text_black"
+					android:textSize="20sp"
+					android:gravity="bottom" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="20" />
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="35"
+				android:text="お支払い"
+				android:textColor="@color/spacee_blue"
+				android:textSize="18sp"
+				android:gravity="center_vertical" />
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="70"
+				android:text="1,400円"
+				android:textColor="@color/text_black"
+				android:textSize="36sp"
+				android:gravity="center_vertical" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="35" />
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="35"
+				android:text="ご利用方法"
+				android:textColor="@color/spacee_blue"
+				android:textSize="18sp"
+				android:gravity="center_vertical" />
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="70"
+				android:text="廊下をまっすぐ行き、突き当たりを左に行くと左手にあります。\n鍵は「5895」で開くことができます"
+				android:textColor="@color/text_black"
+				android:textSize="19sp"
+				android:gravity="center_vertical"
+				android:maxLines="2" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="10" />
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="70"
+				android:text="チェックイン内容は登録されているメールアドレス宛にもお送りしていますので、ご確認ください。"
+				android:textColor="@color/red"
+				android:textSize="18sp"
+				android:gravity="center_vertical"
+				android:maxLines="3" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="40" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="80"
+			android:layout_height="match_parent" />
+
+		<LinearLayout
+			android:layout_width="0dip"
+			android:layout_weight="460"
+			android:layout_height="match_parent"
+			android:orientation="vertical" >
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="40" />
+
+			<ImageView
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="345"
+				android:background="@color/sub" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="75" />
+
+			<TextView
+				android:id="@+id/btnComplete"
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="80"
+				android:text="ログアウトして、ホームに戻る"
+				android:textColor="@color/text_white"
+				android:textSize="20sp"
+				android:gravity="center"
+				android:background="@drawable/shape_button_blue" />
+
+			<View
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="60" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="60"
+			android:layout_height="match_parent" />
+	</LinearLayout>
+</LinearLayout>

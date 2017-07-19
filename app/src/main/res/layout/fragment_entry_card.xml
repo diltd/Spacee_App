@@ -1,0 +1,374 @@
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/fragmentEntryCard"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/light_grey_white" >
+
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="1000dip"
+			android:minHeight="740dip"
+			android:background="@color/light_grey_white"
+			android:orientation="horizontal">
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="60"
+				android:layout_height="match_parent" />
+
+			<LinearLayout
+				android:layout_width="0dip"
+				android:layout_weight="700"
+				android:layout_height="match_parent"
+				android:orientation="vertical" >
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="84"
+					android:orientation="horizontal" >
+
+					<TextView
+						android:layout_width="0dip"
+						android:layout_weight="240"
+						android:layout_height="match_parent"
+						android:text="クレジットカード"
+						android:textColor="@color/text_black"
+						android:textSize="22sp"
+						android:gravity="center" />
+
+					<TextView
+						android:id="@+id/kindInvoice"
+						android:layout_width="0dip"
+						android:layout_weight="240"
+						android:layout_height="match_parent"
+						android:text="請求書支払い"
+						android:textColor="@color/sub"
+						android:textSize="22sp"
+						android:gravity="center" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="220"
+						android:layout_height="match_parent" />
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="6"
+					android:orientation="horizontal" >
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="240"
+						android:layout_height="match_parent"
+						android:background="@color/spacee_blue" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="240"
+						android:layout_height="match_parent"
+						android:background="@color/sub" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="220"
+						android:layout_height="match_parent" />
+				</LinearLayout>
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="30" />
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="60"
+					android:orientation="horizontal" >
+
+					<TextView
+						android:layout_width="0dip"
+						android:layout_weight="320"
+						android:layout_height="match_parent"
+						android:text="カード番号"
+						android:textColor="@color/spacee_blue"
+						android:textSize="20sp"
+						android:gravity="bottom" />
+
+					<TextView
+						android:layout_width="0dip"
+						android:layout_weight="320"
+						android:layout_height="match_parent"
+						android:text="セキュリティコード"
+						android:textColor="@color/spacee_blue"
+						android:textSize="16sp"
+						android:gravity="bottom|right"
+						android:maxLines="2" />
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="80"
+					android:orientation="horizontal" >
+
+					<EditText
+						android:id="@+id/cardNo1"
+						android:layout_width="0dip"
+						android:layout_weight="120"
+						android:layout_height="match_parent"
+						android:hint="1234"
+						android:inputType="number"
+						android:maxLength="4"
+						android:textColor="@color/text_black"
+						android:textSize="34sp"
+						android:gravity="center_vertical"
+						android:background="@xml/shape_edit_idpw" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="15"
+						android:layout_height="match_parent" />
+
+					<EditText
+						android:id="@+id/cardNo2"
+						android:layout_width="0dip"
+						android:layout_weight="120"
+						android:layout_height="match_parent"
+						android:hint="5678"
+						android:inputType="number"
+						android:maxLength="4"
+						android:textColor="@color/text_black"
+						android:textSize="34sp"
+						android:gravity="center_vertical"
+						android:background="@xml/shape_edit_idpw" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="15"
+						android:layout_height="match_parent" />
+
+					<EditText
+						android:id="@+id/cardNo3"
+						android:layout_width="0dip"
+						android:layout_weight="120"
+						android:layout_height="match_parent"
+						android:hint="9012"
+						android:inputType="number"
+						android:maxLength="4"
+						android:textColor="@color/text_black"
+						android:textSize="34sp"
+						android:gravity="center_vertical"
+						android:background="@xml/shape_edit_idpw" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="15"
+						android:layout_height="match_parent" />
+
+					<EditText
+						android:id="@+id/cardNo4"
+						android:layout_width="0dip"
+						android:layout_weight="120"
+						android:layout_height="match_parent"
+						android:hint="3456"
+						android:inputType="number"
+						android:maxLength="4"
+						android:textColor="@color/text_black"
+						android:textSize="34sp"
+						android:gravity="center_vertical"
+						android:background="@xml/shape_edit_idpw" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="45"
+						android:layout_height="match_parent" />
+
+					<EditText
+						android:id="@+id/cardNo5"
+						android:layout_width="0dip"
+						android:layout_weight="110"
+						android:layout_height="match_parent"
+						android:hint="123"
+						android:inputType="number"
+						android:maxLength="3"
+						android:textColor="@color/text_black"
+						android:textSize="34sp"
+						android:gravity="center_vertical"
+						android:background="@xml/shape_edit_idpw" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="20"
+						android:layout_height="match_parent" />
+				</LinearLayout>
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="30" />
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="60"
+					android:text="名義"
+					android:textColor="@color/spacee_blue"
+					android:textSize="22sp"
+					android:gravity="center_vertical" />
+
+				<EditText
+					android:id="@+id/namePsn"
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="80"
+					android:hint="TAROU YAMADA"
+					android:inputType="textEmailAddress"
+					android:textColor="@color/text_black"
+					android:textSize="34sp"
+					android:gravity="center_vertical"
+					android:background="@xml/shape_edit_idpw" />
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="30" />
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="60"
+					android:text="有効期限"
+					android:textColor="@color/spacee_blue"
+					android:textSize="22sp"
+					android:gravity="center_vertical" />
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="80"
+					android:orientation="horizontal" >
+
+					<Spinner
+						android:id="@+id/expireMonth"
+						android:layout_width="0dip"
+						android:layout_weight="140"
+						android:layout_height="match_parent"
+						android:textSize="20sp"
+						android:background="@xml/shape_spinner" />
+
+					<TextView
+						android:layout_width="0dip"
+						android:layout_weight="65"
+						android:layout_height="match_parent"
+						android:text="月"
+						android:textColor="@color/text_black"
+						android:textSize="16sp"
+						android:gravity="center" />
+
+					<Spinner
+						android:id="@+id/expireYear"
+						android:layout_width="0dip"
+						android:layout_weight="210"
+						android:layout_height="match_parent"
+						android:textSize="20sp"
+						android:background="@xml/shape_spinner" />
+
+					<TextView
+						android:layout_width="0dip"
+						android:layout_weight="65"
+						android:layout_height="match_parent"
+						android:text="年"
+						android:textColor="@color/text_black"
+						android:textSize="16sp"
+						android:gravity="center" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="220"
+						android:layout_height="match_parent" />
+				</LinearLayout>
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="400" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="100"
+				android:layout_height="match_parent" />
+
+			<LinearLayout
+				android:layout_width="0dip"
+				android:layout_weight="360"
+				android:layout_height="match_parent"
+				android:orientation="vertical" >
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="520" />
+
+				<TextView
+					android:id="@+id/btnInputComp"
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="80"
+					android:text="内容確認へ"
+					android:textColor="@color/text_white"
+					android:textSize="24sp"
+					android:gravity="center"
+					android:background="@drawable/shape_button_gray"
+					android:clickable="false"
+					android:enabled="false" />
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="400" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="60"
+				android:layout_height="match_parent" />
+		</LinearLayout>
+	</ScrollView>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:orientation="vertical">
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="100"
+			android:text="ログインされたアカウントには決済情報が登録されていません。\n決済情報を登録してください。"
+			android:textColor="@color/text_white"
+			android:textSize="20sp"
+			android:gravity="center"
+			android:background="@color/alert"
+			android:visibility="invisible" />
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="620"
+			android:background="@color/see_through" />
+	</LinearLayout>
+
+	<include
+		android:id="@+id/errorMessagePanel"
+		layout="@layout/layout_error_message"/>
+</FrameLayout>

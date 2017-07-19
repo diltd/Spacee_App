@@ -1,0 +1,284 @@
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/fragmentEntryApp"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent" >
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/light_grey_white"
+		android:orientation="vertical" >
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="90" />
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="330"
+			android:orientation="horizontal" >
+
+			<View
+				android:layout_width="0dip"
+				android:layout_height="match_parent"
+				android:layout_weight="160" />
+
+			<LinearLayout
+				android:layout_width="0dip"
+				android:layout_height="match_parent"
+				android:layout_weight="280"
+				android:orientation="vertical" >
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="50"
+					android:text="ＱＲコードでアクセス"
+					android:textColor="@color/spacee_blue"
+					android:textSize="18sp" />
+
+				<ImageView
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="280"
+					android:scaleType="fitCenter"
+					android:background="@drawable/img_reg_qrcode" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_height="match_parent"
+				android:layout_weight="78" />
+
+			<View
+				android:layout_width="0dip"
+				android:layout_height="match_parent"
+				android:layout_weight="4"
+				android:background="#C0C0C0" />
+
+			<View
+				android:layout_width="0dip"
+				android:layout_height="match_parent"
+				android:layout_weight="78" />
+
+			<LinearLayout
+				android:layout_width="0dip"
+				android:layout_height="match_parent"
+				android:layout_weight="680"
+				android:orientation="vertical" >
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="50"
+					android:text="ブラウザでアクセス"
+					android:textColor="@color/spacee_blue"
+					android:textSize="18sp" />
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="130"
+					android:text="spacee.jp/entry"
+					android:textColor="@color/text_black"
+					android:textSize="50sp"
+					android:gravity="center_vertical" />
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="30" />
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="40"
+					android:text="URLをSMSメッセージで送る"
+					android:textColor="@color/sub"
+					android:textSize="20sp"
+					android:gravity="center_vertical" />
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="80"
+					android:orientation="horizontal" >
+
+					<EditText
+						android:id="@+id/smsNo1"
+						android:layout_width="0dip"
+						android:layout_height="match_parent"
+						android:layout_weight="150"
+						android:hint="090"
+						android:textColor="@color/text_black"
+						android:textSize="38sp"
+						android:inputType="number"
+						android:maxLength="3"
+						android:gravity="center_vertical"
+						android:background="@xml/shape_edit_idpw" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_height="match_parent"
+						android:layout_weight="10" />
+
+					<EditText
+						android:id="@+id/smsNo2"
+						android:layout_width="0dip"
+						android:layout_height="match_parent"
+						android:layout_weight="170"
+						android:hint="1234"
+						android:textColor="@color/text_black"
+						android:textSize="38sp"
+						android:inputType="number"
+						android:maxLength="4"
+						android:gravity="center_vertical"
+						android:background="@xml/shape_edit_idpw" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_height="match_parent"
+						android:layout_weight="10" />
+
+					<EditText
+						android:id="@+id/smsNo3"
+						android:layout_width="0dip"
+						android:layout_height="match_parent"
+						android:layout_weight="170"
+						android:hint="5678"
+						android:textColor="@color/text_black"
+						android:textSize="38sp"
+						android:inputType="number"
+						android:maxLength="4"
+						android:gravity="center_vertical"
+						android:background="@xml/shape_edit_idpw" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_height="match_parent"
+						android:layout_weight="20" />
+
+					<ImageView
+						android:id="@+id/btnSendSMS"
+						android:layout_width="0dip"
+						android:layout_height="match_parent"
+						android:layout_weight="80"
+						android:background="@drawable/ic_middle_btnsend_disabled"
+						android:scaleType="center"
+						android:layout_gravity="center"/>
+
+					<View
+						android:layout_width="0dip"
+						android:layout_height="match_parent"
+						android:layout_weight="30" />
+				</LinearLayout>
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_height="match_parent"
+				android:layout_weight="120" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="120" />
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="200"
+			android:orientation="horizontal" >
+
+			<View
+				android:layout_width="0dip"
+				android:layout_height="match_parent"
+				android:layout_weight="60" />
+
+			<TextView
+				android:layout_width="0dip"
+				android:layout_height="match_parent"
+				android:layout_weight="510"
+				android:text="アプリで決済情報まで登録完了後\nログイン方法を選択してください"
+				android:textColor="@color/spacee_blue"
+				android:textSize="22sp"
+				android:gravity="center_vertical"
+				android:maxLines="2" />
+
+			<LinearLayout
+				android:layout_width="0dip"
+				android:layout_weight="310"
+				android:layout_height="match_parent"
+				android:orientation="vertical" >
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="60" />
+
+				<TextView
+					android:id="@+id/btnLoginIC"
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="80"
+					android:text="ＩＣ機能でログイン"
+					android:textColor="@color/text_white"
+					android:textSize="18sp"
+					android:gravity="center"
+					android:background="@drawable/shape_button_blue" />
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="60" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_height="match_parent"
+				android:layout_weight="30" />
+
+			<LinearLayout
+				android:layout_width="0dip"
+				android:layout_weight="310"
+				android:layout_height="match_parent"
+				android:orientation="vertical" >
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="60" />
+
+				<TextView
+					android:id="@+id/btnLoginQR"
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="80"
+					android:text="ＱＲコードでログイン"
+					android:textColor="@color/text_white"
+					android:textSize="18sp"
+					android:gravity="center"
+					android:background="@drawable/shape_button_blue" />
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="60" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_height="match_parent"
+				android:layout_weight="60" />
+		</LinearLayout>
+	</LinearLayout>
+
+	<include
+		android:id="@+id/errorMessagePanel"
+		layout="@layout/layout_error_message" />
+</FrameLayout>

@@ -1,0 +1,185 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/fragmentAppMain"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/light_grey_white"
+	android:orientation="vertical">
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="200"
+		android:text="連携しました"
+		android:textColor="@color/spacee_blue"
+		android:textSize="28sp"
+		android:gravity="center" />
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="300"
+		android:orientation="horizontal" >
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="353"
+			android:layout_height="match_parent" />
+
+		<LinearLayout
+			android:layout_width="0dip"
+			android:layout_weight="574"
+			android:layout_height="match_parent"
+			android:orientation="horizontal"
+			android:background="@drawable/ic_large_cooperation" >
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="60"
+				android:layout_height="match_parent" />
+
+			<LinearLayout
+				android:layout_width="0dip"
+				android:layout_weight="180"
+				android:layout_height="match_parent"
+				android:orientation="vertical" >
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="70" />
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="130"
+					android:orientation="horizontal" >
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="25"
+						android:layout_height="match_parent" />
+
+					<ImageView
+						android:layout_width="0dip"
+						android:layout_weight="130"
+						android:layout_height="match_parent"
+						android:background="@drawable/ic_middle_card"
+						android:scaleType="fitXY"
+						android:layout_gravity="center" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="25"
+						android:layout_height="match_parent" />
+				</LinearLayout>
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="100"
+					android:text="IC情報"
+					android:textColor="@color/spacee_blue"
+					android:gravity="center_horizontal" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="94"
+				android:layout_height="match_parent" />
+
+			<LinearLayout
+				android:layout_width="0dip"
+				android:layout_weight="180"
+				android:layout_height="match_parent"
+				android:orientation="vertical" >
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="70" />
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="130"
+					android:orientation="horizontal" >
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="25"
+						android:layout_height="match_parent" />
+
+					<ImageView
+						android:layout_width="0dip"
+						android:layout_weight="130"
+						android:layout_height="match_parent"
+						android:background="@drawable/ic_middle_spacee"
+						android:scaleType="fitXY"
+						android:layout_gravity="center" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="25"
+						android:layout_height="match_parent" />
+				</LinearLayout>
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="100"
+					android:text="Spaceeアカウント"
+					android:textColor="@color/spacee_blue"
+					android:gravity="center_horizontal" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="60"
+				android:layout_height="match_parent" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="353"
+			android:layout_height="match_parent" />
+	</LinearLayout>
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="100" />
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="80" >
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="425"
+			android:layout_height="match_parent" />
+
+		<TextView
+			android:id="@+id/btnGoPayment"
+			android:layout_width="0dip"
+			android:layout_weight="430"
+			android:layout_height="match_parent"
+			android:text="決済へ"
+			android:textColor="@color/text_white"
+			android:textSize="22sp"
+			android:gravity="center"
+			android:background="@drawable/shape_button_blue" />
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="425"
+			android:layout_height="match_parent" />
+	</LinearLayout>
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="60" />
+</LinearLayout>

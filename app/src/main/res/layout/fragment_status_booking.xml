@@ -1,0 +1,216 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/fragmentAppMain"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/light_grey_white"
+	android:orientation="vertical">
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="10" />
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="60" >
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="85"
+			android:layout_height="match_parent" />
+
+		<TextView
+			android:id="@+id/monthName1"
+			android:layout_width="0dip"
+			android:layout_weight="110"
+			android:layout_height="match_parent"
+			android:text="07月"
+			android:textColor="@color/text_black"
+			android:textSize="30sp" />
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="25"
+			android:layout_height="match_parent" />
+
+		<TextView
+			android:id="@+id/monthName2"
+			android:layout_width="0dip"
+			android:layout_weight="110"
+			android:layout_height="match_parent"
+			android:text="08月"
+			android:textColor="@color/text_black"
+			android:textSize="28sp" />
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="25"
+			android:layout_height="match_parent" />
+
+		<TextView
+			android:id="@+id/monthName3"
+			android:layout_width="0dip"
+			android:layout_weight="110"
+			android:layout_height="match_parent"
+			android:text="09月"
+			android:textColor="@color/text_black"
+			android:textSize="28sp" />
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="25"
+			android:layout_height="match_parent" />
+
+		<TextView
+			android:id="@+id/monthName4"
+			android:layout_width="0dip"
+			android:layout_weight="110"
+			android:layout_height="match_parent"
+			android:text="10月"
+			android:textColor="@color/text_black"
+			android:textSize="28sp" />
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="25"
+			android:layout_height="match_parent" />
+
+		<TextView
+			android:id="@+id/monthName5"
+			android:layout_width="0dip"
+			android:layout_weight="110"
+			android:layout_height="match_parent"
+			android:text="11月"
+			android:textColor="@color/text_black"
+			android:textSize="28sp" />
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="25"
+			android:layout_height="match_parent" />
+
+		<TextView
+			android:id="@+id/monthName6"
+			android:layout_width="0dip"
+			android:layout_weight="110"
+			android:layout_height="match_parent"
+			android:text="12月"
+			android:textColor="@color/text_black"
+			android:textSize="28sp" />
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="410"
+			android:layout_height="match_parent" />
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="6" >
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="75"
+			android:layout_height="match_parent" />
+
+		<View
+			android:id="@+id/monthMark1"
+			android:layout_width="0dip"
+			android:layout_weight="110"
+			android:layout_height="match_parent"
+			android:background="@color/spacee_blue" />
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="25"
+			android:layout_height="match_parent" />
+
+		<View
+			android:id="@+id/monthMark2"
+			android:layout_width="0dip"
+			android:layout_weight="110"
+			android:layout_height="match_parent" />
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="25"
+			android:layout_height="match_parent" />
+
+		<View
+			android:id="@+id/monthMark3"
+			android:layout_width="0dip"
+			android:layout_weight="110"
+			android:layout_height="match_parent" />
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="25"
+			android:layout_height="match_parent" />
+
+		<View
+			android:id="@+id/monthMark4"
+			android:layout_width="0dip"
+			android:layout_weight="110"
+			android:layout_height="match_parent" />
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="25"
+			android:layout_height="match_parent" />
+
+		<View
+			android:id="@+id/monthMark5"
+			android:layout_width="0dip"
+			android:layout_weight="110"
+			android:layout_height="match_parent" />
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="25"
+			android:layout_height="match_parent" />
+
+		<View
+			android:id="@+id/monthMark6"
+			android:layout_width="0dip"
+			android:layout_weight="110"
+			android:layout_height="match_parent" />
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="420"
+			android:layout_height="match_parent" />
+	</LinearLayout>
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="10" />
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="654" >
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="60"
+			android:layout_height="match_parent" />
+
+		<ListView
+			android:id="@+id/bookingStatus"
+			android:layout_width="0dip"
+			android:layout_weight="1160"
+			android:layout_height="match_parent"
+			android:background="@color/light_grey_white"
+			android:divider="@drawable/divider" />
+
+		<View
+			android:layout_width="0dip"
+			android:layout_weight="60"
+			android:layout_height="match_parent" />
+	</LinearLayout>
+</LinearLayout>

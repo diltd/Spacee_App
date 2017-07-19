@@ -1,0 +1,383 @@
+<FrameLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/fragmentAppMain"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent" >
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/light_grey_white"
+		android:orientation="vertical">
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="50" />
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="90"
+			android:text="借りたいスペースを選択してください"
+			android:textSize="28sp"
+			android:textColor="@color/spacee_blue"
+			android:gravity="top|center_horizontal" />
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="400"
+			android:orientation="horizontal" >
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="130"
+				android:layout_height="match_parent" />
+
+			<LinearLayout
+				android:id="@+id/btnWorkSpace"
+				android:layout_width="0dip"
+				android:layout_weight="500"
+				android:layout_height="match_parent"
+				android:orientation="vertical"
+				android:background="@xml/shape_large_button" >
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="60" />
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="180"
+					android:orientation="horizontal" >
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="160"
+						android:layout_height="match_parent" />
+
+					<ImageView
+						android:layout_width="0dip"
+						android:layout_weight="180"
+						android:layout_height="match_parent"
+						android:background="@drawable/ic_middle_work"
+						android:scaleType="fitCenter" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="160"
+						android:layout_height="match_parent" />
+				</LinearLayout>
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="70"
+					android:text="作業スペース"
+					android:textColor="@color/text_black"
+					android:textSize="22sp"
+					android:gravity="center_horizontal|bottom" />
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="40"
+					android:orientation="horizontal" >
+
+					<TextView
+						android:layout_width="0dip"
+						android:layout_weight="270"
+						android:layout_height="match_parent"
+						android:text="空きスペース"
+						android:textColor="@color/sub"
+						android:textSize="16sp"
+						android:gravity="center_vertical|right" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="20"
+						android:layout_height="match_parent" />
+
+					<TextView
+						android:id="@+id/textInfo1"
+						android:layout_width="0dip"
+						android:layout_weight="210"
+						android:layout_height="match_parent"
+						android:text="3人分"
+						android:textColor="@color/text_black"
+						android:textSize="16sp"
+						android:gravity="center_vertical" />
+				</LinearLayout>
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="36" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="20"
+				android:layout_height="match_parent" />
+
+			<LinearLayout
+				android:id="@+id/btnMeetingRoom"
+				android:layout_width="0dip"
+				android:layout_weight="500"
+				android:layout_height="match_parent"
+				android:orientation="vertical"
+				android:background="@xml/shape_large_button" >
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="60" />
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="180"
+					android:orientation="horizontal" >
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="160"
+						android:layout_height="match_parent" />
+
+					<ImageView
+						android:layout_width="0dip"
+						android:layout_weight="180"
+						android:layout_height="match_parent"
+						android:background="@drawable/ic_middle_meeting"
+						android:scaleType="fitCenter" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="160"
+						android:layout_height="match_parent" />
+				</LinearLayout>
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="15" />
+
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="50"
+					android:text="ミーティングスペース"
+					android:textColor="@color/text_black"
+					android:textSize="22sp"
+					android:gravity="center_horizontal|bottom"  />
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="40"
+					android:orientation="horizontal" >
+
+					<TextView
+						android:layout_width="0dip"
+						android:layout_weight="270"
+						android:layout_height="match_parent"
+						android:text="空きスペース"
+						android:textColor="@color/sub"
+						android:textSize="16sp"
+						android:gravity="center_vertical|right" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="20"
+						android:layout_height="match_parent" />
+
+					<TextView
+						android:id="@+id/textInfo2"
+						android:layout_width="0dip"
+						android:layout_height="match_parent"
+						android:layout_weight="210"
+						android:gravity="center_vertical"
+						android:text="0部屋"
+						android:textColor="@color/text_black"
+						android:textSize="16sp"/>
+				</LinearLayout>
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="36" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="130"
+				android:layout_height="match_parent" />
+		</LinearLayout>
+
+		<View
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="70" />
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="130"
+			android:orientation="horizontal" >
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="130"
+				android:layout_height="match_parent" />
+
+			<LinearLayout
+				android:id="@+id/btnCheckBooking"
+				android:layout_width="0dip"
+				android:layout_weight="240"
+				android:layout_height="70dip"
+				android:background="@xml/shape_button_white"
+				android:orientation="horizontal" >
+
+				<View
+					android:layout_width="0dip"
+					android:layout_weight="30"
+					android:layout_height="match_parent" />
+
+				<ImageView
+					android:layout_width="0dip"
+					android:layout_weight="40"
+					android:layout_height="30dip"
+					android:scaleType="center"
+					android:layout_gravity="center_vertical"
+					android:background="@drawable/ic_checkin" />
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_weight="190"
+					android:layout_height="match_parent"
+					android:text="予約確認"
+					android:textColor="@color/text_black"
+					android:textSize="18sp"
+					android:paddingLeft="20sp"
+					android:gravity="center_vertical" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="24"
+				android:layout_height="match_parent" />
+
+			<LinearLayout
+				android:id="@+id/btnRuleGuide"
+				android:layout_width="0dip"
+				android:layout_weight="240"
+				android:layout_height="70dip"
+				android:background="@xml/shape_button_white"
+				android:orientation="horizontal" >
+
+				<View
+					android:layout_width="0dip"
+					android:layout_weight="30"
+					android:layout_height="match_parent" />
+
+				<ImageView
+					android:layout_width="0dip"
+					android:layout_weight="40"
+					android:layout_height="30dip"
+					android:scaleType="center"
+					android:layout_gravity="center_vertical"
+					android:background="@drawable/ic_information_red" />
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_weight="190"
+					android:layout_height="match_parent"
+					android:text="ご利用ガイド"
+					android:textColor="@color/text_black"
+					android:textSize="18sp"
+					android:paddingLeft="20sp"
+					android:gravity="center_vertical" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="12"
+				android:layout_height="match_parent" />
+
+			<LinearLayout
+				android:id="@+id/btnFloorGuide"
+				android:layout_width="0dip"
+				android:layout_weight="240"
+				android:layout_height="70dip"
+				android:background="@xml/shape_button_white"
+				android:orientation="horizontal" >
+
+				<View
+					android:layout_width="0dip"
+					android:layout_weight="30"
+					android:layout_height="match_parent" />
+
+				<ImageView
+					android:layout_width="0dip"
+					android:layout_weight="40"
+					android:layout_height="30dip"
+					android:scaleType="center"
+					android:layout_gravity="center_vertical"
+					android:background="@drawable/ic_pin_red" />
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_weight="190"
+					android:layout_height="match_parent"
+					android:text="フロアガイド"
+					android:textColor="@color/text_black"
+					android:textSize="18sp"
+					android:paddingLeft="20sp"
+					android:gravity="center_vertical" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="134"
+				android:layout_height="match_parent" />
+
+			<LinearLayout
+				android:layout_width="0dip"
+				android:layout_weight="224"
+				android:layout_height="match_parent"
+				android:orientation="vertical" >
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="45" />
+
+				<ImageView
+					android:id="@+id/TopLogo"
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="70"
+					android:scaleType="fitXY"
+					android:background="@drawable/ic_middle_logo" />
+
+				<View
+					android:layout_width="match_parent"
+					android:layout_height="0dip"
+					android:layout_weight="15" />
+			</LinearLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="36"
+				android:layout_height="match_parent" />
+		</LinearLayout>
+	</LinearLayout>
+
+	<include
+		android:id="@+id/errorMessagePanel"
+		layout="@layout/layout_error_message" />
+</FrameLayout>

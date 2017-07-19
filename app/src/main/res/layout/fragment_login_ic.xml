@@ -1,0 +1,142 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/fragmentLoginIC"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/light_grey_white"
+	android:orientation="vertical" >
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="130" />
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="300"
+		android:orientation="horizontal" >
+
+		<View
+			android:layout_width="0dip"
+			android:layout_height="match_parent"
+			android:layout_weight="190" />
+
+		<ImageView
+			android:layout_width="0dip"
+			android:layout_height="match_parent"
+			android:layout_weight="300"
+			android:scaleType="fitCenter"
+			android:background="@drawable/ic_large_cardread" />
+
+		<View
+			android:layout_width="0dip"
+			android:layout_height="match_parent"
+			android:layout_weight="90" />
+
+		<LinearLayout
+			android:layout_width="0dip"
+			android:layout_height="match_parent"
+			android:layout_weight="700"
+			android:orientation="vertical" >
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="140"
+				android:text="ＩＣリーダーにＩＣカード・ＩＣ付き携帯を\nかざしてください"
+				android:textColor="@color/spacee_blue"
+				android:textSize="24sp"
+				android:maxLines="2"
+				android:gravity="center_vertical" />
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="50"
+				android:text="対応規格"
+				android:textColor="@color/spacee_blue"
+				android:textSize="18sp"
+				android:gravity="center_vertical" />
+
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="0dip"
+				android:layout_weight="110"
+				android:text="SUICA / PASMO / iPhone7(ApplePay)\nSUICA / PASMO"
+				android:textColor="@color/text_black"
+				android:textSize="20sp"
+				android:maxLines="4"/>
+		</LinearLayout>
+
+		<View
+			android:layout_width="0dip"
+			android:layout_height="match_parent"
+			android:layout_weight="120" />
+	</LinearLayout>
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="170" />
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="80"
+		android:orientation="horizontal" >
+
+		<View
+			android:layout_width="0dip"
+			android:layout_height="match_parent"
+			android:layout_weight="60" />
+
+		<TextView
+			android:layout_width="0dip"
+			android:layout_height="match_parent"
+			android:layout_weight="410"
+			android:text="お持ちでない方は\n別のログイン方法をご利用ください"
+			android:textColor="@color/spacee_blue"
+			android:textSize="20sp"
+			android:gravity="center_vertical"
+			android:maxLines="2" />
+
+		<TextView
+			android:id="@+id/btnLoginQR"
+			android:layout_width="0dip"
+			android:layout_height="match_parent"
+			android:layout_weight="360"
+			android:text="ＱＲコードでログイン"
+			android:textColor="@color/text_white"
+			android:textSize="20sp"
+			android:gravity="center"
+			android:background="@drawable/shape_button_blue" />
+
+		<View
+			android:layout_width="0dip"
+			android:layout_height="match_parent"
+			android:layout_weight="30" />
+
+		<TextView
+			android:id="@+id/btnLoginPW"
+			android:layout_width="0dip"
+			android:layout_height="match_parent"
+			android:layout_weight="360"
+			android:text="ID/パスワードでログイン"
+			android:textColor="@color/text_white"
+			android:textSize="20sp"
+			android:gravity="center"
+			android:background="@drawable/shape_button_blue" />
+
+		<View
+			android:layout_width="0dip"
+			android:layout_height="match_parent"
+			android:layout_weight="60" />
+	</LinearLayout>
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="0dip"
+		android:layout_weight="60" />
+</LinearLayout>
