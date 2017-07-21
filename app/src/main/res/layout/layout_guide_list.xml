@@ -16,7 +16,7 @@
 		android:layout_width="0dip"
 		android:layout_weight="380"
 		android:layout_height="match_parent"
-		android:text="ガイド"
+		android:text="@string/xml_guide_list_title"
 		android:textColor="@color/spacee_blue"
 		android:textSize="18sp"
 		android:gravity="center_vertical" />

@@ -199,7 +199,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 
 		if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE))
 		{
-			Toast.makeText(this, "BLE未対応端末です[BLE not supported]", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.appmain_ble_not_supported1), Toast.LENGTH_SHORT).show();
 			terminateApp();
 			return;
 		}
@@ -207,13 +207,13 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 		//	BLEが使えるAndroidバージョンかどうかをチェックし、4.3以下なら中止する
 		if		(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN_MR2)
 		{
-			Toast.makeText(this, "BLE未対応端末です[OS version < 4.3]", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.appmain_ble_not_supported2), Toast.LENGTH_SHORT).show();
 			terminateApp();
 			return;
 		}
 		else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
 		{
-			Toast.makeText(this, "本アプリはＯＳバージョン 5.0 未満は非対応です", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.appmain_lower_than_os5_0), Toast.LENGTH_SHORT).show();
 			terminateApp();
 			return;
 		}
@@ -280,15 +280,106 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 		if (ReceiptTabApplication.providerId.equals("") == false)
 		{
 			//	掲載者(provider_user)認証
-			httpCommGlueRoutines = new HttpCommGlueRoutines();
-			boolean  rc = httpCommGlueRoutines.providerUserSignin(ReceiptTabApplication.providerId, ReceiptTabApplication.providerPw);
-			if (rc == true)
+			String	result = httpCommGlueRoutines.providerUserSignin(ReceiptTabApplication.providerId, ReceiptTabApplication.providerPw);
+			if (result != null)
 			{
-				rc = httpCommGlueRoutines.retrieveProviderOffices();
-				if (rc == false)
+				try
 				{
-
+					org.json.JSONObject json = new org.json.JSONObject(result);
+					if (json != null)
+					{
+						String	rc = json.getString("status");
+						if (rc.equals("ok"))
+						{
+							ReceiptTabApplication.providerAuthToken = json.getString("auth_token");
+						}
+						else
+						{
+//							showErrorMsg("エラー", json);
+							Toast.makeText(this, "エラーが発生しました", Toast.LENGTH_LONG).show();
+							return;
+						}
+					}
+					else
+					{
+//						showErrorMsg("エラー", null);
+						Toast.makeText(this, "エラーが発生しました", Toast.LENGTH_LONG).show();
+						return;
+					}
 				}
+				catch (org.json.JSONException e)
+				{
+					e.printStackTrace();
+					return;
+				}
+			}
+			else
+			{
+//				showErrorMsg("エラー", null);
+				Toast.makeText(this, "エラーが発生しました", Toast.LENGTH_LONG).show();
+				return;
+			}
+
+			result = httpCommGlueRoutines.retrieveProviderOffices();
+			if (result != null)
+			{
+				try
+				{
+					org.json.JSONObject json = new org.json.JSONObject(result);
+					if (json != null)
+					{
+//						String	rc = json.getString("status");
+//						if (rc.equals("ok"))
+//						{
+							ReceiptTabApplication.Offices = new ArrayList<HashMap<String, String>>();
+							org.json.JSONArray arr = json.getJSONArray("offices");
+							if (arr != null)
+							{
+								for (int i=0; i<arr.length(); i++)
+								{
+									HashMap<String, String>  map = new HashMap<String, String>();
+									org.json.JSONObject json2 = arr.getJSONObject(i);
+									map.put("id",   json2.getString("id"));
+									map.put("name", json2.getString("name"));
+									ReceiptTabApplication.Offices.add(map);
+								}
+
+								HashMap<String, String>  map = new HashMap<String, String>();
+								map = ReceiptTabApplication.Offices.get(0);
+								ReceiptTabApplication.officeId	 = map.get("id");
+								ReceiptTabApplication.officeName = map.get("name");
+							}
+							else
+							{
+//								showErrorMsg("エラー", null, "");
+								Toast.makeText(this, "エラーが発生しました", Toast.LENGTH_LONG).show();
+								return;
+							}
+//						}
+//						else
+//						{
+//							showErrorMsg("エラー", json, "");
+//							return;
+//						}
+					}
+					else
+					{
+//						showErrorMsg("エラー", null);
+						Toast.makeText(this, "エラーが発生しました", Toast.LENGTH_LONG).show();
+						return;
+					}
+				}
+				catch (org.json.JSONException e)
+				{
+					e.printStackTrace();
+					return;
+				}
+			}
+			else
+			{
+//				showErrorMsg("エラー", null);
+				Toast.makeText(this, "エラーが発生しました", Toast.LENGTH_LONG).show();
+				return;
 			}
 		}
 
@@ -635,7 +726,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 
 						case MSG_LOGIN_PW_COMP:
 								int pos1 = ReceiptTabApplication.stackPos - 2;		//	caller
-								if		(ReceiptTabApplication.CallStack[pos1] == FRAGMENT_CHECK_BOOKING)
+								if		(ReceiptTabApplication.CallStack[pos1] == FRAGMENT_TABLET_PORTRAIT)
 								{
 									startFragmentBookList();
 								}
@@ -646,7 +737,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 								break;
 
 						case MSG_ENTRY_APP_COMP:
-								if		(msg.arg1 == 1)		; //startFragmentLoginIC();
+								if		(msg.arg1 == 1)		startFragmentAppMain();
 								else if (msg.arg1 == 2)	startFragmentLoginIC();
 								else if (msg.arg1 == 3)	startFragmentLoginQR();
 								break;
@@ -878,7 +969,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(2, "作業スペース");
+				selectHeaderTitle(2, getString(R.string.appmain_title_work_space));
 				selectHeaderType(2);
 			}
 		});
@@ -931,7 +1022,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(2, "ミーティングスペース");
+				selectHeaderTitle(2, getString(R.string.appmain_title_meeting_space));
 				selectHeaderType(2);
 			}
 		});
@@ -983,7 +1074,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(2, "ログイン方法を選択");
+				selectHeaderTitle(2, getString(R.string.appmain_title_check_booking));
 				selectHeaderType(2);
 			}
 		});
@@ -1009,7 +1100,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(2, "ご利用ガイド");
+				selectHeaderTitle(2, getString(R.string.appmain_title_rule_guide));
 				selectHeaderType(2);
 			}
 		});
@@ -1035,7 +1126,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(2, "ICカード・IC付き携帯でログイン");
+				selectHeaderTitle(2, getString(R.string.appmain_title_login_ic));
 				selectHeaderType(2);
 			}
 		});
@@ -1064,7 +1155,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(2, "アプリのＱＲコードでログイン");
+				selectHeaderTitle(2, getString(R.string.appmain_title_login_qr));
 				selectHeaderType(2);
 			}
 		});
@@ -1090,7 +1181,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(2, "ID/パスワードでログイン");
+				selectHeaderTitle(2, getString(R.string.appmain_title_login_pw));
 				selectHeaderType(2);
 			}
 		});
@@ -1116,7 +1207,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(2, "アプリで会員登録");
+				selectHeaderTitle(2, getString(R.string.appmain_title_entry_app));
 				selectHeaderType(2);
 			}
 		});
@@ -1142,7 +1233,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(2, "支払い情報入力");
+				selectHeaderTitle(2, getString(R.string.appmain_title_entry_card));
 				selectHeaderType(2);
 			}
 		});
@@ -1168,7 +1259,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(2, "会員情報を入力");
+				selectHeaderTitle(2, getString(R.string.appmain_title_entry_input));
 				selectHeaderType(2);
 			}
 		});
@@ -1194,7 +1285,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(2, "支払い情報入力");
+				selectHeaderTitle(2, getString(R.string.appmain_title_entry_invoice));
 				selectHeaderType(2);
 			}
 		});
@@ -1220,7 +1311,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(2, "利用規約の同意");
+				selectHeaderTitle(2, getString(R.string.appmain_title_entry_policy));
 				selectHeaderType(2);
 			}
 		});
@@ -1246,7 +1337,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(3, "予約中のスペース一覧");
+				selectHeaderTitle(3, getString(R.string.appmain_title_booking_list));
 				selectHeaderType(3);
 			}
 		});
@@ -1298,7 +1389,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(3, "内容確認");
+				selectHeaderTitle(3, getString(R.string.appmain_title_order_comfirm));
 				selectHeaderType(3);
 			}
 		});
@@ -1324,7 +1415,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(3, "内容確認完了");
+				selectHeaderTitle(3, getString(R.string.appmain_title_order_complete));
 				selectHeaderType(3);
 			}
 		});
@@ -1350,7 +1441,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(2, "ログイン方法を選択");
+				selectHeaderTitle(2, getString(R.string.appmain_title_select_login));
 				selectHeaderType(2);
 			}
 		});
@@ -1376,7 +1467,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(2, "アカウント連携");
+				selectHeaderTitle(2, getString(R.string.appmain_title_account_link));
 				selectHeaderType(2);
 			}
 		});
@@ -1402,7 +1493,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(2, "連携完了");
+				selectHeaderTitle(2, getString(R.string.appmain_title_link_complete));
 				selectHeaderType(2);
 			}
 		});
@@ -1429,7 +1520,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(2, "予約状況");
+				selectHeaderTitle(2, getString(R.string.appmain_title_booking_status));
 				selectHeaderType(2);
 			}
 		});
@@ -1458,7 +1549,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			{
 				if (ReceiptTabApplication.providerId.equals("") == false)
 				{
-					selectHeaderTitle(1, "管理者ログイン");
+					selectHeaderTitle(1, getString(R.string.appmain_title_provider_login));
 					selectHeaderType(1);
 				}
 				else
@@ -1490,7 +1581,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			@Override
 			public void run()
 			{
-				selectHeaderTitle(2, "オフィスリスト");
+				selectHeaderTitle(2, getString(R.string.appmain_title_office_list));
 				selectHeaderType(2);
 			}
 		});
@@ -1775,6 +1866,64 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 				showTopScreen();
 			}
 		}, 3000);
+	}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private  void  showErrorMsg(String ttl, org.json.JSONObject jsonObj)
+	{
+/*
+		int		i;
+		String	errMsg;
+
+		if (jsonObj != null)
+		{
+			try
+			{
+				org.json.JSONArray arr1 = jsonObj.getJSONArray("error_messages");
+				errMsg = "";
+				for (i=0; i<arr1.length(); i++)
+				{
+					errMsg += (arr1.getString(i) + "\n");
+				}
+			}
+			catch (org.json.JSONException e)
+			{
+				e.printStackTrace();
+				return;
+			}
+		}
+		else
+		{
+			errMsg = "データが取得できませんでした";
+		}
+
+		errLayout.setVisibility(android.view.View.VISIBLE);
+		title.setText(ttl);
+		content.setText(errMsg);
+
+		ReceiptTabApplication.isMsgShown =true;
+
+		msgOff.setOnClickListener(new android.view.View.OnClickListener()
+		{
+			@Override
+			public void onClick(android.view.View v)
+			{
+				ReceiptTabApplication.isMsgShown =false;
+			}
+		});
+
+		//	メッセージの下のエレメントをタップしても拾わないようにするため
+		errLayout.setOnClickListener(new android.view.View.OnClickListener()
+		{
+			@Override
+			public void onClick(android.view.View v)
+			{
+			}
+		});
+*/
 	}
 
 

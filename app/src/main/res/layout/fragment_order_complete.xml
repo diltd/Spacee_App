@@ -27,7 +27,7 @@
 			android:layout_width="0dip"
 			android:layout_weight="865"
 			android:layout_height="match_parent"
-			android:text="チェックインしました。お時間までご利用ください"
+			android:text="@string/xml_order_complete_btn_floor_guide"
 			android:textColor="@color/spacee_blue"
 			android:textSize="24sp"
 			android:gravity="center_vertical" />
@@ -80,7 +80,7 @@
 				android:layout_width="0dip"
 				android:layout_weight="202"
 				android:layout_height="match_parent"
-				android:text="フロアガイド"
+				android:text="@string/xml_order_complete_btn_floor_guide"
 				android:textColor="@color/text_black"
 				android:textSize="18sp"
 				android:gravity="center_vertical" />
@@ -118,7 +118,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="0dip"
 				android:layout_weight="35"
-				android:text="スペース名"
+				android:text="@string/xml_order_complete_space_name"
 				android:textColor="@color/spacee_blue"
 				android:textSize="18sp"
 				android:gravity="center_vertical" />
@@ -127,7 +127,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="0dip"
 				android:layout_weight="85"
-				android:text="コワーキングスペース"
+				android:text="@string/xml_order_complete_title"
 				android:textColor="@color/text_black"
 				android:textSize="28sp"
 				android:gravity="center_vertical" />
@@ -142,7 +142,7 @@
 					android:layout_width="0dip"
 					android:layout_weight="230"
 					android:layout_height="match_parent"
-					android:text="日付"
+					android:text="@string/xml_order_complete_date"
 					android:textColor="@color/spacee_blue"
 					android:textSize="18sp"
 					android:gravity="center_vertical" />
@@ -151,7 +151,7 @@
 					android:layout_width="0dip"
 					android:layout_weight="220"
 					android:layout_height="match_parent"
-					android:text="チェックイン"
+					android:text="@string/xml_order_complete_checkin"
 					android:textColor="@color/spacee_blue"
 					android:textSize="18sp"
 					android:gravity="center_vertical" />
@@ -160,7 +160,7 @@
 					android:layout_width="0dip"
 					android:layout_weight="190"
 					android:layout_height="match_parent"
-					android:text="チェックアウト"
+					android:text="@string/xml_order_complete_checkout"
 					android:textColor="@color/spacee_blue"
 					android:textSize="18sp"
 					android:gravity="center_vertical" />
@@ -185,7 +185,7 @@
 					android:layout_width="0dip"
 					android:layout_weight="30"
 					android:layout_height="match_parent"
-					android:text="月"
+					android:text="@string/xml_order_complete_month"
 					android:textColor="@color/text_black"
 					android:textSize="20sp"
 					android:gravity="bottom" />
@@ -203,7 +203,7 @@
 					android:layout_width="0dip"
 					android:layout_weight="30"
 					android:layout_height="match_parent"
-					android:text="日"
+					android:text="@string/xml_order_complete_day"
 					android:textColor="@color/text_black"
 					android:textSize="20sp"
 					android:gravity="bottom" />
@@ -226,7 +226,7 @@
 					android:layout_width="0dip"
 					android:layout_weight="90"
 					android:layout_height="match_parent"
-					android:text="から"
+					android:text="@string/xml_order_complete_from"
 					android:textColor="@color/text_black"
 					android:textSize="20sp"
 					android:gravity="bottom" />
@@ -244,7 +244,7 @@
 					android:layout_width="0dip"
 					android:layout_weight="80"
 					android:layout_height="match_parent"
-					android:text="まで"
+					android:text="@string/xml_order_complete_to"
 					android:textColor="@color/text_black"
 					android:textSize="20sp"
 					android:gravity="bottom" />
@@ -259,7 +259,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="0dip"
 				android:layout_weight="35"
-				android:text="お支払い"
+				android:text="@string/xml_order_complete_payment"
 				android:textColor="@color/spacee_blue"
 				android:textSize="18sp"
 				android:gravity="center_vertical" />
@@ -268,7 +268,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="0dip"
 				android:layout_weight="70"
-				android:text="1,400円"
+				android:text="@string/xml_order_complete_amount"
 				android:textColor="@color/text_black"
 				android:textSize="36sp"
 				android:gravity="center_vertical" />
@@ -282,7 +282,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="0dip"
 				android:layout_weight="35"
-				android:text="ご利用方法"
+				android:text="@string/xml_order_complete_usage"
 				android:textColor="@color/spacee_blue"
 				android:textSize="18sp"
 				android:gravity="center_vertical" />
@@ -291,7 +291,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="0dip"
 				android:layout_weight="70"
-				android:text="廊下をまっすぐ行き、突き当たりを左に行くと左手にあります。\n鍵は「5895」で開くことができます"
+				android:text="@string/xml_order_complete_msg2"
 				android:textColor="@color/text_black"
 				android:textSize="19sp"
 				android:gravity="center_vertical"
@@ -306,7 +306,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="0dip"
 				android:layout_weight="70"
-				android:text="チェックイン内容は登録されているメールアドレス宛にもお送りしていますので、ご確認ください。"
+				android:text="@string/xml_order_complete_msg3"
 				android:textColor="@color/red"
 				android:textSize="18sp"
 				android:gravity="center_vertical"
@@ -350,7 +350,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="0dip"
 				android:layout_weight="80"
-				android:text="ログアウトして、ホームに戻る"
+				android:text="@string/xml_order_complete_btn_gohome"
 				android:textColor="@color/text_white"
 				android:textSize="20sp"
 				android:gravity="center"

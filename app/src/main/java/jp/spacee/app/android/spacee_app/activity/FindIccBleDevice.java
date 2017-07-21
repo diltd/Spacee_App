@@ -25,6 +25,7 @@ import android.support.v7.app.AlertDialog.Builder;
 import android.support.v4.app.ActivityCompat;
 
 import jp.spacee.app.android.spacee_app.ReceiptTabApplication;
+import jp.spacee.app.android.spacee_app.R;
 
 
 public  class  FindIccBleDevice
@@ -187,9 +188,9 @@ public  class  FindIccBleDevice
 
 //				showDialogMessage("タイトル", "メッセージ", 1);
 				Builder builder = new Builder(ReceiptTabApplication.AppContext);
-				builder.setTitle("　ACR-1255 未検出");
-				builder.setMessage("　ＩＣカードリーダー［ACR-1255］の\n　　　電源が入っている事を確認してください");
-				builder.setPositiveButton("はい", new DialogInterface.OnClickListener()
+				builder.setTitle(ReceiptTabApplication.AppContext.getString(R.string.error_title_icc));
+				builder.setMessage(ReceiptTabApplication.AppContext.getString(R.string.error_msg_icc));
+				builder.setPositiveButton(ReceiptTabApplication.AppContext.getString(R.string.relay_ok1), new DialogInterface.OnClickListener()
 				{
 					public void onClick(DialogInterface dialog, int id)
 					{

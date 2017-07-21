@@ -4,6 +4,7 @@ package jp.spacee.app.android.spacee_app.listener;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +26,11 @@ public  class  FragmentRuleGuideListener  implements  FragmentRuleGuide.Fragment
 	private						ListView						ruleIndexList	= null;
 	private						TextView						ruleTitle		= null;
 	private						TextView						explanation	= null;
+
+	private						RelativeLayout 					errLayout		= null;
+	private						TextView						title			= null;
+	private						TextView						content			= null;
+	private						ImageView						msgOff			= null;
 
 	private						int								selectedENo	= -1;
 
@@ -61,24 +67,42 @@ public  class  FragmentRuleGuideListener  implements  FragmentRuleGuide.Fragment
 		{
 			try
 			{
-				ruleInfo  = new ArrayList<HashMap<String, String>>();
 				org.json.JSONObject obj1 = new org.json.JSONObject(result);
-				org.json.JSONObject obj2 = obj1.getJSONObject("guide");
-				org.json.JSONArray  arr1 = obj2.getJSONArray("contents");
-				if (arr1 != null)
+				if (obj1 != null)
 				{
-					for (i=0; i<arr1.length(); i++)
-					{
-						HashMap<String, String>  map = new HashMap<String, String>();
-						org.json.JSONObject json1 = arr1.getJSONObject(i);
-						map.put("title",	json1.getString("title"));
-						map.put("body",		json1.getString("body"));
-						ruleInfo.add(map);
-					}
+//					String	rc = obj1.getString("status");
+//					if (rc.equals("ok"))
+//					{
+						ruleInfo  = new ArrayList<HashMap<String, String>>();
+						org.json.JSONObject obj2 = obj1.getJSONObject("guide");
+						org.json.JSONArray  arr1 = obj2.getJSONArray("contents");
+						if (arr1 != null)
+						{
+							for (i=0; i<arr1.length(); i++)
+							{
+								HashMap<String, String>  map = new HashMap<String, String>();
+								org.json.JSONObject json1 = arr1.getJSONObject(i);
+								map.put("title",	json1.getString("title"));
+								map.put("body",		json1.getString("body"));
+								ruleInfo.add(map);
+							}
+						}
+						else
+						{
+							showErrorMsg("エラー", null, "");
+							return;
+						}
+//					}
+//					else
+//					{
+//						showErrorMsg("エラー", obj1, "");
+//						return;
+//					}
 				}
 				else
 				{
-
+					showErrorMsg("エラー", null, "");
+					return;
 				}
 
 			}
@@ -87,6 +111,11 @@ public  class  FragmentRuleGuideListener  implements  FragmentRuleGuide.Fragment
 				e.printStackTrace();
 				return;
 			}
+		}
+		else
+		{
+			showErrorMsg("通信エラー", null, "");
+			return;
 		}
 	}
 
@@ -179,6 +208,69 @@ public  class  FragmentRuleGuideListener  implements  FragmentRuleGuide.Fragment
 				explanation.setText(map.get("body"));
 
 				adapter.notifyDataSetChanged();
+			}
+		});
+	}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private  void  showErrorMsg(String ttl, org.json.JSONObject jsonObj, String orgMsg)
+	{
+		int		i;
+		String	errMsg;
+
+		if (jsonObj != null)
+		{
+			try
+			{
+				org.json.JSONArray arr1 = jsonObj.getJSONArray("error_messages");
+				errMsg = "";
+				for (i=0; i<arr1.length(); i++)
+				{
+					errMsg += (arr1.getString(i) + "\n");
+				}
+			}
+			catch (org.json.JSONException e)
+			{
+				e.printStackTrace();
+				return;
+			}
+		}
+		else
+		{
+			if (orgMsg.equals("") == false)
+					errMsg = orgMsg;
+			else	errMsg = "データが取得できませんでした";
+		}
+
+		errLayout.setVisibility(View.VISIBLE);
+		title.setText(ttl);
+		content.setText(errMsg);
+
+		ReceiptTabApplication.isMsgShown =true;
+
+		msgOff.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				ReceiptTabApplication.isMsgShown =false;
+
+				android.os.Message msg = new android.os.Message();
+				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.arg1 = 2;									//	id/pw ng
+				SpaceeAppMain.mMsgHandler.sendMessage(msg);
+			}
+		});
+
+		//	メッセージの下のエレメントをタップしても拾わないようにするため
+		errLayout.setOnClickListener(new android.view.View.OnClickListener()
+		{
+			@Override
+			public void onClick(android.view.View v)
+			{
 			}
 		});
 	}

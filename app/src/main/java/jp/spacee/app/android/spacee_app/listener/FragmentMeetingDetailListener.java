@@ -44,6 +44,7 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 	private						ListView						priceList		= null;
 	private 					TextView						amount			= null;
 	private 					TextView						btnSelect		= null;
+
 	private						RelativeLayout					errLayout		= null;
 	private 					TextView						title			= null;
 	private 					TextView						content			= null;
@@ -105,10 +106,10 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 		priceList		= (ListView)	view.findViewById(R.id.priceList);
 		amount			= (TextView)	view.findViewById(R.id.amount);
 
-		errLayout		= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
-		TextView	title	= (TextView)	errLayout.findViewById(R.id.errorTitle);
-		TextView	content	= (TextView)	errLayout.findViewById(R.id.errorMessage);
-		ImageView	msgOff	= (ImageView)	errLayout.findViewById(R.id.messageOff);
+		errLayout			= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
+		TextView	title	= (TextView)		errLayout.findViewById(R.id.errorTitle);
+		TextView	content	= (TextView)		errLayout.findViewById(R.id.errorMessage);
+		ImageView	msgOff	= (ImageView)		errLayout.findViewById(R.id.messageOff);
 
 
 		String[]	detail_thumb_url	= null;
@@ -121,36 +122,55 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 			try
 			{
 				JSONObject obj1 = new JSONObject(result);
-				JSONObject obj2 = obj1.getJSONObject("listing");
-				if (obj2 != null)
+				if (obj1 != null)
 				{
-					JSONObject obj3 = new JSONObject(obj2.getString("thumb"));
-					detail_thumb_url	= new String[1];
-					detail_thumb_url[0]	= obj3.getString("url");
-					capacity.setText(String.format("～%d人", obj2.getInt("capacity")));
-					areaSquare.setText(String.format("%d㎡", obj2.getInt("square")));
-					JSONArray  arr1 = obj2.getJSONArray("equipments");
-					wStr = "";
-					for (i=0; i<arr1.length(); i++)
-					{
-						wStr += (String.format("●%s\n", arr1.getString(i)));
-					}
-					facilities.setText(wStr);
-					if (obj2.getInt("available_amount") > 0)
-							status.setText("利用可");
-					else	status.setText("満員中");
-					availNo.setText(String.format("%s/%s 席", obj2.getInt("available_amount"), obj2.getInt("capacity")));
+//					String	rc = obj1.getString("status");
+//					if (rc.equals("ok"))
+//					{
+						JSONObject obj2 = obj1.getJSONObject("listing");
+						if (obj2 != null)
+						{
+							JSONObject obj3 = new JSONObject(obj2.getString("thumb"));
+							detail_thumb_url	= new String[1];
+							detail_thumb_url[0]	= obj3.getString("url");
+							capacity.setText(String.format(ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_psn_no), obj2.getInt("capacity")));
+							areaSquare.setText(String.format(ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_square), obj2.getInt("square")));
+							JSONArray  arr1 = obj2.getJSONArray("equipments");
+							wStr = "";
+							for (i=0; i<arr1.length(); i++)
+							{
+								wStr += (String.format(ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_equipment), arr1.getString(i)));
+							}
+							facilities.setText(wStr);
+							if (obj2.getInt("available_amount") > 0)
+									status.setText(ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_avail));
+							else	status.setText(ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_full));
+							availNo.setText(String.format("%1s/%2s", obj2.getInt("available_amount"), obj2.getInt("capacity"))
+											+ ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_seat_no));
 
-					avail_No		= obj2.getInt("capacity");
-					minBookUnit	= obj2.getInt("min_booking_minutes");
-					bookStep		= obj2.getInt("booking_minute_step");
+							avail_No		= obj2.getInt("capacity");
+							minBookUnit	= obj2.getInt("min_booking_minutes");
+							bookStep		= obj2.getInt("booking_minute_step");
 
-					roomThumnails = SpaceeAppMain.httpCommGlueRoutines.downloadBitmaps(detail_thumb_url);
-					imgSpace.setImageBitmap(roomThumnails[0]);
+							roomThumnails = SpaceeAppMain.httpCommGlueRoutines.downloadBitmaps(detail_thumb_url);
+							imgSpace.setImageBitmap(roomThumnails[0]);
+						}
+						else
+						{
+							showErrorMsg("エラー", null, "");
+							return;
+						}
+//					}
+//					else
+//					{
+//						showErrorMsg("エラー", obj1, "");
+//						return;
+//					}
 				}
 				else
 				{
-					showErrorMsg();
+					showErrorMsg("エラー", null, "");
+					return;
 				}
 			}
 			catch (org.json.JSONException e)
@@ -161,7 +181,8 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 		}
 		else
 		{
-			showErrorMsg();
+			showErrorMsg("通信エラー", null, "");
+			return;
 		}
 
 		setSpinnerValue();
@@ -176,33 +197,51 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 			try
 			{
 				JSONObject obj1 = new JSONObject(result);
-				JSONObject obj2 = obj1.getJSONObject("price_plans");
-				if (obj2 != null)
+				if (obj1 != null)
 				{
-					JSONArray	arr1 = obj2.getJSONArray("plan");
-					for (i=0; i<arr1.length(); i++)
-					{
-						JSONObject	obj3 = arr1.getJSONObject(i);
-						ArrayAdapter<String> adapter = new ArrayAdapter<String>(ReceiptTabApplication.AppContext, android.R.layout.simple_list_item_1);
-						try
+//					String	rc = obj1.getString("status");
+//					if (rc.equals("ok"))
+//					{
+						JSONObject obj2 = obj1.getJSONObject("price_plans");
+						if (obj2 != null)
 						{
-							SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-							Date wDate = sdf.parse(obj3.getString("start_at"));
-							wStr   = (new SimpleDateFormat("hh:mm").format(wDate));
-							wDate  = sdf.parse(obj3.getString("end_at"));
-							wStr  += ("-" + new SimpleDateFormat("hh:mm").format(wDate));
-							adapter.add(String.format("%s%,10d円/1h\n", wStr, obj3.getInt("price")));
+							JSONArray	arr1 = obj2.getJSONArray("plan");
+							for (i=0; i<arr1.length(); i++)
+							{
+								JSONObject	obj3 = arr1.getJSONObject(i);
+								ArrayAdapter<String> adapter = new ArrayAdapter<String>(ReceiptTabApplication.AppContext, android.R.layout.simple_list_item_1);
+								try
+								{
+									SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+									Date wDate = sdf.parse(obj3.getString("start_at"));
+									wStr   = (new SimpleDateFormat("hh:mm").format(wDate));
+									wDate  = sdf.parse(obj3.getString("end_at"));
+									wStr  += ("-" + new SimpleDateFormat("hh:mm").format(wDate));
+									adapter.add(String.format("%s%,10d円/1h\n", wStr, obj3.getInt("price")));
+								}
+								catch (java.text.ParseException e)
+								{
+									e.printStackTrace();
+								}
+								priceList.setAdapter(adapter);
+							}
 						}
-						catch (java.text.ParseException e)
+						else
 						{
-							e.printStackTrace();
+							showErrorMsg("エラー", null, "");
+							return;
 						}
-						priceList.setAdapter(adapter);
-					}
+//					}
+//					else
+//					{
+//						showErrorMsg("エラー", obj1, "");
+//						return;
+//					}
 				}
 				else
 				{
-					showErrorMsg();
+					showErrorMsg("エラー", null, "");
+					return;
 				}
 			}
 			catch (org.json.JSONException e)
@@ -213,7 +252,8 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 		}
 		else
 		{
-			showErrorMsg();
+			showErrorMsg("エラー", null, "");
+			return;
 		}
 
 
@@ -310,38 +350,6 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 	}
 
 
-	private void showErrorMsg()
-	{
-		errLayout.setVisibility(View.VISIBLE);
-		title.setText("通信エラー");
-		content.setText("データが取得できません");
-
-		ReceiptTabApplication.isMsgShown =true;
-
-		msgOff.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				ReceiptTabApplication.isMsgShown =false;
-
-				Message msg = new Message();
-				msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
-				SpaceeAppMain.mMsgHandler.sendMessage(msg);
-			}
-		});
-
-		//	メッセージの下のエレメントをタップしても拾わないようにするため
-		errLayout.setOnClickListener(new android.view.View.OnClickListener()
-		{
-			@Override
-			public void onClick(android.view.View v)
-			{
-			}
-		});
-	}
-
-
 	private  void  drawSchedule(ImageView view)
 	{
 		//		float	ratio	= SpaceeAppMain.scale * 3 / 4;
@@ -357,7 +365,7 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 
 		cvs.drawColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.light_grey_white));
 
-		cvs.drawText("現在",   60, 120, paint1);
+		cvs.drawText(ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_time_now),  60, 120, paint1);
 		cvs.drawText("13:00", 180, 120, paint1);
 		cvs.drawText("14:00", 300, 120, paint1);
 		cvs.drawText("15:00", 420, 120, paint1);
@@ -368,6 +376,69 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 		cvs.drawRect( 0,  5, 880, 95, paint2);
 
 		view.setImageBitmap(bmp);
+	}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private  void  showErrorMsg(String ttl, JSONObject jsonObj, String orgMsg)
+	{
+		int		i;
+		String	errMsg;
+
+		if (jsonObj != null)
+		{
+			try
+			{
+				org.json.JSONArray arr1 = jsonObj.getJSONArray("error_messages");
+				errMsg = "";
+				for (i=0; i<arr1.length(); i++)
+				{
+					errMsg += (arr1.getString(i) + "\n");
+				}
+			}
+			catch (org.json.JSONException e)
+			{
+				e.printStackTrace();
+				return;
+			}
+		}
+		else
+		{
+			if (orgMsg.equals("") == false)
+					errMsg = orgMsg;
+			else	errMsg = "データが取得できませんでした";
+		}
+
+		errLayout.setVisibility(View.VISIBLE);
+		title.setText(ttl);
+		content.setText(errMsg);
+
+		ReceiptTabApplication.isMsgShown =true;
+
+		msgOff.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				ReceiptTabApplication.isMsgShown =false;
+
+				android.os.Message msg = new android.os.Message();
+				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.arg1 = 2;									//	id/pw ng
+				SpaceeAppMain.mMsgHandler.sendMessage(msg);
+			}
+		});
+
+		//	メッセージの下のエレメントをタップしても拾わないようにするため
+		errLayout.setOnClickListener(new android.view.View.OnClickListener()
+		{
+			@Override
+			public void onClick(android.view.View v)
+			{
+			}
+		});
 	}
 }
 

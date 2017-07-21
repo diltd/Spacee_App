@@ -37,7 +37,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
 					android:layout_weight="50"
-					android:text="ＱＲコードでアクセス"
+					android:text="@string/xml_entry_app_acc_by_qr"
 					android:textColor="@color/spacee_blue"
 					android:textSize="18sp" />
 
@@ -75,7 +75,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
 					android:layout_weight="50"
-					android:text="ブラウザでアクセス"
+					android:text="@string/xml_entry_app_acc_by_browser"
 					android:textColor="@color/spacee_blue"
 					android:textSize="18sp" />
 
@@ -97,7 +97,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
 					android:layout_weight="40"
-					android:text="URLをSMSメッセージで送る"
+					android:text="@string/xml_entry_app_send_sms"
 					android:textColor="@color/sub"
 					android:textSize="20sp"
 					android:gravity="center_vertical" />
@@ -204,7 +204,7 @@
 				android:layout_width="0dip"
 				android:layout_height="match_parent"
 				android:layout_weight="510"
-				android:text="アプリで決済情報まで登録完了後\nログイン方法を選択してください"
+				android:text="@string/xml_entry_app_msg"
 				android:textColor="@color/spacee_blue"
 				android:textSize="22sp"
 				android:gravity="center_vertical"
@@ -226,7 +226,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
 					android:layout_weight="80"
-					android:text="ＩＣ機能でログイン"
+					android:text="@string/xml_entry_app_btn_login_ic"
 					android:textColor="@color/text_white"
 					android:textSize="18sp"
 					android:gravity="center"
@@ -259,7 +259,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
 					android:layout_weight="80"
-					android:text="ＱＲコードでログイン"
+					android:text="@string/xml_entry_app_btn_login_qr"
 					android:textColor="@color/text_white"
 					android:textSize="18sp"
 					android:gravity="center"

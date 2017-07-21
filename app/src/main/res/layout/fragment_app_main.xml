@@ -20,7 +20,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="0dip"
 			android:layout_weight="90"
-			android:text="借りたいスペースを選択してください"
+			android:text="@string/xml_app_main_msg"
 			android:textSize="28sp"
 			android:textColor="@color/spacee_blue"
 			android:gravity="top|center_horizontal" />
@@ -77,7 +77,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
 					android:layout_weight="70"
-					android:text="作業スペース"
+					android:text="@string/xml_app_main_space_work"
 					android:textColor="@color/text_black"
 					android:textSize="22sp"
 					android:gravity="center_horizontal|bottom" />
@@ -92,7 +92,7 @@
 						android:layout_width="0dip"
 						android:layout_weight="270"
 						android:layout_height="match_parent"
-						android:text="空きスペース"
+						android:text="@string/xml_app_main_space_free"
 						android:textColor="@color/sub"
 						android:textSize="16sp"
 						android:gravity="center_vertical|right" />
@@ -107,7 +107,7 @@
 						android:layout_width="0dip"
 						android:layout_weight="210"
 						android:layout_height="match_parent"
-						android:text="3人分"
+						android:text=""
 						android:textColor="@color/text_black"
 						android:textSize="16sp"
 						android:gravity="center_vertical" />
@@ -170,7 +170,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
 					android:layout_weight="50"
-					android:text="ミーティングスペース"
+					android:text="@string/xml_app_main_space_meeting"
 					android:textColor="@color/text_black"
 					android:textSize="22sp"
 					android:gravity="center_horizontal|bottom"  />
@@ -185,7 +185,7 @@
 						android:layout_width="0dip"
 						android:layout_weight="270"
 						android:layout_height="match_parent"
-						android:text="空きスペース"
+						android:text="@string/xml_app_main_space_free"
 						android:textColor="@color/sub"
 						android:textSize="16sp"
 						android:gravity="center_vertical|right" />
@@ -201,7 +201,7 @@
 						android:layout_height="match_parent"
 						android:layout_weight="210"
 						android:gravity="center_vertical"
-						android:text="0部屋"
+						android:text=""
 						android:textColor="@color/text_black"
 						android:textSize="16sp"/>
 				</LinearLayout>
@@ -259,7 +259,7 @@
 					android:layout_width="0dip"
 					android:layout_weight="190"
 					android:layout_height="match_parent"
-					android:text="予約確認"
+					android:text="@string/xml_app_main_btn_check_booking"
 					android:textColor="@color/text_black"
 					android:textSize="18sp"
 					android:paddingLeft="20sp"
@@ -296,7 +296,7 @@
 					android:layout_width="0dip"
 					android:layout_weight="190"
 					android:layout_height="match_parent"
-					android:text="ご利用ガイド"
+					android:text="@string/xml_app_main_btn_rule_guide"
 					android:textColor="@color/text_black"
 					android:textSize="18sp"
 					android:paddingLeft="20sp"
@@ -333,7 +333,7 @@
 					android:layout_width="0dip"
 					android:layout_weight="190"
 					android:layout_height="match_parent"
-					android:text="フロアガイド"
+					android:text="@string/xml_app_main_btn_floor_guide"
 					android:textColor="@color/text_black"
 					android:textSize="18sp"
 					android:paddingLeft="20sp"

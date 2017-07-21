@@ -12,6 +12,9 @@ import android.view.Surface;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 import android.view.TextureView;
+import android.widget.TextView;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraCaptureSession;
@@ -58,6 +61,11 @@ public  class  FragmentLoginQRListener  implements  FragmentLoginQR.FragmentInte
 {
 	private						TextureView						cameraView						= null;
 
+	private						RelativeLayout					errLayout						= null;
+	private						TextView						title							= null;
+	private						TextView						content							= null;
+	private						ImageView						msgOff							= null;
+
 	//
 	private						String							cameraId						= "";
 	private						CameraDevice					mCameraDevice					= null;
@@ -78,9 +86,14 @@ public  class  FragmentLoginQRListener  implements  FragmentLoginQR.FragmentInte
 
 
 	@Override
-	public  void  startQRReco(TextureView view)
+	public  void  startQRReco(View view1, TextureView view2)
 	{
-		cameraView = view;
+		errLayout	= (RelativeLayout)	view1.findViewById(R.id.errorMessagePanel);
+		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
+		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
+		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
+
+		cameraView = view2;
 		cameraView.setSurfaceTextureListener(textureViewListener);
 
 		//	処理はtextureViewListenerから始まる
@@ -194,20 +207,19 @@ public  class  FragmentLoginQRListener  implements  FragmentLoginQR.FragmentInte
 					String  result = recognizeQRCode(img);
 					if ((result != null) && (result.compareTo("") != 0))
 					{
-						String	auth = SpaceeAppMain.httpCommGlueRoutines.userAuthenticateQR(result);
-						if (auth.compareTo("") != 0)
+						String	rslt = SpaceeAppMain.httpCommGlueRoutines.userAuthenticateQR(result);
+						if (rslt != null)
 						{
-							String  rslt = SpaceeAppMain.httpCommGlueRoutines.userAuthenticateQR(auth);
-							if (result != null)
+							try
 							{
-								try
+								JSONObject obj1 = new JSONObject(rslt);
+								if (obj1 != null)
 								{
-									JSONObject obj1 = new JSONObject(rslt);
-									String  status	= obj1.getString("status");
-									ReceiptTabApplication.userAuthToken = obj1.getString("auth_token");
-
-									if (status.equals("ok"))
+									String	rc = obj1.getString("status");
+									if (rc.equals("ok"))
 									{
+										ReceiptTabApplication.userAuthToken = obj1.getString("auth_token");
+
 										PlayWaveFile playWaveFile = new PlayWaveFile();
 										playWaveFile.playWaveSound(R.raw.ok_sound);
 
@@ -219,26 +231,28 @@ public  class  FragmentLoginQRListener  implements  FragmentLoginQR.FragmentInte
 									}
 									else
 									{
-
+										closeCamera();
+										showErrorMsg("エラー", obj1, "");
+										return;
 									}
 								}
-								catch (org.json.JSONException e)
+								else
 								{
-									e.printStackTrace();
+									showErrorMsg("エラー", null, "");
 									return;
 								}
+							}
+							catch (org.json.JSONException e)
+							{
+								e.printStackTrace();
+								return;
 							}
 						}
 						else
 						{
-							PlayWaveFile playWaveFile = new PlayWaveFile();
-							playWaveFile.playWaveSound(R.raw.ng_sound);
-
-							android.os.Message msg = new android.os.Message();
-							msg.what = SpaceeAppMain.MSG_LOGIN_QR_COMP;
-							msg.arg1 = 0;
-							msg.obj  = "";
-							SpaceeAppMain.mMsgHandler.sendMessage(msg);
+							closeCamera();
+							showErrorMsg("通信エラー", null, "");
+							return;
 						}
 					}
 					else
@@ -421,5 +435,68 @@ public  class  FragmentLoginQRListener  implements  FragmentLoginQR.FragmentInte
 		}
 
 		return  null;
+	}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private  void  showErrorMsg(String ttl, JSONObject jsonObj, String orgMsg)
+	{
+		int		i;
+		String	errMsg;
+
+		if (jsonObj != null)
+		{
+			try
+			{
+				org.json.JSONArray arr1 = jsonObj.getJSONArray("error_messages");
+				errMsg = "";
+				for (i=0; i<arr1.length(); i++)
+				{
+					errMsg += (arr1.getString(i) + "\n");
+				}
+			}
+			catch (org.json.JSONException e)
+			{
+				e.printStackTrace();
+				return;
+			}
+		}
+		else
+		{
+			if (orgMsg.equals("") == false)
+					errMsg = orgMsg;
+			else	errMsg = "データが取得できませんでした";
+		}
+
+		errLayout.setVisibility(View.VISIBLE);
+		title.setText(ttl);
+		content.setText(errMsg);
+
+		ReceiptTabApplication.isMsgShown =true;
+
+		msgOff.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				ReceiptTabApplication.isMsgShown =false;
+
+				android.os.Message msg = new android.os.Message();
+				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.arg1 = 2;									//	id/pw ng
+				SpaceeAppMain.mMsgHandler.sendMessage(msg);
+			}
+		});
+
+		//	メッセージの下のエレメントをタップしても拾わないようにするため
+		errLayout.setOnClickListener(new android.view.View.OnClickListener()
+		{
+			@Override
+			public void onClick(android.view.View v)
+			{
+			}
+		});
 	}
 }

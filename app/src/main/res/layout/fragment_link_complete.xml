@@ -11,7 +11,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="0dip"
 		android:layout_weight="200"
-		android:text="連携しました"
+		android:text="@string/xml_link_complete_msg"
 		android:textColor="@color/spacee_blue"
 		android:textSize="28sp"
 		android:gravity="center" />
@@ -79,7 +79,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
 					android:layout_weight="100"
-					android:text="IC情報"
+					android:text="@string/xml_link_complete_ic_info"
 					android:textColor="@color/spacee_blue"
 					android:gravity="center_horizontal" />
 			</LinearLayout>
@@ -129,7 +129,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
 					android:layout_weight="100"
-					android:text="Spaceeアカウント"
+					android:text="@string/xml_link_complete_account"
 					android:textColor="@color/spacee_blue"
 					android:gravity="center_horizontal" />
 			</LinearLayout>
@@ -166,7 +166,7 @@
 			android:layout_width="0dip"
 			android:layout_weight="430"
 			android:layout_height="match_parent"
-			android:text="決済へ"
+			android:text="@string/xml_link_complete_btn_next"
 			android:textColor="@color/text_white"
 			android:textSize="22sp"
 			android:gravity="center"

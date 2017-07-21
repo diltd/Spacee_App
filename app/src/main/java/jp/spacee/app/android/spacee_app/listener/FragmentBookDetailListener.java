@@ -22,8 +22,13 @@ import jp.spacee.app.android.spacee_app.R;
 
 public  class  FragmentBookDetailListener  implements  FragmentBookDetail.FragmentInteractionListener
 {
-	private						int								id				= -1;
-	private						Bitmap[]						thumbnails		= new android.graphics.Bitmap[1];
+	private						RelativeLayout 				errLayout			= null;
+	private						TextView					title				= null;
+	private						TextView					content				= null;
+	private						ImageView					msgOff				= null;
+
+	private						int							id					= -1;
+	private						Bitmap[]					thumbnails			= new android.graphics.Bitmap[1];
 
 
 	public  FragmentBookDetailListener(int prmId)
@@ -86,33 +91,56 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 			try
 			{
 				JSONObject obj1 = new JSONObject(result);
-				JSONArray arr1 = obj1.getJSONArray("pre_bookings");
-				if (arr1 != null)
+				if (obj1 != null)
 				{
-					for (i=0; i<arr1.length(); i++)
+					String	rc = obj1.getString("status");
+					if (rc.equals("ok"))
 					{
-						JSONObject obj2 = arr1.getJSONObject(i);
-						JSONObject obj3 = obj2.getJSONObject("listing");
-						if (id == obj3.getInt("id"))
+						JSONArray arr1 = obj1.getJSONArray("pre_bookings");
+						if (arr1 != null)
 						{
-							JSONObject obj4 = new JSONObject(obj3.getString("thumb"));
-							thumb_url[0] = obj4.getString("url");
-							spaceName.setText(obj3.getString("subtitle"));
-							org.json.JSONObject obj5 = obj2.getJSONObject("pre_booking");
-							try
+							for (i=0; i<arr1.length(); i++)
 							{
-								SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
-								Date wDate = sdf.parse(obj5.getString("start_at"));
-								timeBegin.setText(new SimpleDateFormat("hh:mm").format(wDate));
-								wDate =  sdf.parse(obj5.getString("end_at"));
-								timeEnd.setText(new SimpleDateFormat("hh:mm").format(wDate));
-							}
-							catch (java.text.ParseException e)
-							{
-								e.printStackTrace();
+								JSONObject obj2 = arr1.getJSONObject(i);
+								JSONObject obj3 = obj2.getJSONObject("listing");
+								if (id == obj3.getInt("id"))
+								{
+									JSONObject obj4 = new JSONObject(obj3.getString("thumb"));
+									thumb_url[0] = obj4.getString("url");
+									spaceName.setText(obj3.getString("subtitle"));
+									org.json.JSONObject obj5 = obj2.getJSONObject("pre_booking");
+									try
+									{
+										SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+										Date wDate = sdf.parse(obj5.getString("start_at"));
+										timeBegin.setText(new SimpleDateFormat("hh:mm").format(wDate));
+										wDate =  sdf.parse(obj5.getString("end_at"));
+										timeEnd.setText(new SimpleDateFormat("hh:mm").format(wDate));
+									}
+									catch (java.text.ParseException e)
+									{
+										e.printStackTrace();
+										return;
+									}
+								}
 							}
 						}
+						else
+						{
+							showErrorMsg("エラー", null, "");
+							return;
+						}
 					}
+					else
+					{
+						showErrorMsg("エラー", obj1, "");
+						return;
+					}
+				}
+				else
+				{
+					showErrorMsg("エラー", null, "");
+					return;
 				}
 			}
 			catch (org.json.JSONException e)
@@ -126,26 +154,72 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 		}
 		else
 		{
-			errLayout.setVisibility(View.VISIBLE);
-			title.setText("通信エラー");
-			content.setText("データがありません");
-
-			jp.spacee.app.android.spacee_app.ReceiptTabApplication.isMsgShown =true;
-
-			msgOff.setOnClickListener(new View.OnClickListener()
-			{
-				@Override
-				public void onClick(View v)
-				{
-					jp.spacee.app.android.spacee_app.ReceiptTabApplication.isMsgShown =false;
-
-					android.os.Message msg = new android.os.Message();
-					msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
-					SpaceeAppMain.mMsgHandler.sendMessage(msg);
-				}
-			});
+			showErrorMsg("通信エラー", null, "");
+			return;
 		}
 	}
-}
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private  void  showErrorMsg(String ttl, JSONObject jsonObj, String orgMsg)
+	{
+		int		i;
+		String	errMsg;
+
+		if (jsonObj != null)
+		{
+			try
+			{
+				org.json.JSONArray arr1 = jsonObj.getJSONArray("error_messages");
+				errMsg = "";
+				for (i=0; i<arr1.length(); i++)
+				{
+					errMsg += (arr1.getString(i) + "\n");
+				}
+			}
+			catch (org.json.JSONException e)
+			{
+				e.printStackTrace();
+				return;
+			}
+		}
+		else
+		{
+			if (orgMsg.equals("") == false)
+					errMsg = orgMsg;
+			else	errMsg = "データが取得できませんでした";
+		}
+
+		errLayout.setVisibility(View.VISIBLE);
+		title.setText(ttl);
+		content.setText(errMsg);
+
+		jp.spacee.app.android.spacee_app.ReceiptTabApplication.isMsgShown =true;
+
+		msgOff.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				jp.spacee.app.android.spacee_app.ReceiptTabApplication.isMsgShown =false;
+
+				android.os.Message msg = new android.os.Message();
+				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.arg1 = 2;									//	id/pw ng
+				SpaceeAppMain.mMsgHandler.sendMessage(msg);
+			}
+		});
+
+		//	メッセージの下のエレメントをタップしても拾わないようにするため
+		errLayout.setOnClickListener(new android.view.View.OnClickListener()
+		{
+			@Override
+			public void onClick(android.view.View v)
+			{
+			}
+		});
+	}
+}
 

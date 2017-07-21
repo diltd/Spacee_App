@@ -26,6 +26,11 @@ public  class  FragmentOrderConfirmListener  implements  FragmentOrderConfirm.Fr
 {
 	private							ListView						paymentListView		= null;
 
+	private							RelativeLayout 					errLayout				= null;
+	private							TextView						title					= null;
+	private							TextView						content					= null;
+	private							ImageView						msgOff					= null;
+
 	private							SimpleAdapter					adapter					= null;
 
 
@@ -58,6 +63,13 @@ public  class  FragmentOrderConfirmListener  implements  FragmentOrderConfirm.Fr
 	public  void  onListProcess(View view)
 	{
 		int			i;
+
+		errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
+		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
+		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
+		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
+
+
 		List<java.util.HashMap<String, String>>		payment = new ArrayList<java.util.HashMap<String, String>>();
 		HashMap<String, String>  map = null;
 
@@ -74,32 +86,59 @@ public  class  FragmentOrderConfirmListener  implements  FragmentOrderConfirm.Fr
 			try
 			{
 				JSONObject obj1 = new JSONObject(result);
-				JSONArray  arr1 = obj1.getJSONArray("cards");
-				if (arr1 != null)
+				if (obj1 != null)
 				{
-					for (i=0; i<arr1.length(); i++)
-					{
-						JSONObject obj2 = arr1.getJSONObject(i);
-						map = new HashMap<String, String>();
-						map.put("kind",		"1");
-						map.put("upper",	"クレジットカード支払い");
-						map.put("lower",	String.format("****.****.****.%s", obj2.getString("last4")));
-						payment.add(map);
-					}
-				}
+//					String	rc = obj1.getString("status");
+//					if (rc.equals("ok"))
+//					{
+						JSONArray  arr1 = obj1.getJSONArray("cards");
+						if (arr1 != null)
+						{
+							for (i=0; i<arr1.length(); i++)
+							{
+								JSONObject obj2 = arr1.getJSONObject(i);
+								map = new HashMap<String, String>();
+								map.put("kind",		"1");
+								map.put("upper",	ReceiptTabApplication.AppContext.getString(R.string.frag_order_confirm_pay_credit));
+								map.put("lower",	String.format(ReceiptTabApplication.AppContext.getString(R.string.frag_order_confirm_card_id), obj2.getString("last4")));
+								payment.add(map);
+							}
+						}
+						else
+						{
+							showErrorMsg("エラー", null, "");
+							return;
+						}
 
-				org.json.JSONArray  arr2 = obj1.getJSONArray("billing_destinations");
-				if (arr2 != null)
+						org.json.JSONArray  arr2 = obj1.getJSONArray("billing_destinations");
+						if (arr2 != null)
+						{
+							for (i=0; i<arr2.length(); i++)
+							{
+								JSONObject obj2 = arr2.getJSONObject(i);
+								map = new HashMap<String, String>();
+								map.put("kind",		"2");
+								map.put("upper",	ReceiptTabApplication.AppContext.getString(R.string.frag_order_confirm_pay_invoice));
+								map.put("lower",	String.format("%s(%s)", obj2.getString("company_name"), obj2.getString("responsible_person")));
+								payment.add(map);
+							}
+						}
+						else
+						{
+							showErrorMsg("エラー", null, "");
+							return;
+						}
+//					}
+//					else
+//					{
+//						showErrorMsg("エラー", obj1, "");
+//						return;
+//					}
+				}
+				else
 				{
-					for (i=0; i<arr2.length(); i++)
-					{
-						JSONObject obj2 = arr2.getJSONObject(i);
-						map = new HashMap<String, String>();
-						map.put("kind",		"2");
-						map.put("upper",	"請求書払い");
-						map.put("lower",	String.format("%s(%s)", obj2.getString("company_name"), obj2.getString("responsible_person")));
-						payment.add(map);
-					}
+					showErrorMsg("エラー", null, "");
+					return;
 				}
 			}
 			catch (org.json.JSONException e)
@@ -107,110 +146,121 @@ public  class  FragmentOrderConfirmListener  implements  FragmentOrderConfirm.Fr
 				e.printStackTrace();
 				return;
 			}
+		}
+		else
+		{
+			showErrorMsg("通信エラー", null, "");
+			return;
+		}
 
-			if (payment.size() > 0)
+		if (payment.size() > 0)
+		{
+			adapter = new SimpleAdapter(ReceiptTabApplication.AppContext,
+											payment,
+											R.layout.layout_payment_list,
+											new String[]{"kind",	"upper", 		"lower"},
+											new int   []{R.id.kind, R.id.upperText, R.id.lowerText})
 			{
-				adapter = new SimpleAdapter(ReceiptTabApplication.AppContext,
-												payment,
-												R.layout.layout_payment_list,
-												new String[]{"kind",	"upper", 		"lower"},
-												new int   []{R.id.kind, R.id.upperText, R.id.lowerText})
+				@Override
+				public View getView(int pos, View cView, android.view.ViewGroup parent)
 				{
-					@Override
-					public View getView(int pos, View cView, android.view.ViewGroup parent)
-					{
-						View retView = super.getView(pos, cView, parent);
+					View retView = super.getView(pos, cView, parent);
 
-						if (retView == null)
-						{
-
-
-						}
-
-						TextView	kind = (TextView)	retView.findViewById(R.id.kind);
-						ImageView	icon = (ImageView)	retView.findViewById(R.id.icon);
-						if (kind.getText().toString().equals("1"))
-								icon.setBackgroundResource(R.drawable.shape_oval_blue);
-						else	icon.setBackgroundResource(R.drawable.shape_oval_gray);
-
-						return  retView;
-					}
-				};
-				paymentListView.setAdapter(adapter);
-
-				paymentListView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener()
-				{
-					public void onItemClick(android.widget.AdapterView<?> parent, View view, final int pos, long id)
+					if (retView == null)
 					{
 
 
-
-
 					}
-				});
+
+					TextView	kind = (TextView)	retView.findViewById(R.id.kind);
+					ImageView	icon = (ImageView)	retView.findViewById(R.id.icon);
+					if (kind.getText().toString().equals("1"))
+							icon.setBackgroundResource(R.drawable.shape_oval_blue);
+					else	icon.setBackgroundResource(R.drawable.shape_oval_gray);
+
+					return  retView;
+				}
+			};
+			paymentListView.setAdapter(adapter);
+
+			paymentListView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener()
+			{
+				public void onItemClick(android.widget.AdapterView<?> parent, View view, final int pos, long id)
+				{
+
+
+
+
+				}
+			});
+		}
+		else
+		{
+			showErrorMsg("エラー", null, "支払方法が登録されていません");
+		}
+	}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private  void  showErrorMsg(String ttl, JSONObject jsonObj, String orgMsg)
+	{
+		int		i;
+		String	errMsg;
+
+		if (jsonObj != null)
+		{
+			try
+			{
+				org.json.JSONArray arr1 = jsonObj.getJSONArray("error_messages");
+				errMsg = "";
+				for (i=0; i<arr1.length(); i++)
+				{
+					errMsg += (arr1.getString(i) + "\n");
+				}
 			}
-			else
+			catch (org.json.JSONException e)
 			{
-				errLayout.setVisibility(View.VISIBLE);
-				title.setText("エラー");
-				content.setText("支払方法が登録されていません");
-
-				jp.spacee.app.android.spacee_app.ReceiptTabApplication.isMsgShown =true;
-
-				msgOff.setOnClickListener(new View.OnClickListener()
-				{
-					@Override
-					public void onClick(View v)
-					{
-						jp.spacee.app.android.spacee_app.ReceiptTabApplication.isMsgShown =false;
-
-						android.os.Message msg = new android.os.Message();
-						msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
-						SpaceeAppMain.mMsgHandler.sendMessage(msg);
-					}
-				});
-
-				//	メッセージの下のエレメントをタップしても拾わないようにするため
-				errLayout.setOnClickListener(new android.view.View.OnClickListener()
-				{
-					@Override
-					public void onClick(android.view.View v)
-					{
-					}
-				});
+				e.printStackTrace();
+				return;
 			}
 		}
 		else
 		{
-			errLayout.setVisibility(View.VISIBLE);
-			title.setText("エラー");
-			content.setText("支払方法が登録されていません");
-
-			jp.spacee.app.android.spacee_app.ReceiptTabApplication.isMsgShown =true;
-
-			msgOff.setOnClickListener(new View.OnClickListener()
-			{
-				@Override
-				public void onClick(View v)
-				{
-					jp.spacee.app.android.spacee_app.ReceiptTabApplication.isMsgShown =false;
-
-					android.os.Message msg = new android.os.Message();
-					msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
-					SpaceeAppMain.mMsgHandler.sendMessage(msg);
-				}
-			});
-
-			//	メッセージの下のエレメントをタップしても拾わないようにするため
-			errLayout.setOnClickListener(new android.view.View.OnClickListener()
-			{
-				@Override
-				public void onClick(android.view.View v)
-				{
-				}
-			});
+			if (orgMsg.equals("") == false)
+					errMsg = orgMsg;
+			else	errMsg = "データが取得できませんでした";
 		}
+
+		errLayout.setVisibility(View.VISIBLE);
+		title.setText(ttl);
+		content.setText(errMsg);
+
+		ReceiptTabApplication.isMsgShown =true;
+
+		msgOff.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				ReceiptTabApplication.isMsgShown =false;
+
+				android.os.Message msg = new android.os.Message();
+				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.arg1 = 2;									//	id/pw ng
+				SpaceeAppMain.mMsgHandler.sendMessage(msg);
+			}
+		});
+
+		//	メッセージの下のエレメントをタップしても拾わないようにするため
+		errLayout.setOnClickListener(new android.view.View.OnClickListener()
+		{
+			@Override
+			public void onClick(android.view.View v)
+			{
+			}
+		});
 	}
 }
-
 

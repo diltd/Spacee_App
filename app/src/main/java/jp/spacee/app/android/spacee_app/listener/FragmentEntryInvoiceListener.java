@@ -7,6 +7,7 @@ import android.widget.TextView;
 import jp.spacee.app.android.spacee_app.activity.SpaceeAppMain;
 import jp.spacee.app.android.spacee_app.fragment.FragmentEntryInvoice;
 import jp.spacee.app.android.spacee_app.ReceiptTabApplication;
+import jp.spacee.app.android.spacee_app.R;
 
 
 public  class  FragmentEntryInvoiceListener  implements  FragmentEntryInvoice.FragmentInteractionListener
@@ -27,16 +28,9 @@ public  class  FragmentEntryInvoiceListener  implements  FragmentEntryInvoice.Fr
 	@Override
 	public  void  onKindCardSelected(View view)
 	{
-		ReceiptTabApplication.userRegData.companyName		= ((TextView) view.findViewById(jp.spacee.app.android.spacee_app.R.id.companyName)).getText().toString();
-		ReceiptTabApplication.userRegData.operName			= ((TextView) view.findViewById(jp.spacee.app.android.spacee_app.R.id.staffName)).getText().toString();
-		ReceiptTabApplication.userRegData.postCode			= ((TextView) view.findViewById(jp.spacee.app.android.spacee_app.R.id.postCode)).getText().toString();
-		ReceiptTabApplication.userRegData.companyAddress1	= ((TextView) view.findViewById(jp.spacee.app.android.spacee_app.R.id.companyAddr1)).getText().toString();
-		ReceiptTabApplication.userRegData.companyAddress2	= ((TextView) view.findViewById(jp.spacee.app.android.spacee_app.R.id.companyAddr2)).getText().toString();
-		ReceiptTabApplication.userRegData.companyPhoneNo	= ((TextView) view.findViewById(jp.spacee.app.android.spacee_app.R.id.companyPhone)).getText().toString();
-
 		android.os.Message msg = new android.os.Message();
 		msg.what = SpaceeAppMain.MSG_ENTRY_INVOICE_COMP;
-		msg.arg1 = 1;											//	by LoginICClicked
+		msg.arg1 = 1;
 		SpaceeAppMain.mMsgHandler.sendMessage(msg);
 	}
 
@@ -44,6 +38,13 @@ public  class  FragmentEntryInvoiceListener  implements  FragmentEntryInvoice.Fr
 	@Override
 	public  void  onBtnInputCompClicked(View view)
 	{
+		ReceiptTabApplication.userRegData.companyName		= ((TextView) view.findViewById(R.id.companyName)).getText().toString();
+		ReceiptTabApplication.userRegData.operName			= ((TextView) view.findViewById(R.id.staffName)).getText().toString();
+		ReceiptTabApplication.userRegData.postCode			= ((TextView) view.findViewById(R.id.postCode)).getText().toString();
+		ReceiptTabApplication.userRegData.companyAddress1	= ((TextView) view.findViewById(R.id.companyAddr1)).getText().toString();
+		ReceiptTabApplication.userRegData.companyAddress2	= ((TextView) view.findViewById(R.id.companyAddr2)).getText().toString();
+		ReceiptTabApplication.userRegData.companyPhoneNo	= ((TextView) view.findViewById(R.id.companyPhone)).getText().toString();
+
 		android.os.Message msg = new android.os.Message();
 		msg.what = SpaceeAppMain.MSG_ENTRY_INVOICE_COMP;
 		msg.arg1 = 2;											//	by LoginQRClicked

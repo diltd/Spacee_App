@@ -45,7 +45,7 @@
 					android:layout_width="0dip"
 					android:layout_weight="160"
 					android:layout_height="match_parent"
-					android:text="収容人数"
+					android:text="@string/xml_meeting_detail_capacity1"
 					android:textColor="@color/spacee_blue"
 					android:textSize="18sp"
 					android:gravity="center_vertical" />
@@ -54,7 +54,7 @@
 					android:layout_width="0dip"
 					android:layout_weight="200"
 					android:layout_height="match_parent"
-					android:text="広さ"
+					android:text="@string/xml_meeting_detail_square"
 					android:textColor="@color/spacee_blue"
 					android:textSize="18sp"
 					android:gravity="center_vertical" />
@@ -76,7 +76,7 @@
 					android:layout_width="0dip"
 					android:layout_weight="160"
 					android:layout_height="match_parent"
-					android:text="～32人"
+					android:text=""
 					android:textColor="@color/text_black"
 					android:textSize="24sp"
 					android:gravity="center_vertical" />
@@ -86,7 +86,7 @@
 					android:layout_width="0dip"
 					android:layout_weight="200"
 					android:layout_height="match_parent"
-					android:text="76m2"
+					android:text=""
 					android:textColor="@color/text_black"
 					android:textSize="24sp"
 					android:gravity="center_vertical" />
@@ -118,7 +118,7 @@
 						android:layout_width="match_parent"
 						android:layout_height="0dip"
 						android:layout_weight="30"
-						android:text="設備"
+						android:text="@string/xml_meeting_detail_equipment"
 						android:textColor="@color/spacee_blue"
 						android:textSize="18sp"
 						android:gravity="center_vertical" />
@@ -128,7 +128,7 @@
 						android:layout_width="match_parent"
 						android:layout_height="0dip"
 						android:layout_weight="300"
-						android:text="●トイレ（男女兼用）\n●テーブル（二人掛けテーブル）\n●プロジェクター\n●プロジェクター用スクリーン"
+						android:text=""
 						android:textColor="@color/text_black"
 						android:textSize="18sp"
 						android:maxLines="8" />
@@ -163,7 +163,7 @@
 					android:layout_width="0dip"
 					android:layout_weight="300"
 					android:layout_height="60dip"
-					android:format24Hour=" MM月dd日(今日)"
+					android:format24Hour="@string/xml_meeting_detail_date"
 					android:textColor="@color/text_black"
 					android:gravity="center_vertical"
 					android:textSize="24sp"
@@ -191,7 +191,7 @@
 						android:layout_width="match_parent"
 						android:layout_height="0dip"
 						android:layout_weight="50"
-						android:text="利用可"
+						android:text="@string/xml_meeting_detail_status"
 						android:textColor="@color/text_black"
 						android:gravity="center"
 						android:textSize="18sp"
@@ -208,7 +208,7 @@
 					android:layout_width="0dip"
 					android:layout_height="match_parent"
 					android:layout_weight="140"
-					android:text="最大 10 人"
+					android:text="@string/xml_meeting_detail_capacity2"
 					android:textColor="@color/text_black"
 					android:gravity="center_vertical|right"
 					android:textSize="20sp"/>
@@ -254,7 +254,7 @@
 					android:layout_marginLeft="10sp"
 					android:layout_weight="280"
 					android:gravity="center_vertical"
-					android:text="チェックイン"
+					android:text="@string/xml_meeting_detail_checkin"
 					android:textColor="@color/spacee_blue"
 					android:textSize="22sp"/>
 
@@ -264,7 +264,7 @@
 					android:layout_marginLeft="10sp"
 					android:layout_weight="520"
 					android:gravity="center_vertical"
-					android:text="ご利用時間"
+					android:text="@string/xml_meeting_detail_usage"
 					android:textColor="@color/spacee_blue"
 					android:textSize="22sp"/>
 			</LinearLayout>
@@ -322,7 +322,7 @@
 					android:layout_marginLeft="10sp"
 					android:layout_weight="80"
 					android:gravity="center_vertical"
-					android:text="時間"
+					android:text="@string/xml_meeting_detail_hour"
 					android:textColor="@color/text_black"
 					android:textSize="22sp"/>
 
@@ -339,7 +339,7 @@
 					android:layout_marginLeft="10sp"
 					android:layout_weight="50"
 					android:gravity="center_vertical"
-					android:text="分"
+					android:text="@string/xml_meeting_detail_minute"
 					android:textColor="@color/text_black"
 					android:textSize="22sp"/>
 
@@ -356,7 +356,7 @@
 					android:layout_marginLeft="10sp"
 					android:layout_weight="90"
 					android:gravity="center_vertical"
-					android:text="人"
+					android:text="@string/xml_meeting_detail_psn"
 					android:textColor="@color/text_black"
 					android:textSize="22sp"/>
 			</LinearLayout>
@@ -390,7 +390,7 @@
 						android:layout_height="0dip"
 						android:layout_weight="50"
 						android:gravity="center_vertical|left"
-						android:text="料金プラン"
+						android:text="@string/xml_meeting_detail_plan"
 						android:textColor="@color/spacee_blue"
 						android:textSize="20sp" />
 
@@ -411,7 +411,7 @@
 						android:layout_width="match_parent"
 						android:layout_weight="50"
 						android:layout_height="0dip"
-						android:text="ご利用料金"
+						android:text="@string/xml_meeting_detail_amount"
 						android:textColor="@color/spacee_blue"
 						android:textSize="20sp"
 						android:gravity="bottom|right" />
@@ -427,7 +427,7 @@
 							android:layout_width="0dip"
 							android:layout_weight="310"
 							android:layout_height="match_parent"
-							android:text="1,400"
+							android:text=""
 							android:textColor="@color/text_black"
 							android:textSize="40sp"
 							android:gravity="bottom|right" />
@@ -436,7 +436,7 @@
 							android:layout_width="0dip"
 							android:layout_weight="50"
 							android:layout_height="match_parent"
-							android:text="円"
+							android:text="@string/xml_meeting_detail_yen"
 							android:textColor="@color/text_black"
 							android:textSize="20sp"
 							android:gravity="bottom|center_horizontal" />
@@ -453,7 +453,7 @@
 						android:layout_weight="80"
 						android:layout_height="0dip"
 						android:gravity="center"
-						android:text="このスペースを借りる"
+						android:text="@string/xml_meeting_detail_btn_rent"
 						android:textColor="@color/text_white"
 						android:textSize="22sp"
 						android:background="@drawable/shape_button_blue"/>

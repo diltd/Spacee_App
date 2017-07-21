@@ -84,7 +84,7 @@ public  class  AsyncTaskAPICall  extends AsyncTask<HttpParamAPICall, Void, Void>
 				httpResp = httpClient.execute(httpGet);
 			}
 
-			if (httpResp.getStatusLine().getStatusCode() < 400)
+			if (httpResp.getStatusLine().getStatusCode() <= 400)
 			{
 				iStream = httpResp.getEntity().getContent();
 

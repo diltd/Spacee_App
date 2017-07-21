@@ -53,19 +53,49 @@ public  class  FragmentEntryAppListener  implements  FragmentEntryApp.FragmentIn
 				if (obj1 != null)
 				{
 					String	rc	= obj1.getString("status");
-					String	msg	= obj1.getString("message");
 					if (rc.equals("ok"))
 					{
-						showMessage(true, msg);
+						String	msg	= obj1.getString("message");
+
+						errLayout.setVisibility(View.VISIBLE);
+						title.setText("SMS送信完了");
+						content.setText(msg);
+
+						jp.spacee.app.android.spacee_app.ReceiptTabApplication.isMsgShown =true;
+
+						msgOff.setOnClickListener(new View.OnClickListener()
+						{
+							@Override
+							public void onClick(View v)
+							{
+								jp.spacee.app.android.spacee_app.ReceiptTabApplication.isMsgShown =false;
+
+								Message msg = new Message();
+								msg.what = SpaceeAppMain.MSG_ENTRY_APP_COMP;
+								msg.arg1 = 1;
+								SpaceeAppMain.mMsgHandler.sendMessage(msg);
+							}
+						});
+
+						//	メッセージの下のエレメントをタップしても拾わないようにするため
+						errLayout.setOnClickListener(new android.view.View.OnClickListener()
+						{
+							@Override
+							public void onClick(android.view.View v)
+							{
+							}
+						});
 					}
 					else
 					{
-						showMessage(false, msg);
+						showErrorMsg("エラー", obj1, "");
+						return;
 					}
 				}
 				else
 				{
-					showMessage(false, "");
+					showErrorMsg("エラー", null, "");
+					return;
 				}
 			}
 			catch (org.json.JSONException e)
@@ -76,7 +106,8 @@ public  class  FragmentEntryAppListener  implements  FragmentEntryApp.FragmentIn
 		}
 		else
 		{
-			showMessage(false, "");
+			showErrorMsg("通信エラー", null, "");
+			return;
 		}
 	}
 
@@ -130,71 +161,66 @@ public  class  FragmentEntryAppListener  implements  FragmentEntryApp.FragmentIn
 	}
 
 
-	private  void  showMessage(boolean result, String msg)
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private  void  showErrorMsg(String ttl, org.json.JSONObject jsonObj, String orgMsg)
 	{
-		if (result == true)
+		int		i;
+		String	errMsg;
+
+		if (jsonObj != null)
 		{
-			errLayout.setVisibility(View.VISIBLE);
-			title.setText("送信メッセージ");
-			content.setText(msg);
-
-			jp.spacee.app.android.spacee_app.ReceiptTabApplication.isMsgShown =true;
-
-			msgOff.setOnClickListener(new View.OnClickListener()
+			try
 			{
-				@Override
-				public void onClick(View v)
+				org.json.JSONArray arr1 = jsonObj.getJSONArray("error_messages");
+				errMsg = "";
+				for (i=0; i<arr1.length(); i++)
 				{
-					jp.spacee.app.android.spacee_app.ReceiptTabApplication.isMsgShown =false;
-
-					Message msg = new Message();
-					msg.what = SpaceeAppMain.MSG_ENTRY_APP_COMP;
-					msg.arg1 = 1;
-					///		SpaceeAppMain.mMsgHandler.sendMessage(msg);
+					errMsg += (arr1.getString(i) + "\n");
 				}
-			});
-
-			//	メッセージの下のエレメントをタップしても拾わないようにするため
-			errLayout.setOnClickListener(new android.view.View.OnClickListener()
+			}
+			catch (org.json.JSONException e)
 			{
-				@Override
-				public void onClick(android.view.View v)
-				{
-				}
-			});
+				e.printStackTrace();
+				return;
+			}
 		}
 		else
 		{
-			errLayout.setVisibility(View.VISIBLE);
-			title.setText("SMS送信");
-			if (msg.equals(""))
-					content.setText("エラーが発生しました");
-			else	content.setText(msg);
-
-			jp.spacee.app.android.spacee_app.ReceiptTabApplication.isMsgShown =true;
-
-			msgOff.setOnClickListener(new View.OnClickListener()
-			{
-				@Override
-				public void onClick(View v)
-				{
-					jp.spacee.app.android.spacee_app.ReceiptTabApplication.isMsgShown =false;
-
-					Message msg = new Message();
-					msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
-					SpaceeAppMain.mMsgHandler.sendMessage(msg);
-				}
-			});
-
-			//	メッセージの下のエレメントをタップしても拾わないようにするため
-			errLayout.setOnClickListener(new android.view.View.OnClickListener()
-			{
-				@Override
-				public void onClick(android.view.View v)
-				{
-				}
-			});
+			if (orgMsg.equals("") == false)
+					errMsg = orgMsg;
+			else	errMsg = "データが取得できませんでした";
 		}
+
+		errLayout.setVisibility(View.VISIBLE);
+		title.setText(ttl);
+		content.setText(errMsg);
+
+		ReceiptTabApplication.isMsgShown =true;
+
+		msgOff.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				ReceiptTabApplication.isMsgShown =false;
+
+				android.os.Message msg = new android.os.Message();
+				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.arg1 = 2;									//	id/pw ng
+				SpaceeAppMain.mMsgHandler.sendMessage(msg);
+			}
+		});
+
+		//	メッセージの下のエレメントをタップしても拾わないようにするため
+		errLayout.setOnClickListener(new android.view.View.OnClickListener()
+		{
+			@Override
+			public void onClick(android.view.View v)
+			{
+			}
+		});
 	}
 }
 

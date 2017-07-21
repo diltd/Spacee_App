@@ -35,7 +35,7 @@
 			android:gravity="center_vertical"
 			android:textSize="24sp"
 			android:textColor="@color/text_white"
-			android:text="初期設定中・・しばらくお待ちください" />
+			android:text="@string/xml_window_title_init_msg" />
 
 		<LinearLayout
 			android:layout_width="0dip"
@@ -54,7 +54,7 @@
 				android:layout_height="0dip"
 				android:layout_weight="25"
 				android:gravity="center_vertical|right"
-				android:format24Hour="yyyy年MM月dd日(E)"
+				android:format24Hour="@string/xml_window_title_date"
 				android:textSize="16sp"
 				android:textColor="@color/text_white" />
 
@@ -212,7 +212,7 @@
 				android:layout_height="0dip"
 				android:layout_weight="25"
 				android:gravity="center_vertical|right"
-				android:format24Hour="yyyy年MM月dd日(E)"
+				android:format24Hour="@string/xml_window_title_date"
 				android:textSize="16sp"
 				android:textColor="@color/text_white" />
 
@@ -371,7 +371,7 @@
 				android:layout_height="0dip"
 				android:layout_weight="25"
 				android:gravity="center_vertical|right"
-				android:format24Hour="yyyy年MM月dd日(E)"
+				android:format24Hour="@string/xml_window_title_date"
 				android:textSize="16sp"
 				android:textColor="@color/text_white" />
 
@@ -463,7 +463,7 @@
 				android:layout_width="0dip"
 				android:layout_weight="200"
 				android:layout_height="match_parent"
-				android:text="xxx@yyy.com\nからログアウト"
+				android:text=""
 				android:textSize="14sp"
 				android:textColor="@color/text_white"
 				android:maxLines="2"

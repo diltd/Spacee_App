@@ -1,63 +1,72 @@
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@+id/fragmentLoginQR"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="@color/light_grey_white"
-	android:orientation="vertical">
-
-	<View
-		android:layout_width="match_parent"
-		android:layout_height="0dip"
-		android:layout_weight="100" />
+<FrameLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/fragmentLoginQR"
+android:layout_width="match_parent"
+android:layout_height="match_parent" >
 
 	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="0dip"
-		android:layout_weight="480"
-		android:orientation="horizontal">
+		android:layout_height="match_parent"
+		android:background="@color/light_grey_white"
+		android:orientation="vertical">
 
 		<View
-			android:layout_width="0dip"
-			android:layout_weight="320"
-			android:layout_height="match_parent" />
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="100" />
 
-		<FrameLayout
-			android:layout_width="0dip"
-			android:layout_weight="640"
-			android:layout_height="match_parent" >
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="480"
+			android:orientation="horizontal">
 
-			<TextureView
-				android:id="@+id/cameraView"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:visibility="visible" />
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="320"
+				android:layout_height="match_parent" />
 
-			<SurfaceView
-				android:id="@+id/surfaceView"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:visibility="invisible" />
+			<FrameLayout
+				android:layout_width="0dip"
+				android:layout_weight="640"
+				android:layout_height="match_parent" >
 
-			<ImageView
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:background="@drawable/scr_camera_view" />
-		</FrameLayout>
+				<TextureView
+					android:id="@+id/cameraView"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:visibility="visible" />
 
-		<View
-			android:layout_width="0dip"
-			android:layout_weight="320"
-			android:layout_height="match_parent" />
+				<SurfaceView
+					android:id="@+id/surfaceView"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:visibility="invisible" />
+
+				<ImageView
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:background="@drawable/scr_camera_view" />
+			</FrameLayout>
+
+			<View
+				android:layout_width="0dip"
+				android:layout_weight="320"
+				android:layout_height="match_parent" />
+		</LinearLayout>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="0dip"
+			android:layout_weight="160"
+			android:text="@string/xml_login_qr_msg"
+			android:textColor="@color/red"
+			android:textSize="28sp"
+			android:gravity="center" />
 	</LinearLayout>
 
-	<TextView
-		android:layout_width="match_parent"
-		android:layout_height="0dip"
-		android:layout_weight="160"
-		android:text="枠にＱＲコードを合わせてください"
-		android:textColor="@color/red"
-		android:textSize="28sp"
-		android:gravity="center" />
-</LinearLayout>
+	<include
+		android:id="@+id/errorMessagePanel"
+		layout="@layout/layout_error_message" />
+</FrameLayout>

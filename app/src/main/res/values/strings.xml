@@ -3,4 +3,384 @@
 
 	<string name="hello_blank_fragment">Hello blank fragment</string>
 
+
+	<!-- Common -->
+	<string name="relay_ok1">はい</string>
+	<string name="relay_ng1">いいえ</string>
+
+	<!-- CustomBasewindow -->
+	<string name="logout_from">からログアウト</string>
+
+	<!-- FindIccBleDevice -->
+	<string name="error_title_icc">　ACR-1255 未検出</string>
+	<string name="error_msg_icc">　ＩＣカードリーダー［ACR-1255］の\n　　　電源が入っている事を確認してください</string>
+
+	<!-- SpaceeAppMain -->
+	<string name="appmain_ble_not_supported1">BLE未対応端末です[BLE not supported]</string>
+	<string name="appmain_ble_not_supported2">BLE未対応端末です[OS version &gt; 4.3]</string>
+	<string name="appmain_lower_than_os5_0">本アプリはＯＳバージョン 5.0 未満は非対応です</string>
+	<string name="appmain_title_work_space">作業スペース</string>
+	<string name="appmain_title_meeting_space">ミーティングスペース</string>
+	<string name="appmain_title_check_booking">ログイン方法を選択</string>
+	<string name="appmain_title_rule_guide">ご利用ガイド</string>
+	<string name="appmain_title_login_ic">ICカード・IC付き携帯でログイン</string>
+	<string name="appmain_title_login_qr">アプリのＱＲコードでログイン</string>
+	<string name="appmain_title_login_pw">ID/パスワードでログイン</string>
+	<string name="appmain_title_entry_app">アプリで会員登録</string>
+	<string name="appmain_title_entry_card">支払い情報入力</string>
+	<string name="appmain_title_entry_input">会員情報を入力</string>
+	<string name="appmain_title_entry_invoice">支払い情報入力</string>
+	<string name="appmain_title_entry_policy">利用規約の同意</string>
+	<string name="appmain_title_booking_list">予約中のスペース一覧</string>
+	<string name="appmain_title_order_comfirm">内容確認</string>
+	<string name="appmain_title_order_complete">内容確認完了</string>
+	<string name="appmain_title_select_login">ログイン方法を選択</string>
+	<string name="appmain_title_account_link">アカウント連携</string>
+	<string name="appmain_title_link_complete">連携完了</string>
+	<string name="appmain_title_booking_status">予約状況</string>
+	<string name="appmain_title_provider_login">管理者ログイン</string>
+	<string name="appmain_title_office_list">オフィスリスト</string>
+
+	<!-- FragmentAccountLinkListener -->
+
+	<!-- FragmentAppMainListener -->
+	<string name="frag_appmain_num_desk">人分</string>
+	<string name="frag_appmain_num_room">部屋</string>
+
+	<!-- FragmentBookDetailListener -->
+
+	<!-- FragmentBookListListener -->
+
+	<!-- FragmentCheckBookingListener -->
+
+	<!-- FragmentEntryAppListener -->
+
+	<!-- FragmentEntryCardListener -->
+
+	<!-- FragmentEntryInputListener -->
+
+	<!-- FragmentEntryInvoiceListener -->
+
+	<!-- FragmentEntryPolicyListener -->
+
+	<!-- FragmentLinkCompleteListener -->
+
+	<!-- FragmentLoginICListener -->
+
+	<!-- FragmentLoginPWListener -->
+
+	<!-- FragmentLoginQRListener -->
+
+	<!-- FragmentMeetingDetailListener -->
+	<string name="frag_meeting_detail_psn_no">～%1$d人</string>
+	<string name="frag_meeting_detail_square">%1$d㎡</string>
+	<string name="frag_meeting_detail_equipment">●%s\n</string>
+	<string name="frag_meeting_detail_avail">利用可</string>
+	<string name="frag_meeting_detail_full">利用中</string>
+	<string name="frag_meeting_detail_seat_no"> 席</string>
+	<string name="frag_meeting_detail_time_now">現在</string>
+
+	<!-- FragmentMeetingListListener -->
+	<string name="frag_meeting_list_status_avail">利用可</string>
+	<string name="frag_meeting_list_status_full">利用中</string>
+	<string name="frag_meeting_list_no_equipment">設備なし</string>
+	<string name="frag_meeting_list_max_psn">・最大</string>
+	<string name="frag_meeting_list_psn_avail">人利用\n・</string>
+	<string name="frag_meeting_list_min_unit">分から利用可能</string>
+	<string name="frag_meeting_list_time_now">現在</string>
+
+	<!-- FragmentOfficeListListener -->
+
+	<!-- FragmentOrderCompleteListener -->
+
+	<!-- FragmentOrderConfirmListener -->
+	<string name="frag_order_confirm_pay_credit">クレジットカード支払い</string>
+	<string name="frag_order_confirm_card_id">****.****.****.%1$s</string>
+	<string name="frag_order_confirm_pay_invoice">請求書払い</string>
+
+	<!-- FragmentProviderLoginListener -->
+
+	<!-- FragmentRuleGuideListener -->
+
+	<!-- FragmentStartLinkListener -->
+
+	<!-- FragmentStatusBookingListener -->
+
+	<!-- FragmentTabletPortraitListener -->
+
+	<!-- FragmentWorkDetailListener -->
+	<string name="frag_work_detail_psn_no">～%1$d人</string>
+	<string name="frag_work_detail_square">%1$d㎡</string>
+	<string name="frag_work_detail_equipment">●%s\n</string>
+	<string name="frag_work_detail_avail">利用可</string>
+	<string name="frag_work_detail_full">満員中</string>
+	<string name="frag_work_detail_seat_no"> 席</string>
+	<string name="frag_work_detail_time_now">現在</string>
+
+	<!-- FragmentWorkListListener -->
+	<string name="frag_work_list_status_avail">利用可</string>
+	<string name="frag_work_list_status_full">満員中</string>
+	<string name="frag_work_list_seat">席</string>
+	<string name="frag_work_list_no_equipment">設備なし</string>
+	<string name="frag_work_list_max_psn">・最大</string>
+	<string name="frag_work_list_psn_avail">人利用\n・</string>
+	<string name="frag_work_list_min_unit">分から利用可能</string>
+	<string name="frag_work_list_time_now">現在</string>
+
+
+
+	<!-- fragment_account_link.xml -->
+	<string name="xml_account_link_msg">ＩＣ情報とアカウントを連携します</string>
+	<string name="xml_account_link_ic">IC</string>
+	<string name="xml_account_link_ic_info">IC情報</string>
+	<string name="xml_account_link_user_name">山田太郎</string>
+	<string name="xml_account_link_account">Spaceeアカウント</string>
+	<string name="xml_account_link_btn_cancel">キャンセル</string>
+	<string name="xml_account_link_btn_link">連携する</string>
+
+	<!-- fragment_app_main.xml -->
+	<string name="xml_app_main_msg">借りたいスペースを選択してください</string>
+	<string name="xml_app_main_space_work">作業スペース</string>
+	<string name="xml_app_main_space_free">空きスペース</string>
+	<string name="xml_app_main_space_meeting">ミーティングスペース</string>
+	<string name="xml_app_main_btn_check_booking">予約確認</string>
+	<string name="xml_app_main_btn_rule_guide">ご利用ガイド</string>
+	<string name="xml_app_main_btn_floor_guide">フロアガイド</string>
+
+	<!-- fragment_book_detail.xml -->
+	<string name="xml_book_detail_space_avail">利用可</string>
+	<string name="xml_book_detail_msg">このスペースは今すぐご利用頂けます</string>
+	<string name="xml_book_detail_btn_floor_guide">フロアガイド</string>
+	<string name="xml_book_detail_space_name">スペース名</string>
+	<string name="xml_book_detail_checkin">チェックイン</string>
+	<string name="xml_book_detail_checkout">チェックアウト</string>
+	<string name="xml_book_detail_from">から</string>
+	<string name="xml_book_detail_to">まで</string>
+	<string name="xml_book_detail_use">ご利用方法</string>
+	<string name="xml_book_detail_use_sample">廊下をまっすぐ行き、突き当たりを左に行くと左手にあります。\n鍵は「5895」で開くことができます</string>
+	<string name="xml_book_detail_btn_check_space">ログアウトして、スペースを詳しく見る</string>
+	<string name="xml_book_detail_btn_gohome">ログアウトして、ホームに戻る</string>
+
+	<!-- fragment_check_booking.xml -->
+	<string name="xml_check_booking_msg1">ログイン方法を選択してください</string>
+	<string name="xml_check_booking_btn_login_ic">ICカード・IC付携帯</string>
+	<string name="xml_check_booking_btn_login_qr">アプリのＱＲコード</string>
+	<string name="xml_check_booking_btn_login_pw">ＩＤ／パスワードを入力</string>
+	<string name="xml_check_booking_msg2">未会員の方は会員登録を\n行って下さい</string>
+	<string name="xml_check_booking_btn_reg_by_app">アプリで会員登録</string>
+	<string name="xml_check_booking_btn_reg_input">この端末で会員登録</string>
+
+	<!-- fragment_entry_app.xml -->
+	<string name="xml_entry_app_acc_by_qr">ＱＲコードでアクセス</string>
+	<string name="xml_entry_app_acc_by_browser">ブラウザでアクセス</string>
+	<string name="xml_entry_app_send_sms">URLをSMSメッセージで送る</string>
+	<string name="xml_entry_app_msg">アプリで決済情報まで登録完了後\nログイン方法を選択してください</string>
+	<string name="xml_entry_app_btn_login_ic">ＩＣ機能でログイン</string>
+	<string name="xml_entry_app_btn_login_qr">ＱＲコードでログイン</string>
+
+	<!-- fragment_entry_card.xml -->
+	<string name="xml_entry_card_by_card">クレジットカード</string>
+	<string name="xml_entry_card_by_invoice">請求書支払い</string>
+	<string name="xml_entry_card_card_no">カード番号</string>
+	<string name="xml_entry_card_security_code">セキュリティコード</string>
+	<string name="xml_entry_card_name">名義</string>
+	<string name="xml_entry_card_name_sample">TAROU YAMADA</string>
+	<string name="xml_entry_card_expire_date">有効期限</string>
+	<string name="xml_entry_card_month">月</string>
+	<string name="xml_entry_card_year">年</string>
+	<string name="xml_entry_card_btn_next">内容確認へ</string>
+	<string name="xml_entry_card_warning_msg">ログインされたアカウントには決済情報が登録されていません。\n決済情報を登録してください。</string>
+
+	<!-- fragment_entry_input.xml -->
+	<string name="xml_entry_input_name">名前</string>
+	<string name="xml_entry_input_fname">氏</string>
+	<string name="xml_entry_input_gname">名</string>
+	<string name="xml_entry_input_maddr">メールアドレス</string>
+	<string name="xml_entry_input_maddr_sample">hogehoge@mail.com</string>
+	<string name="xml_entry_input_msg1">携帯メールアドレスの場合はspacee.jpを受信許可してください。\n後ほど、登録確認のメールを送信致します。\nお間違えのないようにお願い致します。</string>
+	<string name="xml_entry_input_password">パスワード</string>
+	<string name="xml_entry_input_msg2">パスワードは半角英数8文字以上で入力してください</string>
+	<string name="xml_entry_input_btn_next">支払い情報の入力へ</string>
+
+	<!-- fragment_entry_invoice.xml -->
+	<string name="xml_entry_invoice_by_card">クレジットカード</string>
+	<string name="xml_entry_invoice_by_invoice">請求書支払い</string>
+	<string name="xml_entry_invoice_company">会社名</string>
+	<string name="xml_entry_invoice_company_hint">株式会社Spacee</string>
+	<string name="xml_entry_invoice_name">担当者名</string>
+	<string name="xml_entry_invoice_name_hint">山田太郎</string>
+	<string name="xml_entry_invoice_pcode">郵便番号（ハイフン無し）</string>
+	<string name="xml_entry_invoice_pcode_hint">1500032</string>
+	<string name="xml_entry_invoice_addr1">住所（都道府県市区）</string>
+	<string name="xml_entry_invoice_addr1_hint">東京都渋谷区</string>
+	<string name="xml_entry_invoice_addr2">住所（以降）</string>
+	<string name="xml_entry_invoice_addr2_hint">桜ケ丘20-12</string>
+	<string name="xml_entry_invoice_phone">電話番号(ハイフン無し)</string>
+	<string name="xml_entry_invoice_phone_hint">0312345678</string>
+	<string name="xml_entry_invoice_btn_next">利用規約の同意へ</string>
+
+	<!-- fragment_entry_policy.xml -->
+	<string name="xml_entry_policy_check_agree">利用規約に同意する</string>
+	<string name="xml_entry_policy_btn_reg">スペイシ―に登録</string>
+
+	<!-- fragment_link_complete.xml -->
+	<string name="xml_link_complete_msg">連携しました</string>
+	<string name="xml_link_complete_ic_info">IC情報</string>
+	<string name="xml_link_complete_account">Spaceeアカウント</string>
+	<string name="xml_link_complete_btn_next">決済へ</string>
+
+	<!-- fragment_login_ic.xml -->
+	<string name="xml_login_ic_msg1">ＩＣリーダーにＩＣカード・ＩＣ付き携帯を\nかざしてください</string>
+	<string name="xml_login_ic_card_type">対応規格</string>
+	<string name="xml_login_ic_card_sample">SUICA / PASMO / iPhone7(ApplePay)\nSUICA / PASMO</string>
+	<string name="xml_login_ic_msg2">お持ちでない方は\n別のログイン方法をご利用ください</string>
+	<string name="xml_login_ic_btn_login_qr">ＱＲコードでログイン</string>
+	<string name="xml_login_ic_btn_login_pw">ID/パスワードでログイン</string>
+
+	<!-- fragment_login_pw.xml -->
+	<string name="xml_login_pw_id">ＩＤ</string>
+	<string name="xml_login_pw_msg1">ＩＤを入力してください</string>
+	<string name="xml_login_pw_password">パスワード</string>
+	<string name="xml_login_pw_msg2">パスワードを入力してください</string>
+	<string name="xml_login_pw_btn_login">ログイン</string>
+
+	<!-- fragment_login_qr.xml -->
+	<string name="xml_login_qr_msg">枠にＱＲコードを合わせてください</string>
+
+	<!-- fragment_meeting_detail.xml -->
+	<string name="xml_meeting_detail_capacity1">収容人数</string>
+	<string name="xml_meeting_detail_square">広さ</string>
+	<string name="xml_meeting_detail_equipment">設備</string>
+	<string name="xml_meeting_detail_date"> MM月dd日(今日)</string>
+	<string name="xml_meeting_detail_status">利用可</string>
+	<string name="xml_meeting_detail_capacity2">最大 10 人</string>
+	<string name="xml_meeting_detail_checkin">チェックイン</string>
+	<string name="xml_meeting_detail_usage">ご利用時間</string>
+	<string name="xml_meeting_detail_hour">時間</string>
+	<string name="xml_meeting_detail_minute">分</string>
+	<string name="xml_meeting_detail_psn">人</string>
+	<string name="xml_meeting_detail_plan">料金プラン</string>
+	<string name="xml_meeting_detail_amount">ご利用料金</string>
+	<string name="xml_meeting_detail_yen">円</string>
+	<string name="xml_meeting_detail_btn_rent">このスペースを借りる</string>
+
+	<!-- fragment_order_complete.xml -->
+	<string name="xml_order_complete_msg1">チェックインしました。お時間までご利用ください</string>
+	<string name="xml_order_complete_btn_floor_guide">フロアガイド</string>
+	<string name="xml_order_complete_space_name">スペース名</string>
+	<string name="xml_order_complete_title">コワーキングスペース</string>
+	<string name="xml_order_complete_date">日付</string>
+	<string name="xml_order_complete_checkin">チェックイン</string>
+	<string name="xml_order_complete_checkout">チェックアウト</string>
+	<string name="xml_order_complete_month">月</string>
+	<string name="xml_order_complete_day">日</string>
+	<string name="xml_order_complete_from">から</string>
+	<string name="xml_order_complete_to">まで</string>
+	<string name="xml_order_complete_payment">お支払い</string>
+	<string name="xml_order_complete_amount">1,400円</string>
+	<string name="xml_order_complete_usage">ご利用方法</string>
+	<string name="xml_order_complete_msg2">廊下をまっすぐ行き、突き当たりを左に行くと左手にあります。\n鍵は「5895」で開くことができます</string>
+	<string name="xml_order_complete_msg3">チェックイン内容は登録されているメールアドレス宛にもお送りしていますので、ご確認ください。</string>
+	<string name="xml_order_complete_btn_gohome">ログアウトして、ホームに戻る</string>
+
+	<!-- fragment_order_confirm.xml -->
+	<string name="xml_order_confirm_msg1">決済方法を選択してください</string>
+	<string name="xml_order_confirm_space_name">ご利用スペース</string>
+	<string name="xml_order_confirm_title1">ミーティングスペースＡ</string>
+	<string name="xml_order_confirm_detail">詳細を見る</string>
+	<string name="xml_order_confirm_date">日付</string>
+	<string name="xml_order_confirm_checkin">チェックイン</string>
+	<string name="xml_order_confirm_checkout">チェックアウト</string>
+	<string name="xml_order_confirm_psnno">人数</string>
+	<string name="xml_order_confirm_month">月</string>
+	<string name="xml_order_confirm_day">日</string>
+	<string name="xml_order_confirm_from">から</string>
+	<string name="xml_order_confirm_to">まで</string>
+	<string name="xml_order_confirm_psn">人で</string>
+	<string name="xml_order_confirm_plan">料金プラン</string>
+	<string name="xml_order_confirm_payment">お支払い</string>
+	<string name="xml_order_confirm_play_hint">17:00～18:00   600円/1h\n18:00～19:00   600円/1h\n19:00～20:00   600円/1h\n20:00～21:00   600円/1h</string>
+	<string name="xml_order_confirm_title2">スペースの利用料金</string>
+	<string name="xml_order_confirm_amount1">1,600円</string>
+	<string name="xml_order_confirm_btn_use_coupon">クーポンを利用する</string>
+	<string name="xml_order_confirm_title3">クーポンの割引</string>
+	<string name="xml_order_confirm_discount">500円</string>
+	<string name="xml_order_confirm_amount2">￥1,600</string>
+	<string name="xml_order_confirm_btn_checkin">決済して、チェックインする</string>
+	<string name="xml_order_confirm_coupon_code">クーポンコードの入力</string>
+	<string name="xml_order_confirm_ccode_hint">AA100</string>
+	<string name="xml_order_confirm_btn_apply">適 用</string>
+	<string name="xml_order_confirm_msg2">※ クーポンは利用期限内に１回に限り利用が出来ます。</string>
+	<string name="xml_order_confirm_msg3">※ 決済方法にクレジットカードをご選択頂いており\n　合計が５０円未満となった場合、システム利用料と\n　して５０円を請求致します。</string>
+
+	<!-- fragment_provider_login.xml -->
+	<string name="xml_provider_login_id">ＩＤ</string>
+	<string name="xml_provider_login_msg1">ＩＤを入力してください</string>
+	<string name="xml_provider_login_password">パスワード</string>
+	<string name="xml_provider_login_msg2">パスワードを入力してください</string>
+	<string name="xml_provider_login_btn_login">ログイン</string>
+
+	<!-- fragment_rule_guide.xml -->
+	<string name="xml_rule_guide_welcome">初めてご利用の方へ</string>
+	<string name="xml_rule_guide_about_spacee">スペイシ―について</string>
+
+	<!-- fragment_start_link.xml -->
+	<string name="xml_start_link_msg1">ログイン方法を選択してください</string>
+	<string name="xml_start_link_btn_login_qr">アプリのＱＲコード</string>
+	<string name="xml_start_link_btn_login_pw">ＩＤ／パスワードを入力</string>
+	<string name="xml_start_link_msg2">未会員の方は会員登録を\n行って下さい</string>
+	<string name="xml_start_link_btn_reg_by_app">アプリで会員登録</string>
+	<string name="xml_start_link_btn_reg_by_input">この端末で会員登録</string>
+
+	<!-- fragment_tablet_portrait.xml -->
+	<string name="xml_tablet_portrait_msg">ログイン方法を選択してください</string>
+	<string name="xml_tablet_portrait_btn_login_ic">ICカード・IC付携帯</string>
+	<string name="xml_tablet_portrait_btn_login_qr">アプリのＱＲコード</string>
+	<string name="xml_tablet_portrait_btn_login_pw">ＩＤ／パスワードを入力</string>
+
+	<!-- fragment_top.xml -->
+	<string name="xml_top_msg">初期設定中・・しばらくお待ちください</string>
+
+	<!-- fragment_work_detail.xml -->
+	<string name="xml_work_detail_capacity1">収容人数</string>
+	<string name="xml_work_detail_square">広さ</string>
+	<string name="xml_work_detail_equipment">設備</string>
+	<string name="xml_work_detail_date"> MM月dd日(今日)</string>
+	<string name="xml_work_detail_status">利用可</string>
+	<string name="xml_work_detail_capacity2">最大 10 人</string>
+	<string name="xml_work_detail_checkin">チェックイン</string>
+	<string name="xml_work_detail_usage">ご利用時間</string>
+	<string name="xml_work_detail_hour">時間</string>
+	<string name="xml_work_detail_minute">分</string>
+	<string name="xml_work_detail_plan">料金プラン</string>
+	<string name="xml_work_detail_amount">ご利用料金</string>
+	<string name="xml_work_detail_yen">円</string>
+	<string name="xml_work_detail_btn_rent">このスペースを借りる</string>
+
+	<!-- layout_guide_list.xml -->
+	<string name="xml_guide_list_title">ガイド</string>
+
+	<!-- layout_list_book.xml -->
+	<string name="xml_list_book_checkin">チェックイン</string>
+	<string name="xml_list_book_checkout">チェックアウト</string>
+	<string name="xml_list_book_status">利用可能</string>
+
+	<!-- layout_list_meetingroom.xml -->
+	<string name="xml_list_meetingroom_unit_price">円/1h</string>
+
+	<!-- ayout_list_workroom.xml -->
+	<string name="xml_list_workroom_unit_price">円/1h</string>
+
+	<!-- layout_payment_list.xml -->
+	<string name="xml_payment_list_payment">支払方法</string>
+	<string name="xml_payment_list_pay_psn">支払者</string>
+
+	<!-- window_title.xml -->
+	<string name="xml_window_title_init_msg">初期設定中・・しばらくお待ちください</string>
+	<string name="xml_window_title_date">yyyy年MM月dd日(E)</string>
+
+	<!--  -->
+
+
+
 </resources>

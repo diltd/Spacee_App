@@ -33,6 +33,11 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 {
 	private						ListView						bookListView	= null;
 
+	private						RelativeLayout 					errLayout		= null;
+	private						TextView						title			= null;
+	private						TextView						content			= null;
+	private						ImageView						msgOff			= null;
+
 	private						List<HashMap<String, String>>	seatsList		= null;
 	private						SimpleAdapter 					adapter			= null;
 
@@ -48,6 +53,11 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 	public void onListProcess(View view)
 	{
 		bookListView = (ListView)	view.findViewById(R.id.workSeats) ;
+
+		errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
+		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
+		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
+		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
 
 		retrieveBookingData(view);
 
@@ -70,70 +80,70 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 		{
 			try
 			{
-				seatsList = new ArrayList<HashMap<String, String>>();
 				JSONObject	obj1 = new JSONObject(result);
-				JSONArray	arr1 = obj1.getJSONArray("pre_bookings");
-				if (arr1 != null)
+				if (obj1 != null)
 				{
-					for (i=0; i<arr1.length(); i++)
-					{
-						java.util.HashMap<String, String> map = new java.util.HashMap<String, String>();
-						JSONObject obj2 = arr1.getJSONObject(i);
-						JSONObject obj3 = obj2.getJSONObject("listing");
-						map.put("id",			"" + obj3.getInt("id"));
-						map.put("title",		obj3.getString("title"));
-						JSONObject obj4 = new JSONObject(obj3.getString("thumb"));
-						map.put("thumb_url",	obj4.getString("url"));
-						map.put("subtitle",	obj3.getString("subtitle"));
-						JSONArray  arr2 = obj3.getJSONArray("equipments");
-						wStr = "";
-						for (k=0; k<arr2.length(); k++)
+//					String	rc = obj1.getString("status");
+//					if (rc.equals("ok"))
+//					{
+						seatsList = new ArrayList<HashMap<String, String>>();
+						JSONArray	arr1 = obj1.getJSONArray("pre_bookings");
+						if (arr1 != null)
 						{
-							if (wStr.equals(""))
-									wStr += arr2.getString(k);
-							else	wStr += ("/" + arr2.getString(k));
+							for (i=0; i<arr1.length(); i++)
+							{
+								java.util.HashMap<String, String> map = new java.util.HashMap<String, String>();
+								JSONObject obj2 = arr1.getJSONObject(i);
+								JSONObject obj3 = obj2.getJSONObject("listing");
+								map.put("id",			"" + obj3.getInt("id"));
+								map.put("title",		obj3.getString("title"));
+								JSONObject obj4 = new JSONObject(obj3.getString("thumb"));
+								map.put("thumb_url",	obj4.getString("url"));
+								map.put("subtitle",	obj3.getString("subtitle"));
+								JSONArray  arr2 = obj3.getJSONArray("equipments");
+								wStr = "";
+								for (k=0; k<arr2.length(); k++)
+								{
+									if (wStr.equals(""))
+											wStr += arr2.getString(k);
+									else	wStr += ("/" + arr2.getString(k));
+								}
+								map.put("equipments",	wStr);
+								JSONObject obj5 = obj2.getJSONObject("pre_booking");
+								try
+								{
+									SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+									Date wDate = sdf.parse(obj5.getString("start_at"));
+									map.put("startDate", new SimpleDateFormat("MM月dd日").format(wDate));
+									map.put("startTime", new SimpleDateFormat("hh:mm").format(wDate));
+									wDate =  sdf.parse(obj5.getString("end_at"));
+									map.put("endDate", new SimpleDateFormat("MM月dd日").format(wDate));
+									map.put("endTime", new SimpleDateFormat("hh:mm").format(wDate));
+								}
+								catch (java.text.ParseException e)
+								{
+									e.printStackTrace();
+								}
+								map.put("price",		obj5.getString("price"));
+								seatsList.add(map);
+							}
 						}
-						map.put("equipments",	wStr);
-						JSONObject obj5 = obj2.getJSONObject("pre_booking");
-						try
+						else
 						{
-							SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
-							Date wDate = sdf.parse(obj5.getString("start_at"));
-							map.put("startDate", new SimpleDateFormat("MM月dd日").format(wDate));
-							map.put("startTime", new SimpleDateFormat("hh:mm").format(wDate));
-							wDate =  sdf.parse(obj5.getString("end_at"));
-							map.put("endDate", new SimpleDateFormat("MM月dd日").format(wDate));
-							map.put("endTime", new SimpleDateFormat("hh:mm").format(wDate));
+							showErrorMsg("エラー", null, "");
+							return;
 						}
-						catch (java.text.ParseException e)
-						{
-							e.printStackTrace();
-						}
-						map.put("price",		obj5.getString("price"));
-						seatsList.add(map);
-					}
+//					}
+//					else
+//					{
+//						showErrorMsg("エラー", obj1, "");
+//						return;
+//					}
 				}
-
-				if (seatsList.size() == 0)
+				else
 				{
-					errLayout.setVisibility(View.VISIBLE);
-					title.setText("予約なし");
-					content.setText("予約がありません");
-
-					ReceiptTabApplication.isMsgShown =true;
-
-					msgOff.setOnClickListener(new View.OnClickListener()
-					{
-						@Override
-						public void onClick(View v)
-						{
-							ReceiptTabApplication.isMsgShown =false;
-
-							Message msg = new Message();
-							msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
-							SpaceeAppMain.mMsgHandler.sendMessage(msg);
-						}
-					});
+					showErrorMsg("エラー", null, "");
+					return;
 				}
 			}
 			catch (org.json.JSONException e)
@@ -141,7 +151,16 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 				e.printStackTrace();
 				return;
 			}
+		}
+		else
+		{
+			showErrorMsg("通信エラー", null, "");
+			return;
+		}
 
+
+		if (seatsList.size() > 0)
+		{
 			String[]	urls = new String[seatsList.size()];
 			for (i=0; i<seatsList.size(); i++)
 			{
@@ -153,24 +172,8 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 		}
 		else
 		{
-			errLayout.setVisibility(View.VISIBLE);
-			title.setText("通信エラー");
-			content.setText("データがありません");
-
-			ReceiptTabApplication.isMsgShown =true;
-
-			msgOff.setOnClickListener(new View.OnClickListener()
-			{
-				@Override
-				public void onClick(View v)
-				{
-					ReceiptTabApplication.isMsgShown =false;
-
-					Message msg = new Message();
-					msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
-					SpaceeAppMain.mMsgHandler.sendMessage(msg);
-				}
-			});
+			showErrorMsg("予約なし", null, "予約がありません");
+			return;
 		}
 	}
 
@@ -227,6 +230,68 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 			}
 		});
 	}
-};
 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private  void  showErrorMsg(String ttl, JSONObject jsonObj, String orgMsg)
+	{
+		int		i;
+		String	errMsg;
+
+		if (jsonObj != null)
+		{
+			try
+			{
+				org.json.JSONArray arr1 = jsonObj.getJSONArray("error_messages");
+				errMsg = "";
+				for (i=0; i<arr1.length(); i++)
+				{
+					errMsg += (arr1.getString(i) + "\n");
+				}
+			}
+			catch (org.json.JSONException e)
+			{
+				e.printStackTrace();
+				return;
+			}
+		}
+		else
+		{
+			if (orgMsg.equals("") == false)
+					errMsg = orgMsg;
+			else	errMsg = "データが取得できませんでした";
+		}
+
+		errLayout.setVisibility(View.VISIBLE);
+		title.setText(ttl);
+		content.setText(errMsg);
+
+		ReceiptTabApplication.isMsgShown =true;
+
+		msgOff.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				ReceiptTabApplication.isMsgShown =false;
+
+				android.os.Message msg = new android.os.Message();
+				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.arg1 = 2;									//	id/pw ng
+				SpaceeAppMain.mMsgHandler.sendMessage(msg);
+			}
+		});
+
+		//	メッセージの下のエレメントをタップしても拾わないようにするため
+		errLayout.setOnClickListener(new android.view.View.OnClickListener()
+		{
+			@Override
+			public void onClick(android.view.View v)
+			{
+			}
+		});
+	}
+}
 

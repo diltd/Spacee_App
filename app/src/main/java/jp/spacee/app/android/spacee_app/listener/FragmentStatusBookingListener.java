@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import java.util.Calendar;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +34,13 @@ import jp.spacee.app.android.spacee_app.R;
 public  class  FragmentStatusBookingListener  implements  jp.spacee.app.android.spacee_app.fragment.FragmentStatusBooking.FragmentInteractionListener
 {
 	private								ListView					bookingStatusList	= null;
+	private								TextView[]					monthName			= null;
+	private								View[]						monthMark			= null;
+
+	private								RelativeLayout 				errLayout			= null;
+	private								TextView					title				= null;
+	private								TextView					content				= null;
+	private								ImageView					msgOff				= null;
 
 	private								ArrayList<HashMap<String, String>>	daylyList	= null;
 
@@ -90,9 +98,36 @@ public  class  FragmentStatusBookingListener  implements  jp.spacee.app.android.
 
 
 	@Override
-	public void onListProcess(android.widget.ListView view)
+	public void onListProcess(View view)
 	{
-		bookingStatusList = view;
+		int		i, month;
+
+		bookingStatusList	= (ListView)	view.findViewById(R.id.bookingStatus);
+
+		monthName	  = new TextView[6];
+		monthName[0] = (TextView)	view.findViewById(R.id.monthName1);
+		monthName[1] = (TextView)	view.findViewById(R.id.monthName2);
+		monthName[2] = (TextView)	view.findViewById(R.id.monthName3);
+		monthName[3] = (TextView)	view.findViewById(R.id.monthName4);
+		monthName[4] = (TextView)	view.findViewById(R.id.monthName5);
+		monthName[5] = (TextView)	view.findViewById(R.id.monthName6);
+
+		monthMark	  = new android.view.View[6];
+		monthMark[0] = (View)		view.findViewById(R.id.monthMark1);
+		monthMark[1] = (View)		view.findViewById(R.id.monthMark2);
+		monthMark[2] = (View)		view.findViewById(R.id.monthMark3);
+		monthMark[3] = (View)		view.findViewById(R.id.monthMark4);
+		monthMark[4] = (View)		view.findViewById(R.id.monthMark5);
+		monthMark[5] = (View)		view.findViewById(R.id.monthMark6);
+
+		Calendar  cal = Calendar.getInstance();
+		month = cal.get(Calendar.MONTH) + 1;			//	0 rorigin   jan=0 feb=1... -> +1
+		for (i=0; i<6; i++)
+		{
+			if ((month+i) <= 12)
+					monthName[i].setText(String.format("%02d月", (month+i)));
+			else	monthName[i].setText(String.format("%02d月", (month+i-12)));
+		}
 
 		redrawBookingSchedules(0);
 	}
@@ -101,6 +136,13 @@ public  class  FragmentStatusBookingListener  implements  jp.spacee.app.android.
 	private  void  redrawBookingSchedules(int eno)
 	{
 		int		i, year, month, day, dayNo, stNo;
+
+		for (i=0; i<6; i++)
+		{
+			monthMark[i].setBackgroundColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.white));
+		}
+		monthMark[eno].setBackgroundColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.spacee_blue));
+
 
 		Calendar  cal = Calendar.getInstance();
 		year	= cal.get(Calendar.YEAR);
@@ -221,58 +263,77 @@ public  class  FragmentStatusBookingListener  implements  jp.spacee.app.android.
 		{
 			try
 			{
-				daylyList = new ArrayList<HashMap<String, String>>();
 				JSONObject	obj1 = new JSONObject(result);
-				JSONObject	obj2 = obj1.getJSONObject("listing");
-				JSONArray	arr1 = obj2.getJSONArray("room_calendars");
-				if (arr1 != null)
+				if (obj1 != null)
 				{
-					for (i=0; i<arr1.length(); i++)
+					String	rc = obj1.getString("status");
+					if (rc.equals("ok"))
 					{
-						HashMap<String, String> map = new HashMap<String, String>();
-
-						JSONObject obj3 = arr1.getJSONObject(i);
-						JSONObject obj4 = obj3.getJSONObject("calendar");
-						try
+						daylyList = new ArrayList<HashMap<String, String>>();
+						JSONObject	obj2 = obj1.getJSONObject("listing");
+						JSONArray	arr1 = obj2.getJSONArray("room_calendars");
+						if (arr1 != null)
 						{
-							SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-							Date	wDate	= sdf1.parse(obj4.getString("date"));
-							map.put("date", new SimpleDateFormat("dd").format(wDate));
-							JSONObject obj5 = obj4.getJSONObject("room_calendar");
-							SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-							wDate	= sdf2.parse(obj5.getString("start_at"));
-							wStr1	= new SimpleDateFormat("HH").format(wDate);
-							wStr2	= new SimpleDateFormat("mm").format(wDate);
-							map.put("bgnTime", String.format("%d", (Integer.parseInt(wStr1)*60 + Integer.parseInt(wStr2))));
-							wDate	= sdf2.parse(obj5.getString("end_at"));
-							wStr1	= new SimpleDateFormat("HH").format(wDate);
-							wStr2	= new SimpleDateFormat("mm").format(wDate);
-							map.put("endTime", String.format("%d", (Integer.parseInt(wStr1)*60 + Integer.parseInt(wStr2))));
-							JSONArray  arr2 = obj4.getJSONArray("room_schedules");
-							map.put("schedNo", String.format("%d", arr2.length()));
-							for (k=0; k<arr2.length(); k++)
+							for (i=0; i<arr1.length(); i++)
 							{
-								JSONObject obj6 = arr2.getJSONObject(k);
-								wDate	= sdf2.parse(obj6.getString("start_at"));
-								wStr1	= new SimpleDateFormat("HH").format(wDate);
-								wStr2	= new SimpleDateFormat("mm").format(wDate);
-								map.put(String.format("bgnTm%d", (k+1)), String.format("%d", (Integer.parseInt(wStr1)*60 + Integer.parseInt(wStr2))));
-								wDate	= sdf2.parse(obj6.getString("end_at"));
-								wStr1	= new SimpleDateFormat("HH").format(wDate);
-								wStr2	= new SimpleDateFormat("mm").format(wDate);
-								map.put(String.format("endTm%d", (k+1)), String.format("%d", (Integer.parseInt(wStr1)*60 + Integer.parseInt(wStr2))));
+								HashMap<String, String> map = new HashMap<String, String>();
+
+								JSONObject obj3 = arr1.getJSONObject(i);
+								JSONObject obj4 = obj3.getJSONObject("calendar");
+								try
+								{
+									SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+									Date	wDate	= sdf1.parse(obj4.getString("date"));
+									map.put("date", new SimpleDateFormat("dd").format(wDate));
+									JSONObject obj5 = obj4.getJSONObject("room_calendar");
+									SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+									wDate	= sdf2.parse(obj5.getString("start_at"));
+									wStr1	= new SimpleDateFormat("HH").format(wDate);
+									wStr2	= new SimpleDateFormat("mm").format(wDate);
+									map.put("bgnTime", String.format("%d", (Integer.parseInt(wStr1)*60 + Integer.parseInt(wStr2))));
+									wDate	= sdf2.parse(obj5.getString("end_at"));
+									wStr1	= new SimpleDateFormat("HH").format(wDate);
+									wStr2	= new SimpleDateFormat("mm").format(wDate);
+									map.put("endTime", String.format("%d", (Integer.parseInt(wStr1)*60 + Integer.parseInt(wStr2))));
+									JSONArray  arr2 = obj4.getJSONArray("room_schedules");
+									map.put("schedNo", String.format("%d", arr2.length()));
+									for (k=0; k<arr2.length(); k++)
+									{
+										JSONObject obj6 = arr2.getJSONObject(k);
+										wDate	= sdf2.parse(obj6.getString("start_at"));
+										wStr1	= new SimpleDateFormat("HH").format(wDate);
+										wStr2	= new SimpleDateFormat("mm").format(wDate);
+										map.put(String.format("bgnTm%d", (k+1)), String.format("%d", (Integer.parseInt(wStr1)*60 + Integer.parseInt(wStr2))));
+										wDate	= sdf2.parse(obj6.getString("end_at"));
+										wStr1	= new SimpleDateFormat("HH").format(wDate);
+										wStr2	= new SimpleDateFormat("mm").format(wDate);
+										map.put(String.format("endTm%d", (k+1)), String.format("%d", (Integer.parseInt(wStr1)*60 + Integer.parseInt(wStr2))));
+									}
+									daylyList.add(map);
+								}
+								catch (java.text.ParseException e)
+								{
+									e.printStackTrace();
+									return;
+								}
 							}
-							daylyList.add(map);
 						}
-						catch (java.text.ParseException e)
+						else
 						{
-							e.printStackTrace();
+							showErrorMsg("エラー", null, "");
+							return;
 						}
+					}
+					else
+					{
+						showErrorMsg("エラー", obj1, "");
+						return;
 					}
 				}
 				else
 				{
-
+					showErrorMsg("エラー", null, "");
+					return;
 				}
 			}
 			catch (org.json.JSONException e)
@@ -281,9 +342,10 @@ public  class  FragmentStatusBookingListener  implements  jp.spacee.app.android.
 				return;
 			}
 		}
-		else			//	エラー
+		else
 		{
-
+			showErrorMsg("エラー", null, "");
+			return;
 		}
 	}
 
@@ -348,5 +410,68 @@ public  class  FragmentStatusBookingListener  implements  jp.spacee.app.android.
 		}
 
 		sched.setImageBitmap(bmp);
+	}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private  void  showErrorMsg(String ttl, JSONObject jsonObj, String orgMsg)
+	{
+		int		i;
+		String	errMsg;
+
+		if (jsonObj != null)
+		{
+			try
+			{
+				org.json.JSONArray arr1 = jsonObj.getJSONArray("error_messages");
+				errMsg = "";
+				for (i=0; i<arr1.length(); i++)
+				{
+					errMsg += (arr1.getString(i) + "\n");
+				}
+			}
+			catch (org.json.JSONException e)
+			{
+				e.printStackTrace();
+				return;
+			}
+		}
+		else
+		{
+			if (orgMsg.equals("") == false)
+					errMsg = orgMsg;
+			else	errMsg = "データが取得できませんでした";
+		}
+
+		errLayout.setVisibility(View.VISIBLE);
+		title.setText(ttl);
+		content.setText(errMsg);
+
+		ReceiptTabApplication.isMsgShown =true;
+
+		msgOff.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				ReceiptTabApplication.isMsgShown =false;
+
+				android.os.Message msg = new android.os.Message();
+				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.arg1 = 2;									//	id/pw ng
+				SpaceeAppMain.mMsgHandler.sendMessage(msg);
+			}
+		});
+
+		//	メッセージの下のエレメントをタップしても拾わないようにするため
+		errLayout.setOnClickListener(new android.view.View.OnClickListener()
+		{
+			@Override
+			public void onClick(android.view.View v)
+			{
+			}
+		});
 	}
 }

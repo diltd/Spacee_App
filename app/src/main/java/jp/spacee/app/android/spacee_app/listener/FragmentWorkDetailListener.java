@@ -45,6 +45,7 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 	private						ListView						priceList		= null;
 	private 					TextView						amount			= null;
 	private 					TextView						btnSelect		= null;
+
 	private						RelativeLayout					errLayout		= null;
 	private 					TextView						title			= null;
 	private 					TextView						content			= null;
@@ -121,35 +122,54 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 			try
 			{
 				JSONObject obj1 = new JSONObject(result);
-				JSONObject obj2 = obj1.getJSONObject("listing");
-				if (obj2 != null)
+				if (obj1 != null)
 				{
-					JSONObject obj3 = new JSONObject(obj2.getString("thumb"));
-					detail_thumb_url	= new String[1];
-					detail_thumb_url[0]	= obj3.getString("url");
-					capacity.setText(String.format("～%d人", obj2.getInt("capacity")));
-					areaSquare.setText(String.format("%d㎡", obj2.getInt("square")));
-					JSONArray  arr1 = obj2.getJSONArray("equipments");
-					wStr = "";
-					for (i=0; i<arr1.length(); i++)
-					{
-						wStr += (String.format("●%s\n", arr1.getString(i)));
-					}
-					facilities.setText(wStr);
-					if (obj2.getInt("available_amount") > 0)
-							status.setText("利用可");
-					else	status.setText("満員中");
-					availNo.setText(String.format("%s/%s 席", obj2.getInt("available_amount"), obj2.getInt("capacity")));
+//					String	rc = obj1.getString("status");
+//					if (rc.equals("ok"))
+//					{
+						JSONObject obj2 = obj1.getJSONObject("listing");
+						if (obj2 != null)
+						{
+							JSONObject obj3 = new JSONObject(obj2.getString("thumb"));
+							detail_thumb_url	= new String[1];
+							detail_thumb_url[0]	= obj3.getString("url");
+							capacity.setText(String.format(ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_psn_no), obj2.getInt("capacity")));
+							areaSquare.setText(String.format(ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_square), obj2.getInt("square")));
+							JSONArray  arr1 = obj2.getJSONArray("equipments");
+							wStr = "";
+							for (i=0; i<arr1.length(); i++)
+							{
+								wStr += (String.format(ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_equipment), arr1.getString(i)));
+							}
+							facilities.setText(wStr);
+							if (obj2.getInt("available_amount") > 0)
+									status.setText(ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_avail));
+							else	status.setText(ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_full));
+							availNo.setText(String.format("%s/%s", obj2.getInt("available_amount"), obj2.getInt("capacity"))
+											+ ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_seat_no));
 
-					minBookUnit	= obj2.getInt("min_booking_minutes");
-					bookStep		= obj2.getInt("booking_minute_step");
+							minBookUnit	= obj2.getInt("min_booking_minutes");
+							bookStep		= obj2.getInt("booking_minute_step");
 
-					roomThumnails = SpaceeAppMain.httpCommGlueRoutines.downloadBitmaps(detail_thumb_url);
-					imgSpace.setImageBitmap(roomThumnails[0]);
+							roomThumnails = SpaceeAppMain.httpCommGlueRoutines.downloadBitmaps(detail_thumb_url);
+							imgSpace.setImageBitmap(roomThumnails[0]);
+						}
+						else
+						{
+							showErrorMsg("エラー", null, "");
+							return;
+						}
+//					}
+//					else
+//					{
+//						showErrorMsg("エラー", obj1, "");
+//						return;
+//					}
 				}
 				else
 				{
-					showErrorMsg();
+					showErrorMsg("エラー", null, "");
+					return;
 				}
 			}
 			catch (org.json.JSONException e)
@@ -160,7 +180,8 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 		}
 		else
 		{
-			showErrorMsg();
+			showErrorMsg("通信エラー", null, "");
+			return;
 		}
 
 		setSpinnerValue();
@@ -175,33 +196,52 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 			try
 			{
 				JSONObject obj1 = new JSONObject(result);
-				JSONObject obj2 = obj1.getJSONObject("price_plans");
-				if (obj2 != null)
+				if (obj1 != null)
 				{
-					JSONArray	arr1 = obj2.getJSONArray("plan");
-					for (i=0; i<arr1.length(); i++)
-					{
-						JSONObject	obj3 = arr1.getJSONObject(i);
-						ArrayAdapter<String> adapter = new ArrayAdapter<String>(ReceiptTabApplication.AppContext, android.R.layout.simple_list_item_1);
-						try
+//					String	rc = obj1.getString("status");
+//					if (rc.equals("ok"))
+//					{
+						JSONObject obj2 = obj1.getJSONObject("price_plans");
+						if (obj2 != null)
 						{
-							SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-							Date wDate = sdf.parse(obj3.getString("start_at"));
-							wStr   = (new SimpleDateFormat("hh:mm").format(wDate));
-							wDate  = sdf.parse(obj3.getString("end_at"));
-							wStr  += ("-" + new SimpleDateFormat("hh:mm").format(wDate));
-							adapter.add(String.format("%s%,10d円/1h\n", wStr, obj3.getInt("price")));
+							JSONArray	arr1 = obj2.getJSONArray("plan");
+							for (i=0; i<arr1.length(); i++)
+							{
+								JSONObject	obj3 = arr1.getJSONObject(i);
+								ArrayAdapter<String> adapter = new ArrayAdapter<String>(ReceiptTabApplication.AppContext, android.R.layout.simple_list_item_1);
+								try
+								{
+									SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+									Date wDate = sdf.parse(obj3.getString("start_at"));
+									wStr   = (new SimpleDateFormat("hh:mm").format(wDate));
+									wDate  = sdf.parse(obj3.getString("end_at"));
+									wStr  += ("-" + new SimpleDateFormat("hh:mm").format(wDate));
+									adapter.add(String.format("%s%,10d円/1h\n", wStr, obj3.getInt("price")));
+								}
+								catch (java.text.ParseException e)
+								{
+									e.printStackTrace();
+									return;
+								}
+								priceList.setAdapter(adapter);
+							}
 						}
-						catch (java.text.ParseException e)
+						else
 						{
-							e.printStackTrace();
+							showErrorMsg("エラー", null, "");
+							return;
 						}
-						priceList.setAdapter(adapter);
-					}
+//					}
+//					else
+//					{
+//						showErrorMsg("エラー", obj1, "");
+//						return;
+//					}
 				}
 				else
 				{
-					showErrorMsg();
+					showErrorMsg("エラー", null, "");
+					return;
 				}
 			}
 			catch (org.json.JSONException e)
@@ -212,7 +252,8 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 		}
 		else
 		{
-			showErrorMsg();
+			showErrorMsg("エラー", null, "");
+			return;
 		}
 
 
@@ -299,38 +340,6 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 	}
 
 
-	private void showErrorMsg()
-	{
-		errLayout.setVisibility(View.VISIBLE);
-		title.setText("通信エラー");
-		content.setText("データが取得できません");
-
-		ReceiptTabApplication.isMsgShown =true;
-
-		msgOff.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				ReceiptTabApplication.isMsgShown =false;
-
-				Message msg = new Message();
-				msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
-				SpaceeAppMain.mMsgHandler.sendMessage(msg);
-			}
-		});
-
-		//	メッセージの下のエレメントをタップしても拾わないようにするため
-		errLayout.setOnClickListener(new android.view.View.OnClickListener()
-		{
-			@Override
-			public void onClick(android.view.View v)
-			{
-			}
-		});
-	}
-
-
 	private  void  drawSchedule(ImageView view)
 	{
 		//		float	ratio	= SpaceeAppMain.scale * 3 / 4;
@@ -357,6 +366,69 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 		cvs.drawRect( 0,  5, 880, 95, paint2);
 
 		view.setImageBitmap(bmp);
+	}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private  void  showErrorMsg(String ttl, JSONObject jsonObj, String orgMsg)
+	{
+		int		i;
+		String	errMsg;
+
+		if (jsonObj != null)
+		{
+			try
+			{
+				org.json.JSONArray arr1 = jsonObj.getJSONArray("error_messages");
+				errMsg = "";
+				for (i=0; i<arr1.length(); i++)
+				{
+					errMsg += (arr1.getString(i) + "\n");
+				}
+			}
+			catch (org.json.JSONException e)
+			{
+				e.printStackTrace();
+				return;
+			}
+		}
+		else
+		{
+			if (orgMsg.equals("") == false)
+					errMsg = orgMsg;
+			else	errMsg = "データが取得できませんでした";
+		}
+
+		errLayout.setVisibility(View.VISIBLE);
+		title.setText(ttl);
+		content.setText(errMsg);
+
+		ReceiptTabApplication.isMsgShown =true;
+
+		msgOff.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				ReceiptTabApplication.isMsgShown =false;
+
+				android.os.Message msg = new android.os.Message();
+				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.arg1 = 2;									//	id/pw ng
+				SpaceeAppMain.mMsgHandler.sendMessage(msg);
+			}
+		});
+
+		//	メッセージの下のエレメントをタップしても拾わないようにするため
+		errLayout.setOnClickListener(new android.view.View.OnClickListener()
+		{
+			@Override
+			public void onClick(android.view.View v)
+			{
+			}
+		});
 	}
 }
 

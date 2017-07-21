@@ -34,6 +34,11 @@ import jp.spacee.app.android.spacee_app.fragment.FragmentWorkList;
 
 public  class  FragmentWorkListListener  implements  FragmentWorkList.FragmentInteractionListener
 {
+	private						RelativeLayout					errLayout		= null;
+	private						TextView						title			= null;
+	private						TextView						content			= null;
+	private 					ImageView						msgOff			= null;
+
 	private						List<HashMap<String, String>>	workList		= null;
 	private						List<HashMap<String, String>>	schedList		= null;
 
@@ -51,6 +56,11 @@ public  class  FragmentWorkListListener  implements  FragmentWorkList.FragmentIn
 	public void onListProcess(View view)
 	{
 		ListView	workList = (ListView)	view.findViewById(R.id.workSeats);
+
+		errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
+		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
+		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
+		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
 
 		retrieveListInfo(view);
 
@@ -72,87 +82,106 @@ public  class  FragmentWorkListListener  implements  FragmentWorkList.FragmentIn
 		{
 			try
 			{
-				workList  = new ArrayList<java.util.HashMap<String, String>>();
-				schedList = new ArrayList<java.util.HashMap<String, String>>();
 				JSONObject jsonObj1 = new JSONObject(result);
-				JSONArray  jsonArr1 = jsonObj1.getJSONArray("listings");
-				if (jsonArr1 != null)
+				if (jsonObj1 != null)
 				{
-					for (i=0; i<jsonArr1.length(); i++)
-					{
-						java.util.HashMap<String, String> map = new java.util.HashMap<String, String>();
-						JSONObject json1 = jsonArr1.getJSONObject(i);
-						map.put("id",			json1.getString("id"));
-						map.put("title",		json1.getString("title"));
-						JSONObject json2 = new JSONObject(json1.getString("thumb"));
-						map.put("thumb_url",	json2.getString("url"));
-						map.put("book_unit",	json1.getString("min_booking_minutes"));
-						map.put("capacity",	json1.getString("capacity"));
-						map.put("price",		json1.getString("price"));
-						map.put("subtitle",	json1.getString("subtitle"));
-						map.put("category",	json1.getString("category"));
-						JSONArray  jsonArr3 = json1.getJSONArray("equipments");
-						wStr1 = "";
-						for (k=0; k<jsonArr3.length(); k++)
+//					String	rc = jsonObj1.getString("status");
+//					if (rc.equals("ok"))
+//					{
+						workList  = new ArrayList<java.util.HashMap<String, String>>();
+						schedList = new ArrayList<java.util.HashMap<String, String>>();
+						JSONArray  jsonArr1 = jsonObj1.getJSONArray("listings");
+						if (jsonArr1 != null)
 						{
-							if (wStr1.equals(""))
-									wStr1 += jsonArr3.getString(k);
-							else	wStr1 += ("/" + jsonArr3.getString(k));
-						}
-						map.put("equipments",	wStr1);
-						map.put("available",	json1.getString("available_amount"));
-						json2 = new JSONObject(json1.getString("room_calendars"));
-						json2 = new JSONObject(json2.getString("calendar"));
-						map.put("date",			json2.getString("date"));
-						JSONArray  jsonArr2 = json2.getJSONArray("room_schedules");
-						json2 = new JSONObject(json2.getString("room_calendar"));
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-						try
-						{
-							wDate	= sdf.parse(json2.getString("start_at"));
-							wStr1	= new SimpleDateFormat("HH").format(wDate);
-							wStr2	= new SimpleDateFormat("mm").format(wDate);
-							map.put("bgnTime", String.format("%d", (Integer.parseInt(wStr1)*60 + Integer.parseInt(wStr2))));
-							wDate	= sdf.parse(json2.getString("end_at"));
-							wStr1	= new SimpleDateFormat("HH").format(wDate);
-							wStr2	= new SimpleDateFormat("mm").format(wDate);
-							map.put("endTime", String.format("%d", (Integer.parseInt(wStr1)*60 + Integer.parseInt(wStr2))));
-						}
-						catch (java.text.ParseException e)
-						{
-							e.printStackTrace();
-						}
-						workList.add(map);
+							for (i=0; i<jsonArr1.length(); i++)
+							{
+								java.util.HashMap<String, String> map = new java.util.HashMap<String, String>();
+								JSONObject json1 = jsonArr1.getJSONObject(i);
+								map.put("id",			json1.getString("id"));
+								map.put("title",		json1.getString("title"));
+								JSONObject json2 = new JSONObject(json1.getString("thumb"));
+								map.put("thumb_url",	json2.getString("url"));
+								map.put("book_unit",	json1.getString("min_booking_minutes"));
+								map.put("capacity",	json1.getString("capacity"));
+								map.put("price",		json1.getString("price"));
+								map.put("subtitle",	json1.getString("subtitle"));
+								map.put("category",	json1.getString("category"));
+								JSONArray  jsonArr3 = json1.getJSONArray("equipments");
+								wStr1 = "";
+								for (k=0; k<jsonArr3.length(); k++)
+								{
+									if (wStr1.equals(""))
+											wStr1 += jsonArr3.getString(k);
+									else	wStr1 += ("/" + jsonArr3.getString(k));
+								}
+								map.put("equipments",	wStr1);
+								map.put("available",	json1.getString("available_amount"));
+								json2 = new JSONObject(json1.getString("room_calendars"));
+								json2 = new JSONObject(json2.getString("calendar"));
+								map.put("date",			json2.getString("date"));
+								JSONArray  jsonArr2 = json2.getJSONArray("room_schedules");
+								json2 = new JSONObject(json2.getString("room_calendar"));
+								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+								try
+								{
+									wDate	= sdf.parse(json2.getString("start_at"));
+									wStr1	= new SimpleDateFormat("HH").format(wDate);
+									wStr2	= new SimpleDateFormat("mm").format(wDate);
+									map.put("bgnTime", String.format("%d", (Integer.parseInt(wStr1)*60 + Integer.parseInt(wStr2))));
+									wDate	= sdf.parse(json2.getString("end_at"));
+									wStr1	= new SimpleDateFormat("HH").format(wDate);
+									wStr2	= new SimpleDateFormat("mm").format(wDate);
+									map.put("endTime", String.format("%d", (Integer.parseInt(wStr1)*60 + Integer.parseInt(wStr2))));
+								}
+								catch (java.text.ParseException e)
+								{
+									e.printStackTrace();
+								}
+								workList.add(map);
 
 
-						map = new java.util.HashMap<String, String>();
-						map.put("id",	json1.getString("id"));
-						map.put("schedNo", String.format("%d", jsonArr2.length()));
-						for (k=0; k<jsonArr2.length(); k++)
-						{
-							json2 = jsonArr2.getJSONObject(i);
-							try
-							{
-								wDate	= sdf.parse(json2.getString("start_at"));
-								wStr1	= new java.text.SimpleDateFormat("HH").format(wDate);
-								wStr2	= new java.text.SimpleDateFormat("mm").format(wDate);
-								map.put(String.format("bgnTm%d", (k+1)), String.format("%d", (Integer.parseInt(wStr1)*60 + Integer.parseInt(wStr2))));
-								wDate	= sdf.parse(json2.getString("end_at"));
-								wStr1	= new java.text.SimpleDateFormat("HH").format(wDate);
-								wStr2	= new java.text.SimpleDateFormat("mm").format(wDate);
-								map.put(String.format("endTm%d", (k+1)), String.format("%d", (Integer.parseInt(wStr1)*60 + Integer.parseInt(wStr2))));
-							}
-							catch (java.text.ParseException e)
-							{
-								e.printStackTrace();
+								map = new java.util.HashMap<String, String>();
+								map.put("id",	json1.getString("id"));
+								map.put("schedNo", String.format("%d", jsonArr2.length()));
+								for (k=0; k<jsonArr2.length(); k++)
+								{
+									json2 = jsonArr2.getJSONObject(i);
+									try
+									{
+										wDate	= sdf.parse(json2.getString("start_at"));
+										wStr1	= new java.text.SimpleDateFormat("HH").format(wDate);
+										wStr2	= new java.text.SimpleDateFormat("mm").format(wDate);
+										map.put(String.format("bgnTm%d", (k+1)), String.format("%d", (Integer.parseInt(wStr1)*60 + Integer.parseInt(wStr2))));
+										wDate	= sdf.parse(json2.getString("end_at"));
+										wStr1	= new java.text.SimpleDateFormat("HH").format(wDate);
+										wStr2	= new java.text.SimpleDateFormat("mm").format(wDate);
+										map.put(String.format("endTm%d", (k+1)), String.format("%d", (Integer.parseInt(wStr1)*60 + Integer.parseInt(wStr2))));
+									}
+									catch (java.text.ParseException e)
+									{
+										e.printStackTrace();
+										return;
+									}
+								}
+								schedList.add(map);
 							}
 						}
-						schedList.add(map);
-					}
+						else
+						{
+							showErrorMsg("エラー", null, "");
+							return;
+						}
+//					}
+//					else
+//					{
+//						showErrorMsg("エラー", jsonObj1, "");
+//						return;
+//					}
 				}
 				else
 				{
-
+					showErrorMsg("エラー", null, "");
+					return;
 				}
 			}
 			catch (org.json.JSONException e)
@@ -172,29 +201,8 @@ public  class  FragmentWorkListListener  implements  FragmentWorkList.FragmentIn
 		}
 		else
 		{
-			RelativeLayout	errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
-			TextView		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
-			TextView		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
-			ImageView		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
-
-			errLayout.setVisibility(View.VISIBLE);
-			title.setText("通信エラー");
-			content.setText("データがありません");
-
-			ReceiptTabApplication.isMsgShown =true;
-
-			msgOff.setOnClickListener(new View.OnClickListener()
-			{
-				@Override
-				public void onClick(View v)
-				{
-					ReceiptTabApplication.isMsgShown =false;
-
-					Message msg = new Message();
-					msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
-					SpaceeAppMain.mMsgHandler.sendMessage(msg);
-				}
-			});
+			showErrorMsg("通信エラー", null, "");
+			return;
 		}
 	}
 
@@ -212,19 +220,21 @@ public  class  FragmentWorkListListener  implements  FragmentWorkList.FragmentIn
 			mapin = workList.get(i);
 			mapout = new HashMap<String, String>();
 			if (Integer.parseInt(mapin.get("available")) > 0)
-					mapout.put("Status",	"利用可");
-			  else	mapout.put("Status",	"満員中");
-			mapout.put("Avail",		mapin.get("available") + "/" + mapin.get("capacity") + "席");
+					mapout.put("Status",	ReceiptTabApplication.AppContext.getString(R.string.frag_work_list_status_avail));
+			  else	mapout.put("Status",	ReceiptTabApplication.AppContext.getString(R.string.frag_work_list_status_full));
+			mapout.put("Avail",		mapin.get("available") + "/" + mapin.get("capacity") + ReceiptTabApplication.AppContext.getString(R.string.frag_work_list_seat));
 			mapout.put("Name", 		mapin.get("subtitle"));
 			if (mapin.get("equipments").equals(""))
-				mapout.put("Facility", "設備なし");
+				mapout.put("Facility", ReceiptTabApplication.AppContext.getString(R.string.frag_work_list_no_equipment));
 			else
 			{
 				mapout.put("Facility", mapin.get("equipments"));
 			}
 			mapout.put("Price",		String.format("%,d", Integer.parseInt(mapin.get("price"))));
 			mapout.put("placeExp", mapin.get("title"));
-			mapout.put("remarks",	"・最大" + mapin.get("capacity") + "人利用\n・" + mapin.get("book_unit") + "分から利用可能");
+			mapout.put("remarks",	ReceiptTabApplication.AppContext.getString(R.string.frag_work_list_max_psn)
+					  + mapin.get("capacity")  + ReceiptTabApplication.AppContext.getString(R.string.frag_work_list_psn_avail)
+					  + mapin.get("book_unit") + ReceiptTabApplication.AppContext.getString(R.string.frag_work_list_min_unit));
 			workAreaInfo.add(mapout);
 		}
 		adapter = new SimpleAdapter(ReceiptTabApplication.AppContext,
@@ -311,7 +321,7 @@ public  class  FragmentWorkListListener  implements  FragmentWorkList.FragmentIn
 		int		limitEnd	= (crntHour + 4)*60 + crntMinute;
 
 
-		cvs.drawText("現在",   20, 50, paint1);
+		cvs.drawText(ReceiptTabApplication.AppContext.getString(R.string.frag_work_list_time_now),   20, 50, paint1);
 		for (i=0; i<4; i++) {
 			wStr = String.format("%02d:%02d", (crntHour + (i+1)), crntMinute);
 			cvs.drawText(wStr, ((i+1)*120)+20, 50, paint1);
@@ -353,5 +363,68 @@ public  class  FragmentWorkListListener  implements  FragmentWorkList.FragmentIn
 		}
 
 		view.setImageBitmap(bmp);
+	}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private  void  showErrorMsg(String ttl, JSONObject jsonObj, String orgMsg)
+	{
+		int		i;
+		String	errMsg;
+
+		if (jsonObj != null)
+		{
+			try
+			{
+				org.json.JSONArray arr1 = jsonObj.getJSONArray("error_messages");
+				errMsg = "";
+				for (i=0; i<arr1.length(); i++)
+				{
+					errMsg += (arr1.getString(i) + "\n");
+				}
+			}
+			catch (org.json.JSONException e)
+			{
+				e.printStackTrace();
+				return;
+			}
+		}
+		else
+		{
+			if (orgMsg.equals("") == false)
+					errMsg = orgMsg;
+			else	errMsg = "データが取得できませんでした";
+		}
+
+		errLayout.setVisibility(View.VISIBLE);
+		title.setText(ttl);
+		content.setText(errMsg);
+
+		ReceiptTabApplication.isMsgShown =true;
+
+		msgOff.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				ReceiptTabApplication.isMsgShown =false;
+
+				android.os.Message msg = new android.os.Message();
+				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.arg1 = 2;									//	id/pw ng
+				SpaceeAppMain.mMsgHandler.sendMessage(msg);
+			}
+		});
+
+		//	メッセージの下のエレメントをタップしても拾わないようにするため
+		errLayout.setOnClickListener(new android.view.View.OnClickListener()
+		{
+			@Override
+			public void onClick(android.view.View v)
+			{
+			}
+		});
 	}
 }

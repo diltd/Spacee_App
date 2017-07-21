@@ -29,7 +29,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="0dip"
 			android:layout_weight="30"
-			android:text="チェックイン"
+			android:text="@string/xml_list_book_checkin"
 			android:textColor="@color/spacee_blue"
 			android:textSize="18sp"
 			android:gravity="center_vertical" />
@@ -39,7 +39,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="0dip"
 			android:layout_weight="40"
-			android:text="06月15日"
+			android:text=""
 			android:textColor="@color/text_black"
 			android:textSize="22sp"
 			android:gravity="center_vertical" />
@@ -53,7 +53,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="0dip"
 			android:layout_weight="30"
-			android:text="チェックアウト"
+			android:text="@string/xml_list_book_checkout"
 			android:textColor="@color/spacee_blue"
 			android:textSize="18sp"
 			android:gravity="center_vertical" />
@@ -63,7 +63,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="0dip"
 			android:layout_weight="40"
-			android:text="06月15日"
+			android:text=""
 			android:textColor="@color/text_black"
 			android:textSize="22sp"
 			android:gravity="center_vertical" />
@@ -147,7 +147,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
 					android:layout_weight="60"
-					android:text="利用可能"
+					android:text="@string/xml_list_book_status"
 					android:textColor="@color/text_white"
 					android:textSize="18sp"
 					android:gravity="center"
@@ -169,7 +169,7 @@
 				android:layout_width="0dip"
 				android:layout_weight="300"
 				android:layout_height="match_parent"
-				android:text="ご利用開始まで"
+				android:text=""
 				android:textColor="@color/text_black"
 				android:textSize="18sp"
 				android:gravity="center_vertical" />
@@ -180,7 +180,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="0dip"
 			android:layout_weight="120"
-			android:text="ミーティングルーム"
+			android:text=""
 			android:textColor="@color/text_black"
 			android:textSize="30sp"
 			android:gravity="center_vertical" />
@@ -190,7 +190,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="0dip"
 			android:layout_weight="140"
-			android:text="大手町・神田"
+			android:text=""
 			android:textColor="@color/text_black"
 			android:textSize="16sp"
 			android:maxLines="3" />
@@ -200,7 +200,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="0dip"
 			android:layout_weight="140"
-			android:text="設備なし"
+			android:text=""
 			android:textColor="@color/sub"
 			android:textSize="16sp"
 			android:maxLines="3" />

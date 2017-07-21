@@ -58,7 +58,7 @@ public  class  HttpCommGlueRoutines
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public  boolean  providerUserSignin(String id, String pw)
+	public  String  providerUserSignin(String id, String pw)
 	{
 		String		outStr;
 		String		rc;
@@ -72,98 +72,23 @@ public  class  HttpCommGlueRoutines
 		catch (org.json.JSONException e)
 		{
 			e.printStackTrace();
-			return	 false;
+			return	 null;
 		}
-
 
 		outStr = commHttpCall(POST, ReceiptTabApplication.URL_PROVIDER_USER_SIGNIN, jsonObj, "");
-		if (outStr != null)
-		{
-			try
-			{
-				JSONObject json = new JSONObject(outStr);
-				if (json != null)
-				{
-					rc = json.getString("status");
-					if (rc.equals("ok"))
-					{
-						ReceiptTabApplication.providerAuthToken = json.getString("auth_token");
-					}
-					else
-					{
-						return  false;
-					}
-				}
-				else
-				{
-					return  false;
-				}
-			}
-			catch (org.json.JSONException e)
-			{
-				e.printStackTrace();
-				return  false;
-			}
-		}
-		else
-		{
-			return  false;
-		}
 
-		return  true;
+		return  outStr;
 	}
 
 
-	public  boolean  retrieveProviderOffices()
+	public  String  retrieveProviderOffices()
 	{
 		String		outStr;
 		String		rc;
 
 		outStr = commHttpCall(GET, ReceiptTabApplication.URL_PROVIDERS_OFFICES, null, "");
-		if (outStr != null)
-		{
-			try
-			{
-				ReceiptTabApplication.Offices = new ArrayList<HashMap<String, String>>();
-				JSONObject jsonObj1  = new JSONObject(outStr);
-				JSONArray  jsonArray = jsonObj1.getJSONArray("offices");
-				if (jsonArray != null)
-				{
-					for (int i=0; i<jsonArray.length(); i++)
-					{
-						HashMap<String, String>  map = new HashMap<String, String>();
-						JSONObject json = jsonArray.getJSONObject(i);
-						map.put("id",   json.getString("id"));
-						map.put("name", json.getString("name"));
-						ReceiptTabApplication.Offices.add(map);
-					}
 
-					//	tentative
-//					if (ReceiptTabApplication.Offices.size() == 1)
-//					{
-						HashMap<String, String>  map = new HashMap<String, String>();
-						map = ReceiptTabApplication.Offices.get(0);
-						ReceiptTabApplication.officeId	 = map.get("id");
-						ReceiptTabApplication.officeName = map.get("name");
-//					}
-				}
-				else
-				{
-					return  false;
-				}
-			}
-			catch (org.json.JSONException e)
-			{
-				e.printStackTrace();
-				return  false;
-			}
-		}
-		else
-		{
-			return  false;
-		}
-
-		return  true;
+		return  outStr;
 	}
 
 
@@ -324,25 +249,8 @@ public  class  HttpCommGlueRoutines
 		String	url = ReceiptTabApplication.URL_USERS_SIGNUP;
 
 		outStr = commHttpCall(POST, url, jsonObj, "");
-		if (outStr != null)
-		{
-			try
-			{
-				JSONObject obj = new org.json.JSONObject(outStr);
-				result = obj.getString("auth_token");
-			}
-			catch (org.json.JSONException e)
-			{
-				e.printStackTrace();
-				return "";
-			}
-		}
-		else
-		{
-			return  null;
-		}
 
-		return	 result;
+		return	 outStr;
 	}
 
 
@@ -475,25 +383,8 @@ public  class  HttpCommGlueRoutines
 		String	url = ReceiptTabApplication.URL_USERS_BILLING;
 
 		outStr = commHttpCall(POST, url, jsonPrm, "");
-		if (outStr != null)
-		{
-			try
-			{
-				JSONObject obj = new org.json.JSONObject(outStr);
-				result = obj.getString("billing_destination_id");
-			}
-			catch (org.json.JSONException e)
-			{
-				e.printStackTrace();
-				return "";
-			}
-		}
-		else
-		{
-			return "";
-		}
 
-		return	 result;
+		return	 outStr;
 	}
 
 
@@ -520,25 +411,8 @@ public  class  HttpCommGlueRoutines
 		String	url = ReceiptTabApplication.URL_USERS_CARD;
 
 		outStr = commHttpCall(POST, url, jsonPrm, "");
-		if (outStr != null)
-		{
-			try
-			{
-				JSONObject obj = new org.json.JSONObject(outStr);
-				result = obj.getString("card_id");
-			}
-			catch (org.json.JSONException e)
-			{
-				e.printStackTrace();
-				return "";
-			}
-		}
-		else
-		{
-			return "";
-		}
 
-		return	 result;
+		return	 outStr;
 	}
 
 

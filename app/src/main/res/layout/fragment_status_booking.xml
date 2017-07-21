@@ -27,7 +27,7 @@
 			android:layout_width="0dip"
 			android:layout_weight="110"
 			android:layout_height="match_parent"
-			android:text="07月"
+			android:text=""
 			android:textColor="@color/text_black"
 			android:textSize="30sp" />
 
@@ -41,7 +41,7 @@
 			android:layout_width="0dip"
 			android:layout_weight="110"
 			android:layout_height="match_parent"
-			android:text="08月"
+			android:text=""
 			android:textColor="@color/text_black"
 			android:textSize="28sp" />
 
@@ -55,7 +55,7 @@
 			android:layout_width="0dip"
 			android:layout_weight="110"
 			android:layout_height="match_parent"
-			android:text="09月"
+			android:text=""
 			android:textColor="@color/text_black"
 			android:textSize="28sp" />
 
@@ -69,7 +69,7 @@
 			android:layout_width="0dip"
 			android:layout_weight="110"
 			android:layout_height="match_parent"
-			android:text="10月"
+			android:text=""
 			android:textColor="@color/text_black"
 			android:textSize="28sp" />
 
@@ -83,7 +83,7 @@
 			android:layout_width="0dip"
 			android:layout_weight="110"
 			android:layout_height="match_parent"
-			android:text="11月"
+			android:text=""
 			android:textColor="@color/text_black"
 			android:textSize="28sp" />
 
@@ -97,7 +97,7 @@
 			android:layout_width="0dip"
 			android:layout_weight="110"
 			android:layout_height="match_parent"
-			android:text="12月"
+			android:text=""
 			android:textColor="@color/text_black"
 			android:textSize="28sp" />
 

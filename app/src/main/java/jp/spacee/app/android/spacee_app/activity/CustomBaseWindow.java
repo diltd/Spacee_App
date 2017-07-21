@@ -259,7 +259,7 @@ public  class  CustomBaseWindow  extends  AppCompatActivity
 			formatTitle1.setVisibility(View.INVISIBLE);
 			formatTitle2.setVisibility(View.INVISIBLE);
 			formatTitle3.setVisibility(View.VISIBLE);
-			String wStr = String.format("%s\nからログアウト", ReceiptTabApplication.currentUserMAddr);
+			String wStr = String.format("%s\n%s", ReceiptTabApplication.currentUserMAddr, getString(R.string.logout_from));
 			btnOpt3.setText(wStr);
 		}
 	}

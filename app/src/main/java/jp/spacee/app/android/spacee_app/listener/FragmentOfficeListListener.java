@@ -26,6 +26,11 @@ public  class  FragmentOfficeListListener  implements  FragmentOfficeList.Fragme
 
 	private						ListView						 officeList		= null;
 
+	private						RelativeLayout 					errLayout			= null;
+	private						TextView						title				= null;
+	private						TextView						content				= null;
+	private						ImageView						msgOff				= null;
+
 
 	public  FragmentOfficeListListener()
 	{
@@ -39,60 +44,82 @@ public  class  FragmentOfficeListListener  implements  FragmentOfficeList.Fragme
 		int			i;
 		String		wStr;
 
-		boolean  rc = SpaceeAppMain.httpCommGlueRoutines.retrieveProviderOffices();
-		if (rc == true)
+		String	result = SpaceeAppMain.httpCommGlueRoutines.retrieveProviderOffices();
+
+		if (result != null)
 		{
-			officeList	= (ListView)	view.findViewById(R.id.officeList);
-
-			officeNameList = new ArrayList<HashMap<String, String>>();
-			HashMap<String, String> mapout;
-			HashMap<String, String> mapin = new HashMap<String, String>();
-			for (i=0; i< ReceiptTabApplication.Offices.size(); i++)
+			try
 			{
-				mapin	= ReceiptTabApplication.Offices.get(i);
-				mapout = new HashMap<String, String>();
-				mapout.put("id",	mapin.get("id"));
-				mapout.put("name",	mapin.get("name"));
-				officeNameList.add(mapout);
-			}
+				JSONObject json = new JSONObject(result);
+				if (json != null)
+				{
+//					String	rc = json.getString("status");
+//					if (rc.equals("ok"))
+//					{
+						ReceiptTabApplication.Offices = new ArrayList<HashMap<String, String>>();
+						org.json.JSONArray arr = json.getJSONArray("offices");
+						if (arr != null)
+						{
+							for (i=0; i<arr.length(); i++)
+							{
+								HashMap<String, String>  map = new HashMap<String, String>();
+								JSONObject json2 = arr.getJSONObject(i);
+								map.put("id",   json2.getString("id"));
+								map.put("name", json2.getString("name"));
+								ReceiptTabApplication.Offices.add(map);
+							}
 
-			redrawRuleList(officeList);
+//							HashMap<String, String>  map = new HashMap<String, String>();
+//							map = ReceiptTabApplication.Offices.get(0);
+//							ReceiptTabApplication.officeId	 = map.get("id");
+//							ReceiptTabApplication.officeName = map.get("name");
+						}
+						else
+						{
+							showErrorMsg("エラー", null, "");
+							return;
+						}
+//					}
+//					else
+//					{
+//						showErrorMsg("エラー", json, "");
+//						return;
+//					}
+				}
+				else
+				{
+					showErrorMsg("エラー", null, "");
+					return;
+				}
+			}
+			catch (org.json.JSONException e)
+			{
+				e.printStackTrace();
+				return;
+			}
 		}
 		else
 		{
-			RelativeLayout	errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
-			TextView		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
-			TextView		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
-			ImageView		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
-
-			errLayout.setVisibility(View.VISIBLE);
-			title.setText("通信エラー");
-			content.setText("データが取得できません");
-
-			ReceiptTabApplication.isMsgShown =true;
-
-			msgOff.setOnClickListener(new View.OnClickListener()
-			{
-				@Override
-				public void onClick(View v)
-				{
-					ReceiptTabApplication.isMsgShown =false;
-
-					Message msg = new Message();
-					msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
-					SpaceeAppMain.mMsgHandler.sendMessage(msg);
-				}
-			});
-
-			//	メッセージの下のエレメントをタップしても拾わないようにするため
-			errLayout.setOnClickListener(new View.OnClickListener()
-			{
-				@Override
-				public void onClick(View v)
-				{
-				}
-			});
+			showErrorMsg("通信エラー", null, "");
+			return;
 		}
+
+
+		officeList	= (ListView)	view.findViewById(R.id.officeList);
+
+		officeNameList = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String> mapout;
+		HashMap<String, String> mapin = new HashMap<String, String>();
+		for (i=0; i< ReceiptTabApplication.Offices.size(); i++)
+		{
+			mapin	= ReceiptTabApplication.Offices.get(i);
+			mapout = new HashMap<String, String>();
+			mapout.put("id",	mapin.get("id"));
+			mapout.put("name",	mapin.get("name"));
+			officeNameList.add(mapout);
+		}
+
+		redrawRuleList(officeList);
 	}
 
 
@@ -125,6 +152,68 @@ public  class  FragmentOfficeListListener  implements  FragmentOfficeList.Fragme
 				Message msg = new Message();
 				msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
+			}
+		});
+	}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private  void  showErrorMsg(String ttl, JSONObject jsonObj, String orgMsg)
+	{
+		int		i;
+		String	errMsg;
+
+		if (jsonObj != null)
+		{
+			try
+			{
+				org.json.JSONArray arr1 = jsonObj.getJSONArray("error_messages");
+				errMsg = "";
+				for (i=0; i<arr1.length(); i++)
+				{
+					errMsg += (arr1.getString(i) + "\n");
+				}
+			}
+			catch (org.json.JSONException e)
+			{
+				e.printStackTrace();
+				return;
+			}
+		}
+		else
+		{
+			if (orgMsg.equals("") == false)
+					errMsg = orgMsg;
+			else	errMsg = "データが取得できませんでした";
+		}
+
+		errLayout.setVisibility(View.VISIBLE);
+		title.setText(ttl);
+		content.setText(errMsg);
+
+		ReceiptTabApplication.isMsgShown =true;
+
+		msgOff.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				ReceiptTabApplication.isMsgShown =false;
+
+				android.os.Message msg = new android.os.Message();
+				msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
+				SpaceeAppMain.mMsgHandler.sendMessage(msg);
+			}
+		});
+
+		//	メッセージの下のエレメントをタップしても拾わないようにするため
+		errLayout.setOnClickListener(new android.view.View.OnClickListener()
+		{
+			@Override
+			public void onClick(android.view.View v)
+			{
 			}
 		});
 	}

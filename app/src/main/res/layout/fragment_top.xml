@@ -16,7 +16,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="0dip"
 			android:layout_weight="590"
-			android:text="初期設定中・・しばらくお待ちください"
+			android:text="@string/xml_top_msg"
 			android:textColor="@color/text_white"
 			android:textSize="34sp"
 			android:background="@color/android_blue"

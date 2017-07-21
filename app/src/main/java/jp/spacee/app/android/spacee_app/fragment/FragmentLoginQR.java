@@ -105,7 +105,7 @@ public  class  FragmentLoginQR  extends  Fragment
 	public  interface  FragmentInteractionListener
 	{
 		// ここにイベントハンドリング用の関数を羅列する
-		void	startQRReco		(TextureView view);
+		void	startQRReco		(View view1, TextureView view2);
 	}
 
 
@@ -131,7 +131,7 @@ public  class  FragmentLoginQR  extends  Fragment
 		{
 			android.os.SystemClock.sleep(100);
 		}
-		mListener.startQRReco(cameraView);
+		mListener.startQRReco(view, cameraView);
 
 		return  view;
 	}

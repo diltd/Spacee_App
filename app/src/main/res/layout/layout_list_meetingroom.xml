@@ -36,7 +36,7 @@
 				android:layout_width="0dip"
 				android:layout_weight="120"
 				android:layout_height="match_parent"
-				android:text="利用可"
+				android:text=""
 				android:textColor="@color/text_black"
 				android:textSize="20sp"
 				android:gravity="center" />
@@ -64,7 +64,7 @@
 				android:layout_width="0dip"
 				android:layout_weight="600"
 				android:layout_height="match_parent"
-				android:text="ワークスペース"
+				android:text=""
 				android:textColor="@color/text_black"
 				android:textSize="30sp"
 				android:gravity="center_vertical" />
@@ -83,7 +83,7 @@
 				android:layout_width="0dip"
 				android:layout_weight="90"
 				android:layout_height="match_parent"
-				android:text=" 円/1h"
+				android:text=" @string/xml_list_meetingroom_unit_price"
 				android:textColor="@color/text_black"
 				android:textSize="20sp"
 				android:layout_marginTop="10dip"
@@ -107,7 +107,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
 					android:layout_weight="30"
-					android:text="ワークスペース"
+					android:text=""
 					android:textColor="@color/text_black"
 					android:textSize="15sp" />
 
@@ -116,7 +116,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
 					android:layout_weight="30"
-					android:text="あいうえおかきくけこ"
+					android:text=""
 					android:textColor="@color/text_black"
 					android:textSize="15sp" />
 			</LinearLayout>
@@ -126,7 +126,7 @@
 				android:layout_width="0dip"
 				android:layout_weight="200"
 				android:layout_height="match_parent"
-				android:text="・aaaaa\n・bbbbb/"
+				android:text=""
 				android:textColor="@color/text_black"
 				android:textSize="15sp"
 				android:maxLines="5" />

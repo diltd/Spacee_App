@@ -3,6 +3,8 @@ package jp.spacee.app.android.spacee_app.listener;
 
 import android.os.Message;
 import android.view.View;
+import org.json.JSONObject;
+import org.json.JSONArray;
 import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -17,7 +19,11 @@ public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.sp
 {
 	private						TextView				btnAgree				= null;
 	private						ImageView				chkBoxAgree			= null;
+
 	private						RelativeLayout			errLayout				= null;
+	private						TextView				title					= null;
+	private						TextView				content					= null;
+	private						ImageView				msgOff					= null;
 
 	private						boolean					statusChkBox			= false;
 
@@ -34,10 +40,10 @@ public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.sp
 		String	status, message;
 		String	result = null;
 
-		errLayout = (RelativeLayout) view.findViewById(R.id.errorMessagePanel);
-		TextView	title	= (TextView)	errLayout.findViewById(R.id.errorTitle);
-		TextView	content	= (TextView)	errLayout.findViewById(R.id.errorMessage);
-		ImageView	msgOff	= (ImageView)	errLayout.findViewById(R.id.messageOff);
+		errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
+		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
+		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
+		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
 
 
 		result = jp.spacee.app.android.spacee_app.activity.SpaceeAppMain.httpCommGlueRoutines.signupUser();
@@ -47,103 +53,93 @@ public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.sp
 			{
 				org.json.JSONObject obj1 = new org.json.JSONObject(result);
 				status	= obj1.getString("status");
-				message	= obj1.getString("message");
-				jp.spacee.app.android.spacee_app.ReceiptTabApplication.userAuthToken = obj1.getString("auth_token");
 
 				if (status.equals("ok"))
 				{
+					message	= obj1.getString("message");
+					ReceiptTabApplication.userAuthToken = obj1.getString("auth_token");
+
 					if (jp.spacee.app.android.spacee_app.ReceiptTabApplication.userRegData.paymentKind == 1)			//	カードで登録
 					{
 						result = SpaceeAppMain.httpCommGlueRoutines.registerCreditCardInfo();
+
 						if (result != null)
 						{
-							//	resultにはcard_idが入っている		<<<<<<<<<<<<<<<<<	どこにどうする？
+							try
+							{
+								org.json.JSONObject obj2 = new org.json.JSONObject(result);
+								status	= obj2.getString("status");
 
+								if (status.equals("ok"))
+								{
+									result = obj2.getString("card_id");
+				//	resultにはcard_idが入っている		<<<<<<<<<<<<<<<<<	どこにどうする？
 
-							Message msg = new Message();
-							msg.what = SpaceeAppMain.MSG_ENTRY_POLICY_COMP;
-							msg.arg1 = 1;											//	by btnAgree Clicked
-							SpaceeAppMain.mMsgHandler.sendMessage(msg);
+									Message msg = new Message();
+									msg.what = SpaceeAppMain.MSG_ENTRY_POLICY_COMP;
+									msg.arg1 = 1;											//	by btnAgree Clicked
+									SpaceeAppMain.mMsgHandler.sendMessage(msg);
+								}
+								else
+								{
+									showErrorMsg("エラー", obj2, "");
+								}
+							}
+							catch (org.json.JSONException e)
+							{
+								e.printStackTrace();
+								return;
+							}
 						}
 						else
 						{
-							errLayout.setVisibility(View.VISIBLE);
-							title.setText("通信エラー");
-							content.setText("クレジットカード登録が失敗しました");
-
-							ReceiptTabApplication.isMsgShown =true;
-
-							msgOff.setOnClickListener(new View.OnClickListener()
-							{
-								@Override
-								public void onClick(View v)
-								{
-									ReceiptTabApplication.isMsgShown =false;
-
-									Message msg = new Message();
-									msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
-									SpaceeAppMain.mMsgHandler.sendMessage(msg);
-								}
-							});
-
-							//	メッセージの下のエレメントをタップしても拾わないようにするため
-							errLayout.setOnClickListener(new android.view.View.OnClickListener()
-							{
-								@Override
-								public void onClick(android.view.View v)
-								{
-								}
-							});
+							showErrorMsg("通信エラー", null, "");
 						}
 					}
 					else
 					{
 						result = SpaceeAppMain.httpCommGlueRoutines.registerBillingDestination();
+
 						if (result != null)
 						{
-							//	resultにはbilling_destination_idが入っている		<<<<<<<<<<<<<<<<<	どこにどうする？
+							try
+							{
+								org.json.JSONObject obj2 = new org.json.JSONObject(result);
+								status	= obj2.getString("status");
 
+								if (status.equals("ok"))
+								{
+									result = obj2.getString("billing_destination_id");
+			//	resultにはbilling_destination_idが入っている		<<<<<<<<<<<<<<<<<	どこにどうする？
 
-							Message msg = new Message();
-							msg.what = SpaceeAppMain.MSG_ENTRY_POLICY_COMP;
-							msg.arg1 = 1;											//	by btnAgree Clicked
-							SpaceeAppMain.mMsgHandler.sendMessage(msg);
+									Message msg = new Message();
+									msg.what = SpaceeAppMain.MSG_ENTRY_POLICY_COMP;
+									msg.arg1 = 1;											//	by btnAgree Clicked
+									SpaceeAppMain.mMsgHandler.sendMessage(msg);
+								}
+								else
+								{
+									showErrorMsg("エラー", obj2, "");
+									return;
+								}
+							}
+							catch (org.json.JSONException e)
+							{
+								e.printStackTrace();
+								return;
+							}
 						}
 						else
 						{
-							errLayout.setVisibility(View.VISIBLE);
-							title.setText("通信エラー");
-							content.setText("請求先登録が失敗しました");
-
-							ReceiptTabApplication.isMsgShown =true;
-
-							msgOff.setOnClickListener(new View.OnClickListener()
-							{
-								@Override
-								public void onClick(View v)
-								{
-									ReceiptTabApplication.isMsgShown =false;
-
-									Message msg = new Message();
-									msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
-									SpaceeAppMain.mMsgHandler.sendMessage(msg);
-								}
-							});
-
-							//	メッセージの下のエレメントをタップしても拾わないようにするため
-							errLayout.setOnClickListener(new android.view.View.OnClickListener()
-							{
-								@Override
-								public void onClick(android.view.View v)
-								{
-								}
-							});
+							showErrorMsg("通信エラー", null, "");
+							return;
 						}
 					}
 				}
 				else
 				{
-
+					showErrorMsg("エラー", obj1, "");
+					return;
 				}
 			}
 			catch (org.json.JSONException e)
@@ -154,33 +150,8 @@ public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.sp
 		}
 		else
 		{
-			errLayout.setVisibility(View.VISIBLE);
-			title.setText("通信エラー");
-			content.setText("データがありません");
-
-			ReceiptTabApplication.isMsgShown =true;
-
-			msgOff.setOnClickListener(new View.OnClickListener()
-			{
-				@Override
-				public void onClick(View v)
-				{
-					ReceiptTabApplication.isMsgShown =false;
-
-					Message msg = new Message();
-					msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
-					SpaceeAppMain.mMsgHandler.sendMessage(msg);
-				}
-			});
-
-			//	メッセージの下のエレメントをタップしても拾わないようにするため
-			errLayout.setOnClickListener(new android.view.View.OnClickListener()
-			{
-				@Override
-				public void onClick(android.view.View v)
-				{
-				}
-			});
+			showErrorMsg("通信エラー", null, "");
+			return;
 		}
 	}
 
@@ -213,6 +184,66 @@ public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.sp
 		btnAgree.setBackground(ReceiptTabApplication.AppContext.getResources().getDrawable(R.drawable.shape_button_gray));
 		statusChkBox = false;
 	}
-};
 
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private  void  showErrorMsg(String ttl, JSONObject jsonObj, String orgMsg)
+	{
+		int		i;
+		String	errMsg;
+
+		if (jsonObj != null)
+		{
+			try
+			{
+				JSONArray arr1 = jsonObj.getJSONArray("error_messages");
+				errMsg = "";
+				for (i=0; i<arr1.length(); i++)
+				{
+					errMsg += (arr1.getString(i) + "\n");
+				}
+			}
+			catch (org.json.JSONException e)
+			{
+				e.printStackTrace();
+				return;
+			}
+		}
+		else
+		{
+			if (orgMsg.equals("") == false)
+					errMsg = orgMsg;
+			else	errMsg = "データが取得できませんでした";
+		}
+
+		errLayout.setVisibility(View.VISIBLE);
+		title.setText(ttl);
+		content.setText(errMsg);
+
+		ReceiptTabApplication.isMsgShown =true;
+
+		msgOff.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				ReceiptTabApplication.isMsgShown =false;
+
+				Message msg = new Message();
+				msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
+				SpaceeAppMain.mMsgHandler.sendMessage(msg);
+			}
+		});
+
+		//	メッセージの下のエレメントをタップしても拾わないようにするため
+		errLayout.setOnClickListener(new android.view.View.OnClickListener()
+		{
+			@Override
+			public void onClick(android.view.View v)
+			{
+			}
+		});
+	}
+}
