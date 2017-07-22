@@ -1,6 +1,7 @@
 package jp.spacee.app.android.spacee_app.listener;
 
 
+import android.util.Log;
 import android.widget.ListView;
 import android.os.Message;
 import java.util.List;
@@ -204,7 +205,7 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 				//	status1/status2の設定が必要
 
 
-				ImageView iv = (ImageView) retView.findViewById(R.id.imgSpace);
+				ImageView iv = (ImageView) retView.findViewById(R.id.thumbnail);
 				if (roomThumnails != null)
 				{
 					iv.setImageBitmap(roomThumnails[pos]);
