@@ -12,41 +12,43 @@ import jp.spacee.app.android.spacee_app.common.UserRegisterData;
 
 public  class  ReceiptTabApplication  extends  Application
 {
-	public  static				Context						AppContext			= null;
+	public  static				Context						AppContext				= null;
 
-	public  static				String						officeId			= "";
-	public  static				String						providerId			= "";
-	public  static				String						providerPw			= "";
+	public  static				String						officeId				= "";
+	public  static				String						providerId				= "";
+	public  static				String						providerPw				= "";
 
-	public  static				BluetoothAdapter			mBluetoothAdapter	= null;
-	public  static				String						targetBLEDeviceName	= "ACR";
+	public  static				BluetoothAdapter			mBluetoothAdapter		= null;
+	public  static				String						targetBLEDeviceName		= "ACR";
 
-	public  static				boolean						flagInitComp		= false;
+	public  static				boolean						flagInitComp			= false;
 
-	public  static				int[]						CallStack			= null;
-	public  static				int							stackPos			= 0;
+	public  static				int[]						CallStack				= null;
+	public  static				int							stackPos				= 0;
 
-	public  static				boolean						isMsgShown			= false;
+	public  static				boolean						isMsgShown				= false;
 
-	public  static				String						providerAuthToken	= "";
-	public  static				String						userAuthToken		= "";
+	public  static				String						providerAuthToken		= "";
+	public  static				String						userAuthToken			= "";
 
-	public  static				List<HashMap<String, String>>	Offices			= null;
-	public  static				String							officeName		= "";
-	public  static				String							listingId		= "";
+	public  static				List<HashMap<String, String>>	Offices				= null;
+	public  static				String							officeName			= "";
+	public  static				String							listingId			= "";
 
-	public  static				UserRegisterData			userRegData			= null;
-	public  static				String						currentUserIdm		= "";
-	public  static				String						currentUserMAddr	= "";
-	public  static				int							currentWorkId		= 0;
-	public  static				String						currentWorkName		= "";
-	public  static				int							currentMeetingId	= 0;
-	public  static				String						currentMeetingName	= "";
+	public  static				UserRegisterData			userRegData				= null;
+	public  static				String						currentUserIdm			= "";
+	public  static				String						currentUserMAddr		= "";
+	public  static				int							currentWorkId			= 0;
+	public  static				int							currentWorkStatus		= 0;
+	public  static				String						currentWorkName			= "";
+	public  static				int							currentMeetingId		= 0;
+	public  static				int							currentMeetingStatus	= 0;
+	public  static				String						currentMeetingName		= "";
 
-	public  static				int							CommRetCode			= 0;
-	public  static				String						CommResult			= "";
-	public  static				String						PictFilePath		= "";
-	public  static				boolean						flgCommCompleted	= false;
+	public  static				int							CommRetCode				= 0;
+	public  static				String						CommResult				= "";
+	public  static				String						PictFilePath			= "";
+	public  static				boolean						flgCommCompleted		= false;
 
 	public  static  final		int							COMM_RC_OK						=  0;
 	public  static  final		int							COMM_RC_FALSE_HTTP_ERROR		= -1;

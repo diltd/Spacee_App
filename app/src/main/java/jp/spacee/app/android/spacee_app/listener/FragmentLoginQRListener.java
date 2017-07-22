@@ -232,13 +232,13 @@ public  class  FragmentLoginQRListener  implements  FragmentLoginQR.FragmentInte
 									else
 									{
 										closeCamera();
-										showErrorMsg("エラー", obj1, "");
+										showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), obj1, "");
 										return;
 									}
 								}
 								else
 								{
-									showErrorMsg("エラー", null, "");
+									showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 									return;
 								}
 							}
@@ -251,7 +251,7 @@ public  class  FragmentLoginQRListener  implements  FragmentLoginQR.FragmentInte
 						else
 						{
 							closeCamera();
-							showErrorMsg("通信エラー", null, "");
+							showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
 							return;
 						}
 					}
@@ -467,7 +467,7 @@ public  class  FragmentLoginQRListener  implements  FragmentLoginQR.FragmentInte
 		{
 			if (orgMsg.equals("") == false)
 					errMsg = orgMsg;
-			else	errMsg = "データが取得できませんでした";
+			else	errMsg = ReceiptTabApplication.AppContext.getResources().getString(R.string.error_msg_common2);
 		}
 
 		errLayout.setVisibility(View.VISIBLE);

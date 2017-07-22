@@ -142,11 +142,28 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 								wStr += (String.format(ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_equipment), arr1.getString(i)));
 							}
 							facilities.setText(wStr);
-							if (obj2.getInt("available_amount") > 0)
-									status.setText(ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_avail));
-							else	status.setText(ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_full));
-							availNo.setText(String.format("%s/%s", obj2.getInt("available_amount"), obj2.getInt("capacity"))
-											+ ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_seat_no));
+							if (jp.spacee.app.android.spacee_app.ReceiptTabApplication.currentWorkStatus > 0)
+							{
+								if (obj2.getInt("available_amount") > 0)
+								{
+									status.setText(ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_status_avail));
+									status.setBackgroundResource(R.drawable.shape_oval_blue);
+								}
+								else
+								{
+									status.setText(ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_status_full));
+									status.setBackgroundResource(R.drawable.shape_oval_gray);
+								}
+								availNo.setText(String.format("%s/%s", obj2.getInt("available_amount"), obj2.getInt("capacity"))
+												+ ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_seat_no));
+							}
+							else
+							{
+								status.setText(ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_status_out_service));
+								status.setBackgroundResource(R.drawable.shape_oval_gray);
+								availNo.setText(String.format("- /%s", obj2.getInt("capacity"))
+												+ ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_seat_no));
+							}
 
 							minBookUnit	= obj2.getInt("min_booking_minutes");
 							bookStep		= obj2.getInt("booking_minute_step");
@@ -156,19 +173,19 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 						}
 						else
 						{
-							showErrorMsg("エラー", null, "");
+							showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 							return;
 						}
 //					}
 //					else
 //					{
-//						showErrorMsg("エラー", obj1, "");
+//						showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), obj1, "");
 //						return;
 //					}
 				}
 				else
 				{
-					showErrorMsg("エラー", null, "");
+					showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 					return;
 				}
 			}
@@ -180,7 +197,7 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 		}
 		else
 		{
-			showErrorMsg("通信エラー", null, "");
+			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
 			return;
 		}
 
@@ -228,19 +245,19 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 						}
 						else
 						{
-							showErrorMsg("エラー", null, "");
+							showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 							return;
 						}
 //					}
 //					else
 //					{
-//						showErrorMsg("エラー", obj1, "");
+//						showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), obj1, "");
 //						return;
 //					}
 				}
 				else
 				{
-					showErrorMsg("エラー", null, "");
+					showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 					return;
 				}
 			}
@@ -252,7 +269,7 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 		}
 		else
 		{
-			showErrorMsg("エラー", null, "");
+			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
 			return;
 		}
 
@@ -355,7 +372,7 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 
 		cvs.drawColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.light_grey_white));
 
-		cvs.drawText("現在",   60, 120, paint1);
+		cvs.drawText(ReceiptTabApplication.AppContext.getResources().getString(R.string.frag_work_list_time_now),   60, 120, paint1);
 		cvs.drawText("13:00", 180, 120, paint1);
 		cvs.drawText("14:00", 300, 120, paint1);
 		cvs.drawText("15:00", 420, 120, paint1);
@@ -398,7 +415,7 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 		{
 			if (orgMsg.equals("") == false)
 					errMsg = orgMsg;
-			else	errMsg = "データが取得できませんでした";
+			else	errMsg = ReceiptTabApplication.AppContext.getResources().getString(R.string.error_msg_common2);
 		}
 
 		errLayout.setVisibility(View.VISIBLE);

@@ -296,14 +296,14 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 						else
 						{
 //							showErrorMsg("エラー", json);
-							Toast.makeText(this, "エラーが発生しました", Toast.LENGTH_LONG).show();
+							Toast.makeText(this, getString(R.string.error_msg_common1), Toast.LENGTH_LONG).show();
 							return;
 						}
 					}
 					else
 					{
 //						showErrorMsg("エラー", null);
-						Toast.makeText(this, "エラーが発生しました", Toast.LENGTH_LONG).show();
+						Toast.makeText(this, getString(R.string.error_msg_common1), Toast.LENGTH_LONG).show();
 						return;
 					}
 				}
@@ -315,8 +315,8 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			}
 			else
 			{
-//				showErrorMsg("エラー", null);
-				Toast.makeText(this, "エラーが発生しました", Toast.LENGTH_LONG).show();
+//				showErrorMsg(getString(R.string.error_title1), null);
+				Toast.makeText(this, getString(R.string.error_msg_common1), Toast.LENGTH_LONG).show();
 				return;
 			}
 
@@ -352,7 +352,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 							else
 							{
 //								showErrorMsg("エラー", null, "");
-								Toast.makeText(this, "エラーが発生しました", Toast.LENGTH_LONG).show();
+								Toast.makeText(this, getString(R.string.error_msg_common1), Toast.LENGTH_LONG).show();
 								return;
 							}
 //						}
@@ -365,7 +365,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 					else
 					{
 //						showErrorMsg("エラー", null);
-						Toast.makeText(this, "エラーが発生しました", Toast.LENGTH_LONG).show();
+						Toast.makeText(this, getString(R.string.error_msg_common1), Toast.LENGTH_LONG).show();
 						return;
 					}
 				}
@@ -378,7 +378,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			else
 			{
 //				showErrorMsg("エラー", null);
-				Toast.makeText(this, "エラーが発生しました", Toast.LENGTH_LONG).show();
+				Toast.makeText(this, getString(R.string.error_msg_common1), Toast.LENGTH_LONG).show();
 				return;
 			}
 		}
@@ -630,8 +630,9 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 								break;
 
 						case MSG_WORK_LIST_COMP:
-								ReceiptTabApplication.currentWorkId	  = msg.arg2;
-								ReceiptTabApplication.currentWorkName = (String)msg.obj;
+								ReceiptTabApplication.currentWorkId		 = msg.arg1;
+								ReceiptTabApplication.currentWorkStatus	 = msg.arg2;
+								ReceiptTabApplication.currentWorkName	 = (String)msg.obj;
 								startFragmentWorkDetail();
 								break;
 
@@ -641,8 +642,9 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 								break;
 
 						case MSG_MEETING_LIST_COMP:
-								ReceiptTabApplication.currentMeetingId	 = msg.arg2;
-								ReceiptTabApplication.currentMeetingName = (String)msg.obj;
+								ReceiptTabApplication.currentMeetingId		= msg.arg1;
+								ReceiptTabApplication.currentMeetingStatus	= msg.arg2;
+								ReceiptTabApplication.currentMeetingName	= (String)msg.obj;
 								startFragmentMeetingDetail();
 								break;
 

@@ -75,6 +75,7 @@ public  class  FragmentAccountLink  extends  Fragment
 		// ここにイベントハンドリング用の関数を羅列する
 		void	onBtnDoLinkClicked		(View view, RelativeLayout errLayout);
 		void	onBtnCancelClicked		(View view);
+		void	setUserName				(View view);
 	}
 
 
@@ -109,6 +110,14 @@ public  class  FragmentAccountLink  extends  Fragment
 				mListener.onBtnCancelClicked(v);
 			}
 		});
+
+
+		while (mListener == null)
+		{
+			android.os.SystemClock.sleep(100);
+		}
+		mListener.setUserName(view);
+
 
 		return  view;
 	}

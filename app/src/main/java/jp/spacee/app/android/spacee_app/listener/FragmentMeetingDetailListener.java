@@ -142,11 +142,28 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 								wStr += (String.format(ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_equipment), arr1.getString(i)));
 							}
 							facilities.setText(wStr);
-							if (obj2.getInt("available_amount") > 0)
-									status.setText(ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_avail));
-							else	status.setText(ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_full));
-							availNo.setText(String.format("%1s/%2s", obj2.getInt("available_amount"), obj2.getInt("capacity"))
-											+ ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_seat_no));
+							if (jp.spacee.app.android.spacee_app.ReceiptTabApplication.currentMeetingStatus > 0)
+							{
+								if (obj2.getInt("available_amount") > 0)
+								{
+									status.setText(ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_status_avail));
+									status.setBackgroundResource(R.drawable.shape_oval_blue);
+								}
+								else
+								{
+									status.setText(ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_status_full));
+									status.setBackgroundResource(R.drawable.shape_oval_gray);
+								}
+								availNo.setText(String.format("%1s/%2s", obj2.getInt("available_amount"), obj2.getInt("capacity"))
+												+ ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_seat_no));
+							}
+							else
+							{
+								status.setText(ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_status_out_service));
+								status.setBackgroundResource(R.drawable.shape_oval_gray);
+								availNo.setText(String.format("- /%2s", obj2.getInt("capacity"))
+												+ ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_seat_no));
+							}
 
 							avail_No		= obj2.getInt("capacity");
 							minBookUnit	= obj2.getInt("min_booking_minutes");
@@ -157,19 +174,19 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 						}
 						else
 						{
-							showErrorMsg("エラー", null, "");
+							showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 							return;
 						}
 //					}
 //					else
 //					{
-//						showErrorMsg("エラー", obj1, "");
+//						showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), obj1, "");
 //						return;
 //					}
 				}
 				else
 				{
-					showErrorMsg("エラー", null, "");
+					showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 					return;
 				}
 			}
@@ -181,7 +198,7 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 		}
 		else
 		{
-			showErrorMsg("通信エラー", null, "");
+			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
 			return;
 		}
 
@@ -228,19 +245,19 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 						}
 						else
 						{
-							showErrorMsg("エラー", null, "");
+							showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 							return;
 						}
 //					}
 //					else
 //					{
-//						showErrorMsg("エラー", obj1, "");
+//						showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), obj1, "");
 //						return;
 //					}
 				}
 				else
 				{
-					showErrorMsg("エラー", null, "");
+					showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 					return;
 				}
 			}
@@ -252,7 +269,7 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 		}
 		else
 		{
-			showErrorMsg("エラー", null, "");
+			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 			return;
 		}
 
@@ -408,7 +425,7 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 		{
 			if (orgMsg.equals("") == false)
 					errMsg = orgMsg;
-			else	errMsg = "データが取得できませんでした";
+			else	errMsg = ReceiptTabApplication.AppContext.getResources().getString(R.string.error_msg_common2);
 		}
 
 		errLayout.setVisibility(View.VISIBLE);

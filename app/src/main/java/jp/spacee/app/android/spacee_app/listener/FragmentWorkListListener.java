@@ -168,19 +168,19 @@ public  class  FragmentWorkListListener  implements  FragmentWorkList.FragmentIn
 						}
 						else
 						{
-							showErrorMsg("エラー", null, "");
+							showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 							return;
 						}
 //					}
 //					else
 //					{
-//						showErrorMsg("エラー", jsonObj1, "");
+//						showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), jsonObj1, "");
 //						return;
 //					}
 				}
 				else
 				{
-					showErrorMsg("エラー", null, "");
+					showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 					return;
 				}
 			}
@@ -201,7 +201,7 @@ public  class  FragmentWorkListListener  implements  FragmentWorkList.FragmentIn
 		}
 		else
 		{
-			showErrorMsg("通信エラー", null, "");
+			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
 			return;
 		}
 	}
@@ -209,20 +209,38 @@ public  class  FragmentWorkListListener  implements  FragmentWorkList.FragmentIn
 
 	private void redrawWorkList(ListView listView)
 	{
-		int		i;
+		int		i, nowMin;
 
 		HashMap<String, String> mapin;
 		HashMap<String, String> mapout;
-		List<HashMap<String, String>> workAreaInfo = new ArrayList<HashMap<String, String>>();
+		final  List<HashMap<String, String>> workAreaInfo = new ArrayList<HashMap<String, String>>();
 
+		Calendar  cal = Calendar.getInstance();
+		nowMin = cal.get(Calendar.HOUR_OF_DAY)*60 + cal.get(Calendar.MINUTE);
 		for (i = 0; i < workList.size(); i++)
 		{
 			mapin = workList.get(i);
 			mapout = new HashMap<String, String>();
-			if (Integer.parseInt(mapin.get("available")) > 0)
+			if ((Integer.parseInt(mapin.get("bgnTime")) <= nowMin) && (nowMin <= Integer.parseInt(mapin.get("endTime"))))
+			{
+				if (Integer.parseInt(mapin.get("available")) > 0)
+				{
 					mapout.put("Status",	ReceiptTabApplication.AppContext.getString(R.string.frag_work_list_status_avail));
-			  else	mapout.put("Status",	ReceiptTabApplication.AppContext.getString(R.string.frag_work_list_status_full));
-			mapout.put("Avail",		mapin.get("available") + "/" + mapin.get("capacity") + ReceiptTabApplication.AppContext.getString(R.string.frag_work_list_seat));
+					mapout.put("StsCode", "1");
+				}
+				else
+				{
+					mapout.put("Status",	ReceiptTabApplication.AppContext.getString(R.string.frag_work_list_status_full));
+					mapout.put("StsCode", "2");
+				}
+				mapout.put("Avail",		mapin.get("available") + "/" + mapin.get("capacity") + ReceiptTabApplication.AppContext.getString(R.string.frag_work_list_seat));
+			}
+			else
+			{
+				mapout.put("Status",	ReceiptTabApplication.AppContext.getString(R.string.frag_work_list_status_out_service));
+				mapout.put("StsCode", "0");
+				mapout.put("Avail",		"- /" + mapin.get("capacity") + ReceiptTabApplication.AppContext.getString(R.string.frag_work_list_seat));
+			}
 			mapout.put("Name", 		mapin.get("subtitle"));
 			if (mapin.get("equipments").equals(""))
 				mapout.put("Facility", ReceiptTabApplication.AppContext.getString(R.string.frag_work_list_no_equipment));
@@ -255,7 +273,7 @@ public  class  FragmentWorkListListener  implements  FragmentWorkList.FragmentIn
 				}
 
 				TextView sts = (TextView) retView.findViewById(R.id.status);
-				if (sts.getText().toString().equals("利用可"))
+				if (sts.getText().toString().equals(ReceiptTabApplication.AppContext.getString(R.string.frag_work_list_status_avail)))
 						sts.setBackgroundResource(R.drawable.shape_oval_blue);
 				else	sts.setBackgroundResource(R.drawable.shape_oval_gray);
 
@@ -279,13 +297,14 @@ public  class  FragmentWorkListListener  implements  FragmentWorkList.FragmentIn
 			public void onItemClick(AdapterView<?> parent, View view, final int pos, long id)
 			{
 				HashMap<String, String> map = new HashMap<String, String>();
-				map = workList.get(pos);
 
 				Message msg = new Message();
 				msg.what = SpaceeAppMain.MSG_WORK_LIST_COMP;
-				msg.arg1 = pos;									//	リストのEntry番号
-				msg.arg2 = Integer.parseInt(map.get("id"));	//	id
-				msg.obj  = map.get("subtitle");				//	subtitle
+				map = workList.get(pos);
+				msg.arg1 = Integer.parseInt(map.get("id"));			//	id
+				msg.obj  = map.get("subtitle");						//	subtitle
+				map = workAreaInfo.get(pos);
+				msg.arg2 = Integer.parseInt(map.get("StsCode"));		//	status code 0/1/2
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
 			}
 		});
@@ -395,7 +414,7 @@ public  class  FragmentWorkListListener  implements  FragmentWorkList.FragmentIn
 		{
 			if (orgMsg.equals("") == false)
 					errMsg = orgMsg;
-			else	errMsg = "データが取得できませんでした";
+			else	errMsg = ReceiptTabApplication.AppContext.getResources().getString(R.string.error_msg_common2);
 		}
 
 		errLayout.setVisibility(View.VISIBLE);

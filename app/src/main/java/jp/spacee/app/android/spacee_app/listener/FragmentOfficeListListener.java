@@ -69,26 +69,26 @@ public  class  FragmentOfficeListListener  implements  FragmentOfficeList.Fragme
 								ReceiptTabApplication.Offices.add(map);
 							}
 
-//							HashMap<String, String>  map = new HashMap<String, String>();
-//							map = ReceiptTabApplication.Offices.get(0);
-//							ReceiptTabApplication.officeId	 = map.get("id");
-//							ReceiptTabApplication.officeName = map.get("name");
+							HashMap<String, String>  map = new HashMap<String, String>();
+							map = ReceiptTabApplication.Offices.get(0);
+							ReceiptTabApplication.officeId	 = map.get("id");
+							ReceiptTabApplication.officeName = map.get("name");
 						}
 						else
 						{
-							showErrorMsg("エラー", null, "");
+							showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 							return;
 						}
 //					}
 //					else
 //					{
-//						showErrorMsg("エラー", json, "");
+//						showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), json, "");
 //						return;
 //					}
 				}
 				else
 				{
-					showErrorMsg("エラー", null, "");
+					showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 					return;
 				}
 			}
@@ -100,7 +100,7 @@ public  class  FragmentOfficeListListener  implements  FragmentOfficeList.Fragme
 		}
 		else
 		{
-			showErrorMsg("通信エラー", null, "");
+			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
 			return;
 		}
 
@@ -186,7 +186,7 @@ public  class  FragmentOfficeListListener  implements  FragmentOfficeList.Fragme
 		{
 			if (orgMsg.equals("") == false)
 					errMsg = orgMsg;
-			else	errMsg = "データが取得できませんでした";
+			else	errMsg = ReceiptTabApplication.AppContext.getResources().getString(R.string.error_msg_common2);
 		}
 
 		errLayout.setVisibility(View.VISIBLE);

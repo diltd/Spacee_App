@@ -8,6 +8,13 @@
 	<string name="relay_ok1">はい</string>
 	<string name="relay_ng1">いいえ</string>
 
+
+	<!-- Common  Error Message -->
+	<string name="error_title1">エラー</string>
+	<string name="error_title2">通信エラー</string>
+	<string name="error_msg_common1">エラーが発生しました</string>
+	<string name="error_msg_common2">データが取得できませんでした</string>
+
 	<!-- CustomBasewindow -->
 	<string name="logout_from">からログアウト</string>
 
@@ -50,10 +57,13 @@
 	<!-- FragmentBookDetailListener -->
 
 	<!-- FragmentBookListListener -->
+	<string name="frag_booklist_error_title">予約なし</string>
+	<string name="frag_booklist_error_msg">予約がありません</string>
 
 	<!-- FragmentCheckBookingListener -->
 
 	<!-- FragmentEntryAppListener -->
+	<string name="frag_entry_app_msg_title">SMS送信完了</string>
 
 	<!-- FragmentEntryCardListener -->
 
@@ -75,14 +85,16 @@
 	<string name="frag_meeting_detail_psn_no">～%1$d人</string>
 	<string name="frag_meeting_detail_square">%1$d㎡</string>
 	<string name="frag_meeting_detail_equipment">●%s\n</string>
-	<string name="frag_meeting_detail_avail">利用可</string>
-	<string name="frag_meeting_detail_full">利用中</string>
+	<string name="frag_meeting_detail_status_avail">利用可</string>
+	<string name="frag_meeting_detail_status_full">利用中</string>
+	<string name="frag_meeting_detail_status_out_service">時間外</string>
 	<string name="frag_meeting_detail_seat_no"> 席</string>
 	<string name="frag_meeting_detail_time_now">現在</string>
 
 	<!-- FragmentMeetingListListener -->
 	<string name="frag_meeting_list_status_avail">利用可</string>
 	<string name="frag_meeting_list_status_full">利用中</string>
+	<string name="frag_meeting_list_status_out_service">時間外</string>
 	<string name="frag_meeting_list_no_equipment">設備なし</string>
 	<string name="frag_meeting_list_max_psn">・最大</string>
 	<string name="frag_meeting_list_psn_avail">人利用\n・</string>
@@ -97,6 +109,7 @@
 	<string name="frag_order_confirm_pay_credit">クレジットカード支払い</string>
 	<string name="frag_order_confirm_card_id">****.****.****.%1$s</string>
 	<string name="frag_order_confirm_pay_invoice">請求書払い</string>
+	<string name="frag_order_confirm_error_msg">支払方法が登録されていません</string>
 
 	<!-- FragmentProviderLoginListener -->
 
@@ -112,14 +125,16 @@
 	<string name="frag_work_detail_psn_no">～%1$d人</string>
 	<string name="frag_work_detail_square">%1$d㎡</string>
 	<string name="frag_work_detail_equipment">●%s\n</string>
-	<string name="frag_work_detail_avail">利用可</string>
-	<string name="frag_work_detail_full">満員中</string>
+	<string name="frag_work_detail_status_avail">利用可</string>
+	<string name="frag_work_detail_status_full">満員中</string>
+	<string name="frag_work_detail_status_out_service">時間外</string>
 	<string name="frag_work_detail_seat_no"> 席</string>
 	<string name="frag_work_detail_time_now">現在</string>
 
 	<!-- FragmentWorkListListener -->
 	<string name="frag_work_list_status_avail">利用可</string>
 	<string name="frag_work_list_status_full">満員中</string>
+	<string name="frag_work_list_status_out_service">時間外</string>
 	<string name="frag_work_list_seat">席</string>
 	<string name="frag_work_list_no_equipment">設備なし</string>
 	<string name="frag_work_list_max_psn">・最大</string>

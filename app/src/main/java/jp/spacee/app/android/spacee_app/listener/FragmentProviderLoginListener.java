@@ -12,6 +12,7 @@ import jp.spacee.app.android.spacee_app.activity.SpaceeAppMain;
 import jp.spacee.app.android.spacee_app.fragment.FragmentProviderLogin;
 import jp.spacee.app.android.spacee_app.ReceiptTabApplication;
 import jp.spacee.app.android.spacee_app.R;
+import jp.spacee.app.android.spacee_app.comm.HttpCommGlueRoutines;
 
 
 public  class  FragmentProviderLoginListener  implements  FragmentProviderLogin.FragmentInteractionListener
@@ -43,7 +44,10 @@ public  class  FragmentProviderLoginListener  implements  FragmentProviderLogin.
 		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
 		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
 
-
+		if (SpaceeAppMain.httpCommGlueRoutines == null)
+		{
+			SpaceeAppMain.httpCommGlueRoutines = new HttpCommGlueRoutines();
+		}
 		String	result = SpaceeAppMain.httpCommGlueRoutines.providerUserSignin(id, pw);
 
 		if (result != null)
@@ -68,13 +72,13 @@ public  class  FragmentProviderLoginListener  implements  FragmentProviderLogin.
 					}
 					else
 					{
-						showErrorMsg("エラー", json, "");
+						showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), json, "");
 						return;
 					}
 				}
 				else
 				{
-					showErrorMsg("エラー", null, "");
+					showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 					return;
 				}
 			}
@@ -86,7 +90,7 @@ public  class  FragmentProviderLoginListener  implements  FragmentProviderLogin.
 		}
 		else
 		{
-			showErrorMsg("通信エラー", null, "");
+			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
 			return;
 		}
 	}
@@ -149,7 +153,7 @@ public  class  FragmentProviderLoginListener  implements  FragmentProviderLogin.
 		{
 			if (orgMsg.equals("") == false)
 					errMsg = orgMsg;
-			else	errMsg = "データが取得できませんでした";
+			else	errMsg = ReceiptTabApplication.AppContext.getResources().getString(R.string.error_msg_common2);
 		}
 
 		errLayout.setVisibility(View.VISIBLE);

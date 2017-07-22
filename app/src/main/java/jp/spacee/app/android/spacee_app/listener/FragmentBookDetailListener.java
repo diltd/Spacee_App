@@ -18,6 +18,7 @@ import org.json.JSONException;
 import jp.spacee.app.android.spacee_app.activity.SpaceeAppMain;
 import jp.spacee.app.android.spacee_app.fragment.FragmentBookDetail;
 import jp.spacee.app.android.spacee_app.R;
+import jp.spacee.app.android.spacee_app.ReceiptTabApplication;
 
 
 public  class  FragmentBookDetailListener  implements  FragmentBookDetail.FragmentInteractionListener
@@ -127,19 +128,19 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 						}
 						else
 						{
-							showErrorMsg("エラー", null, "");
+							showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 							return;
 						}
 					}
 					else
 					{
-						showErrorMsg("エラー", obj1, "");
+						showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), obj1, "");
 						return;
 					}
 				}
 				else
 				{
-					showErrorMsg("エラー", null, "");
+					showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 					return;
 				}
 			}
@@ -154,7 +155,7 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 		}
 		else
 		{
-			showErrorMsg("通信エラー", null, "");
+			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
 			return;
 		}
 	}
@@ -189,7 +190,7 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 		{
 			if (orgMsg.equals("") == false)
 					errMsg = orgMsg;
-			else	errMsg = "データが取得できませんでした";
+			else	errMsg = ReceiptTabApplication.AppContext.getResources().getString(R.string.error_msg_common2);
 		}
 
 		errLayout.setVisibility(View.VISIBLE);

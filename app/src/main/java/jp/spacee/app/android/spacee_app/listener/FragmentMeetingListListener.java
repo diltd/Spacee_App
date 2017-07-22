@@ -167,7 +167,7 @@ public  class  FragmentMeetingListListener  implements  FragmentMeetingList.Frag
 						}
 						else
 						{
-							showErrorMsg("エラー", null, "");
+							showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 							return;
 						}
 //					}
@@ -179,7 +179,7 @@ public  class  FragmentMeetingListListener  implements  FragmentMeetingList.Frag
 				}
 				else
 				{
-					showErrorMsg("エラー", null, "");
+					showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 					return;
 				}
 			}
@@ -200,7 +200,7 @@ public  class  FragmentMeetingListListener  implements  FragmentMeetingList.Frag
 		}
 		else
 		{
-			showErrorMsg("通信エラー", null, "");
+			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
 			return;
 		}
 	}
@@ -208,19 +208,36 @@ public  class  FragmentMeetingListListener  implements  FragmentMeetingList.Frag
 
 	private void redrawMeetingList(ListView listView)
 	{
-		int		i;
+		int		i, nowMin;
 
 		HashMap<String, String> mapin;
 		HashMap<String, String> mapout;
-		List<HashMap<String, String>> meetingAreaInfo = new ArrayList<HashMap<String, String>>();
+		final List<HashMap<String, String>> meetingAreaInfo = new ArrayList<HashMap<String, String>>();
 
+		Calendar  cal = Calendar.getInstance();
+		nowMin = cal.get(Calendar.HOUR_OF_DAY)*60 + cal.get(Calendar.MINUTE);
 		for (i = 0; i < meetingList.size(); i++)
 		{
 			mapin = meetingList.get(i);
 			mapout = new HashMap<String, String>();
-			if (Integer.parseInt(mapin.get("available")) > 0)
-					mapout.put("Status",	ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_list_status_avail));
-			  else	mapout.put("Status",	ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_list_status_full));
+			if ((Integer.parseInt(mapin.get("bgnTime")) <= nowMin) && (nowMin <= Integer.parseInt(mapin.get("endTime"))))
+			{
+				if (Integer.parseInt(mapin.get("available")) > 0)
+				{
+					mapout.put("Status", ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_list_status_avail));
+					mapout.put("StsCode", "1");
+				}
+				else
+				{
+					mapout.put("Status",	ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_list_status_full));
+					mapout.put("StsCode", "2");
+				}
+			}
+			else
+			{
+				mapout.put("Status",	ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_list_status_out_service));
+				mapout.put("StsCode", "0");
+			}
 			mapout.put("Name", 		mapin.get("subtitle"));
 			if (mapin.get("equipments").equals(""))
 				mapout.put("Facility", ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_list_no_equipment));
@@ -253,7 +270,7 @@ public  class  FragmentMeetingListListener  implements  FragmentMeetingList.Frag
 				}
 
 				TextView sts = (TextView) retView.findViewById(R.id.status);
-				if (sts.getText().toString().equals("利用可"))
+				if (sts.getText().toString().equals(ReceiptTabApplication.AppContext.getResources().getString(R.string.frag_meeting_list_status_avail)))
 						sts.setBackgroundResource(R.drawable.shape_oval_blue);
 				else	sts.setBackgroundResource(R.drawable.shape_oval_gray);
 
@@ -277,13 +294,14 @@ public  class  FragmentMeetingListListener  implements  FragmentMeetingList.Frag
 			public void onItemClick(AdapterView<?> parent, View view, final int pos, long id)
 			{
 				HashMap<String, String>  map = new HashMap<String, String>();
-				map = meetingList.get(pos);
 
 				Message msg = new Message();
 				msg.what = SpaceeAppMain.MSG_MEETING_LIST_COMP;
-				msg.arg1 = pos;                 				//	リストのEntry番号
-				msg.arg2 = Integer.parseInt(map.get("id"));	//	id
-				msg.obj  = map.get("subtitle");				//	subtitle
+				map = meetingList.get(pos);
+				msg.arg1 = Integer.parseInt(map.get("id"));			//	id
+				msg.obj  = map.get("subtitle");						//	subtitle
+				map = meetingAreaInfo.get(pos);
+				msg.arg2 = Integer.parseInt(map.get("StsCode"));		//	status code 0/1/2
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
 			}
 		});
@@ -393,7 +411,7 @@ public  class  FragmentMeetingListListener  implements  FragmentMeetingList.Frag
 		{
 			if (orgMsg.equals("") == false)
 					errMsg = orgMsg;
-			else	errMsg = "データが取得できませんでした";
+			else	errMsg = ReceiptTabApplication.AppContext.getResources().getString(R.string.error_msg_common2);
 		}
 
 		errLayout.setVisibility(View.VISIBLE);

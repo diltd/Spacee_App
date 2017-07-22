@@ -82,7 +82,7 @@ public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.sp
 								}
 								else
 								{
-									showErrorMsg("エラー", obj2, "");
+									showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), obj2, "");
 								}
 							}
 							catch (org.json.JSONException e)
@@ -93,7 +93,7 @@ public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.sp
 						}
 						else
 						{
-							showErrorMsg("通信エラー", null, "");
+							showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
 						}
 					}
 					else
@@ -119,7 +119,7 @@ public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.sp
 								}
 								else
 								{
-									showErrorMsg("エラー", obj2, "");
+									showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), obj2, "");
 									return;
 								}
 							}
@@ -131,14 +131,14 @@ public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.sp
 						}
 						else
 						{
-							showErrorMsg("通信エラー", null, "");
+							showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
 							return;
 						}
 					}
 				}
 				else
 				{
-					showErrorMsg("エラー", obj1, "");
+					showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), obj1, "");
 					return;
 				}
 			}
@@ -150,7 +150,7 @@ public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.sp
 		}
 		else
 		{
-			showErrorMsg("通信エラー", null, "");
+			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
 			return;
 		}
 	}
@@ -215,7 +215,7 @@ public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.sp
 		{
 			if (orgMsg.equals("") == false)
 					errMsg = orgMsg;
-			else	errMsg = "データが取得できませんでした";
+			else	errMsg = ReceiptTabApplication.AppContext.getResources().getString(R.string.error_msg_common2);
 		}
 
 		errLayout.setVisibility(View.VISIBLE);

@@ -58,7 +58,7 @@ public  class  FragmentEntryAppListener  implements  FragmentEntryApp.FragmentIn
 						String	msg	= obj1.getString("message");
 
 						errLayout.setVisibility(View.VISIBLE);
-						title.setText("SMS送信完了");
+						title.setText(ReceiptTabApplication.AppContext.getResources().getString(R.string.frag_entry_app_msg_title));
 						content.setText(msg);
 
 						jp.spacee.app.android.spacee_app.ReceiptTabApplication.isMsgShown =true;
@@ -88,13 +88,13 @@ public  class  FragmentEntryAppListener  implements  FragmentEntryApp.FragmentIn
 					}
 					else
 					{
-						showErrorMsg("エラー", obj1, "");
+						showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), obj1, "");
 						return;
 					}
 				}
 				else
 				{
-					showErrorMsg("エラー", null, "");
+					showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 					return;
 				}
 			}
@@ -106,7 +106,7 @@ public  class  FragmentEntryAppListener  implements  FragmentEntryApp.FragmentIn
 		}
 		else
 		{
-			showErrorMsg("通信エラー", null, "");
+			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
 			return;
 		}
 	}
@@ -190,7 +190,7 @@ public  class  FragmentEntryAppListener  implements  FragmentEntryApp.FragmentIn
 		{
 			if (orgMsg.equals("") == false)
 					errMsg = orgMsg;
-			else	errMsg = "データが取得できませんでした";
+			else	errMsg = ReceiptTabApplication.AppContext.getResources().getString(R.string.error_msg_common2);
 		}
 
 		errLayout.setVisibility(View.VISIBLE);
