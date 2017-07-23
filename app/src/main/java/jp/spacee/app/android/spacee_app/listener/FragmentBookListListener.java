@@ -112,13 +112,13 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 								JSONObject obj5 = obj2.getJSONObject("pre_booking");
 								try
 								{
-									SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+									SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 									Date wDate = sdf.parse(obj5.getString("start_at"));
 									map.put("startDate", new SimpleDateFormat("MM月dd日").format(wDate));
-									map.put("startTime", new SimpleDateFormat("hh:mm").format(wDate));
+									map.put("startTime", new SimpleDateFormat("HH:mm").format(wDate));
 									wDate =  sdf.parse(obj5.getString("end_at"));
 									map.put("endDate", new SimpleDateFormat("MM月dd日").format(wDate));
-									map.put("endTime", new SimpleDateFormat("hh:mm").format(wDate));
+									map.put("endTime", new SimpleDateFormat("HH:mm").format(wDate));
 								}
 								catch (java.text.ParseException e)
 								{
@@ -187,8 +187,8 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 		adapter = new SimpleAdapter(ReceiptTabApplication.AppContext,
 									seatsList,
 									R.layout.layout_list_book,
-									new		String[]{"startDate",	 "endDate",	 "startTime",	 "endTime",	"subtitle", 	 "equipments"},
-									new		int[]   {R.id.dateBegin, R.id.dateEnd, R.id.timeBegin, R.id.timeEnd, R.id.placeName, R.id.info2})
+									new		String[]{"startDate",	 "endDate",	 "startTime",	 "endTime",	"subtitle", 	  "title",	   "equipments"},
+									new		int[]   {R.id.dateBegin, R.id.dateEnd, R.id.timeBegin, R.id.timeEnd, R.id.placeName, R.id.info1, R.id.info2})
 		{
 			@Override
 			public View getView(int pos, View cView, ViewGroup parent)
@@ -200,11 +200,19 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 					LayoutInflater inflater = (LayoutInflater) ReceiptTabApplication.AppContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 					retView = inflater.inflate(R.layout.layout_list_book, null);
 				}
+/*
+				if ()
+				{
 
-				//	status1/status2の設定が必要
+
+				}
+				else
+				{
 
 
-				ImageView iv = (ImageView) retView.findViewById(R.id.imgSpace);
+				}
+*/
+				ImageView iv = (ImageView) retView.findViewById(R.id.thumbnail);
 				if (roomThumnails != null)
 				{
 					iv.setImageBitmap(roomThumnails[pos]);
@@ -279,7 +287,7 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 				ReceiptTabApplication.isMsgShown =false;
 
 				android.os.Message msg = new android.os.Message();
-				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
 				msg.arg1 = 2;									//	id/pw ng
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
 			}

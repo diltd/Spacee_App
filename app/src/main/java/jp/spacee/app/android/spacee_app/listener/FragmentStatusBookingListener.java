@@ -1,6 +1,6 @@
 package jp.spacee.app.android.spacee_app.listener;
 
-
+import android.os.Handler;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +36,7 @@ public  class  FragmentStatusBookingListener  implements  jp.spacee.app.android.
 	private								ListView					bookingStatusList	= null;
 	private								TextView[]					monthName			= null;
 	private								View[]						monthMark			= null;
+	private								RelativeLayout				statusProgress		= null;
 
 	private								RelativeLayout 				errLayout			= null;
 	private								TextView					title				= null;
@@ -47,53 +48,59 @@ public  class  FragmentStatusBookingListener  implements  jp.spacee.app.android.
 	private								SimpleAdapter				adapter				= null;
 
 	private								int							this_id				= -1;
+	private								int							caller				= -1;
+
+	private								int							targetYear			= 0;
+	private								int							targetMonth		= 0;
+	private								int							targetDayNo		= 0;
+	private								int							targetStDay		= 0;
 
 
-
-	public  FragmentStatusBookingListener(int id)
+	public  FragmentStatusBookingListener(int id, int kind)
 	{
 		this_id = id;
+		caller	 = kind;
 	}
 
 
 	@Override
 	public  void  onMonth1Clicked(android.view.View view)
 	{
-		redrawBookingSchedules(0);
+		redrawBookingSchedules1(0);
 	}
 
 
 	@Override
 	public  void  onMonth2Clicked(android.view.View view)
 	{
-		redrawBookingSchedules(1);
+		redrawBookingSchedules1(1);
 	}
 
 
 	@Override
 	public  void  onMonth3Clicked(android.view.View view)
 	{
-		redrawBookingSchedules(2);
+		redrawBookingSchedules1(2);
 	}
 
 	@Override
 	public  void  onMonth4Clicked(android.view.View view)
 	{
-		redrawBookingSchedules(3);
+		redrawBookingSchedules1(3);
 	}
 
 
 	@Override
 	public  void  onMonth5Clicked(android.view.View view)
 	{
-		redrawBookingSchedules(4);
+		redrawBookingSchedules1(4);
 	}
 
 
 	@Override
 	public  void  onMonth6Clicked(android.view.View view)
 	{
-		redrawBookingSchedules(5);
+		redrawBookingSchedules1(5);
 	}
 
 
@@ -102,7 +109,8 @@ public  class  FragmentStatusBookingListener  implements  jp.spacee.app.android.
 	{
 		int		i, month;
 
-		bookingStatusList	= (ListView)	view.findViewById(R.id.bookingStatus);
+		bookingStatusList	= (ListView)		view.findViewById(R.id.bookingStatus);
+		statusProgress		= (RelativeLayout)	view.findViewById(R.id.statusProgress);
 
 		monthName	  = new TextView[6];
 		monthName[0] = (TextView)	view.findViewById(R.id.monthName1);
@@ -129,13 +137,13 @@ public  class  FragmentStatusBookingListener  implements  jp.spacee.app.android.
 			else	monthName[i].setText(String.format("%02d月", (month+i-12)));
 		}
 
-		redrawBookingSchedules(0);
+		redrawBookingSchedules1(0);
 	}
 
 
-	private  void  redrawBookingSchedules(int eno)
+	private  void  redrawBookingSchedules1(final int eno)
 	{
-		int		i, year, month, day, dayNo, stNo;
+		int		i;
 
 		for (i=0; i<6; i++)
 		{
@@ -145,15 +153,34 @@ public  class  FragmentStatusBookingListener  implements  jp.spacee.app.android.
 
 
 		Calendar  cal = Calendar.getInstance();
-		year	= cal.get(Calendar.YEAR);
-		month	= cal.get(Calendar.MONTH) + eno + 1;			//	0 rorigin   jan=0 feb=1... -> +1
-		day		= cal.get(Calendar.DAY_OF_MONTH);
-		if (month > 12)
+		targetYear		= cal.get(Calendar.YEAR);
+		targetMonth	= cal.get(Calendar.MONTH) + eno + 1;			//	0 rorigin   jan=0 feb=1... -> +1
+		targetDayNo	= cal.get(Calendar.DAY_OF_MONTH);
+		if (targetMonth > 12)
 		{
-			year ++;
-			month -= 12;
+			targetYear ++;
+			targetMonth -= 12;
 		}
-		retrieveListInfo(eno, year, month);
+		statusProgress.setVisibility(View.VISIBLE);
+
+		new Handler().postDelayed(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				retrieveListInfo(eno, targetYear, targetMonth);
+
+				redrawBookingSchedules2(eno, targetYear, targetMonth, targetDayNo);
+			}
+		}, 500);
+	}
+
+
+	private  void  redrawBookingSchedules2(int eno, int year, int month, int day)
+	{
+		int		i, dayNo;
+
+		statusProgress.setVisibility(View.INVISIBLE);
 
 		if ((month == 4) || (month == 6) || (month == 9) || (month == 11))
 		{
@@ -175,9 +202,9 @@ public  class  FragmentStatusBookingListener  implements  jp.spacee.app.android.
 		ArrayList<HashMap<String, String>> bookingInfo = new ArrayList<java.util.HashMap<String, String>>();
 
 		if (eno == 0)
-				stNo = day;
-		else	stNo = 1;
-		for (i=stNo; i<=dayNo; i++)
+				targetStDay = day;
+		else	targetStDay = 1;
+		for (i=targetStDay; i<=dayNo; i++)
 		{
 			mapout = new HashMap<String, String>();
 			mapout.put("day", String.format("%02d/%02d", month, i));
@@ -207,16 +234,34 @@ public  class  FragmentStatusBookingListener  implements  jp.spacee.app.android.
 				TextView		sts		= (TextView)		retView.findViewById(R.id.todayMark);
 				TextView		date	= (TextView)		retView.findViewById(R.id.day);
 				ImageView		mark	= (ImageView)		retView.findViewById(R.id.select);
-				if (pos == 0)			//	tentative
+
+				//	今日の表示
+				Calendar	cal = Calendar.getInstance();
+				String	wStr = date.getText().toString();
+				if (   (cal.get(Calendar.MONTH) + 1		== Integer.parseInt(wStr.substring(0, 2)))
+					&& (cal.get(Calendar.DAY_OF_MONTH)	== Integer.parseInt(wStr.substring(3, 5))) )
 				{
-					sts.setText("今日");
+					sts.setText(ReceiptTabApplication.AppContext.getResources().getString(R.string.frag_status_booking_today));
+				}
+				else
+				{
+					sts.setText("");
+				}
+
+				//	Selected
+				if (  (  (caller == 1)
+					  && (ReceiptTabApplication.currentWorkDetailMonth	== Integer.parseInt(wStr.substring(0, 2)))
+					  && (ReceiptTabApplication.currentWorkDetailDay	== Integer.parseInt(wStr.substring(3, 5))))
+				   || (  (caller == 2)
+					  && (ReceiptTabApplication.currentMeetingDetailMonth == Integer.parseInt(wStr.substring(0, 2)))
+					  && (ReceiptTabApplication.currentMeetingDetailDay	  == Integer.parseInt(wStr.substring(3, 5)))) )
+				{
 					mark.setImageResource(R.drawable.ic_check);
 					ll.setBackgroundColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.light_grey));
 					selected = true;
 				}
 				else
 				{
-					sts.setText("");
 					mark.setImageBitmap(null);
 					ll.setBackgroundColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.light_grey_white));
 					selected = false;
@@ -235,14 +280,22 @@ public  class  FragmentStatusBookingListener  implements  jp.spacee.app.android.
 		{
 			public void onItemClick(android.widget.AdapterView<?> parent, android.view.View view, final int pos, long id)
 			{
-//				HashMap<String, String>  map = new HashMap<String, String>();
-//				map = workList.get(pos);
+				if (caller == 1)
+				{
+					ReceiptTabApplication.currentWorkDetailYear	 = targetYear;
+					ReceiptTabApplication.currentWorkDetailMonth = targetMonth;
+					ReceiptTabApplication.currentWorkDetailDay	 = targetStDay + pos;
+				}
+				else
+				{
+					ReceiptTabApplication.currentMeetingDetailYear	= targetYear;
+					ReceiptTabApplication.currentMeetingDetailMonth = targetMonth;
+					ReceiptTabApplication.currentMeetingDetailDay	= targetStDay + pos;
+				}
 
 				Message msg = new Message();
 				msg.what = SpaceeAppMain.MSG_STATUS_BOOKING_COMP;
-				msg.arg1 = pos;									//	リストのEntry番号
-//				msg.arg2 = Integer.parseInt(map.get("id"));	//	id
-//				msg.obj  = map.get("subtitle");				//	subtitle
+				msg.arg1 = caller;									//	呼び出し元  1:workDetail  2:meetingDdetail
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
 			}
 		});
@@ -459,7 +512,7 @@ public  class  FragmentStatusBookingListener  implements  jp.spacee.app.android.
 				ReceiptTabApplication.isMsgShown =false;
 
 				android.os.Message msg = new android.os.Message();
-				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
 				msg.arg1 = 2;									//	id/pw ng
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
 			}

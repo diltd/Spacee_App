@@ -90,6 +90,9 @@
 	<string name="frag_meeting_detail_status_out_service">時間外</string>
 	<string name="frag_meeting_detail_seat_no"> 席</string>
 	<string name="frag_meeting_detail_time_now">現在</string>
+	<string name="frag_meeting_detail_format">　%1$d月%2$d日</string>
+	<string name="frag_meeting_detail_today">(今日)</string>
+	<string name="frag_meeting_detail_no_equipment">●設備なし</string>
 
 	<!-- FragmentMeetingListListener -->
 	<string name="frag_meeting_list_status_avail">利用可</string>
@@ -118,6 +121,7 @@
 	<!-- FragmentStartLinkListener -->
 
 	<!-- FragmentStatusBookingListener -->
+	<string name="frag_status_booking_today">今日</string>
 
 	<!-- FragmentTabletPortraitListener -->
 
@@ -130,6 +134,9 @@
 	<string name="frag_work_detail_status_out_service">時間外</string>
 	<string name="frag_work_detail_seat_no"> 席</string>
 	<string name="frag_work_detail_time_now">現在</string>
+	<string name="frag_work_detail_format">　%1$d月%2$d日</string>
+	<string name="frag_work_detail_today">(今日)</string>
+	<string name="frag_work_detail_no_equipment">●設備なし</string>
 
 	<!-- FragmentWorkListListener -->
 	<string name="frag_work_list_status_avail">利用可</string>
@@ -292,7 +299,7 @@
 	<string name="xml_order_complete_from">から</string>
 	<string name="xml_order_complete_to">まで</string>
 	<string name="xml_order_complete_payment">お支払い</string>
-	<string name="xml_order_complete_amount">1,400円</string>
+	<string name="xml_order_complete_yen">円</string>
 	<string name="xml_order_complete_usage">ご利用方法</string>
 	<string name="xml_order_complete_msg2">廊下をまっすぐ行き、突き当たりを左に行くと左手にあります。\n鍵は「5895」で開くことができます</string>
 	<string name="xml_order_complete_msg3">チェックイン内容は登録されているメールアドレス宛にもお送りしていますので、ご確認ください。</string>
@@ -300,7 +307,7 @@
 
 	<!-- fragment_order_confirm.xml -->
 	<string name="xml_order_confirm_msg1">決済方法を選択してください</string>
-	<string name="xml_order_confirm_space_name">ご利用スペース</string>
+	<string name="xml_order_confirm_space_name">スペース名</string>
 	<string name="xml_order_confirm_title1">ミーティングスペースＡ</string>
 	<string name="xml_order_confirm_detail">詳細を見る</string>
 	<string name="xml_order_confirm_date">日付</string>
@@ -316,11 +323,9 @@
 	<string name="xml_order_confirm_payment">お支払い</string>
 	<string name="xml_order_confirm_play_hint">17:00～18:00   600円/1h\n18:00～19:00   600円/1h\n19:00～20:00   600円/1h\n20:00～21:00   600円/1h</string>
 	<string name="xml_order_confirm_title2">スペースの利用料金</string>
-	<string name="xml_order_confirm_amount1">1,600円</string>
+	<string name="xml_order_confirm_yen">円</string>
 	<string name="xml_order_confirm_btn_use_coupon">クーポンを利用する</string>
 	<string name="xml_order_confirm_title3">クーポンの割引</string>
-	<string name="xml_order_confirm_discount">500円</string>
-	<string name="xml_order_confirm_amount2">￥1,600</string>
 	<string name="xml_order_confirm_btn_checkin">決済して、チェックインする</string>
 	<string name="xml_order_confirm_coupon_code">クーポンコードの入力</string>
 	<string name="xml_order_confirm_ccode_hint">AA100</string>

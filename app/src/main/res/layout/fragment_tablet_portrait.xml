@@ -16,7 +16,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="0dip"
 		android:layout_weight="110"
-		android:text="xml_tablet_portrait_msg"
+		android:text="@string/xml_tablet_portrait_msg"
 		android:textSize="28sp"
 		android:textColor="@color/spacee_blue"
 		android:gravity="center" />

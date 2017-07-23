@@ -259,7 +259,7 @@ public  class  FragmentRuleGuideListener  implements  FragmentRuleGuide.Fragment
 				ReceiptTabApplication.isMsgShown =false;
 
 				android.os.Message msg = new android.os.Message();
-				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
 				msg.arg1 = 2;									//	id/pw ng
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
 			}

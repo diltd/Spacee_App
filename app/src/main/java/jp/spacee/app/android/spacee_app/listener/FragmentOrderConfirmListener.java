@@ -8,6 +8,7 @@ import android.widget.ListView;
 import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
+import android.widget.LinearLayout;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +32,12 @@ public  class  FragmentOrderConfirmListener  implements  FragmentOrderConfirm.Fr
 	private							TextView						content					= null;
 	private							ImageView						msgOff					= null;
 
+	private							int								newPos					= 0;
+
 	private							SimpleAdapter					adapter					= null;
+
+	private							List<HashMap<String, String>>	payment					= null;
+
 
 
 	public  FragmentOrderConfirmListener()
@@ -42,19 +48,104 @@ public  class  FragmentOrderConfirmListener  implements  FragmentOrderConfirm.Fr
 	@Override
 	public  void  onListEntrySelected(View view)
 	{
+
+
+	}
+
+
+	@Override
+	public  void  onBtnShowDetailClicked(View view)
+	{
+		ReceiptTabApplication.userRegData		= null;
+		ReceiptTabApplication.bookingRoomData	= null;
+
 		Message msg = new Message();
 		msg.what = SpaceeAppMain.MSG_ORDER_CONFIRM_COMP;
-		msg.arg1 = 1;											//	by LoginICClicked
+		msg.arg1 = 2;											//	by ShowDetailClicked
 		SpaceeAppMain.mMsgHandler.sendMessage(msg);
+	}
+
+
+	@Override
+	public  void  onBtnUseCouponClicked(View view)
+	{
+		RelativeLayout	couponLayout = (RelativeLayout)	view.findViewById(R.id.couponLayout);
+		LinearLayout	couponPanel1 = (LinearLayout)	view.findViewById(R.id.couponPanel1);
+
+//		couponPanel1.setVisibility(View.INVISIBLE);
+		couponLayout.setVisibility(View.VISIBLE);
+	}
+
+
+	@Override
+	public  void  onBtnApplyCouponClicked(View view)
+	{
+
+
+	}
+
+
+	@Override
+	public  void  onBtnCancelApplyClicked(View view)
+	{
+		RelativeLayout	couponLayout = (RelativeLayout)	view.findViewById(R.id.couponLayout);
+		couponLayout.setVisibility(View.INVISIBLE);
 	}
 
 
 	@Override
 	public  void  onBtnAgreeClicked(View view)
 	{
+		HashMap<String, String> map = new HashMap<String, String>();
+		map = payment.get(newPos);
+
+		ReceiptTabApplication.bookingRoomData.paidWay	= map.get("kind");
+		ReceiptTabApplication.bookingRoomData.paidId	= map.get("id");
+
+		String  result = SpaceeAppMain.httpCommGlueRoutines.bookingSpace();
+		if (result != null)
+		{
+			try
+			{
+				JSONObject obj1 = new JSONObject(result);
+				if (obj1 != null)
+				{
+//					String	rc = obj1.getString("status");
+//					if (rc.equals("ok"))
+//					{
+
+//					}
+//					else
+//					{
+//						showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), obj1, "");
+//						return;
+//					}
+				}
+				else
+				{
+					showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
+					return;
+				}
+			}
+			catch (org.json.JSONException e)
+			{
+				e.printStackTrace();
+				return;
+			}
+		}
+		else
+		{
+			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
+			return;
+		}
+
+
+
+
+
 		Message msg = new Message();
 		msg.what = SpaceeAppMain.MSG_ORDER_CONFIRM_COMP;
-		msg.arg1 = 2;											//	by LoginQRClicked
+		msg.arg1 = 1;											//	by AgreeClicked
 		SpaceeAppMain.mMsgHandler.sendMessage(msg);
 	}
 
@@ -62,21 +153,16 @@ public  class  FragmentOrderConfirmListener  implements  FragmentOrderConfirm.Fr
 	@Override
 	public  void  onListProcess(View view)
 	{
-		int			i;
+		int		i, wPrice;
+		String	wStr1, wStr2;
 
 		errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
 		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
 		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
 		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
 
-
-		List<java.util.HashMap<String, String>>		payment = new ArrayList<java.util.HashMap<String, String>>();
+		payment	 = new ArrayList<HashMap<String, String>>();
 		HashMap<String, String>  map = null;
-
-		RelativeLayout	errLayout	= (RelativeLayout) view.findViewById(R.id.errorMessagePanel);
-		TextView title		= (TextView)	errLayout.findViewById(R.id.errorTitle);
-		TextView content	= (TextView)	errLayout.findViewById(R.id.errorMessage);
-		ImageView msgOff	= (ImageView)	errLayout.findViewById(R.id.messageOff);
 
 		ListView	paymentListView	= (ListView)	view.findViewById(R.id.paymentList);
 
@@ -101,6 +187,7 @@ public  class  FragmentOrderConfirmListener  implements  FragmentOrderConfirm.Fr
 								map.put("kind",		"1");
 								map.put("upper",	ReceiptTabApplication.AppContext.getString(R.string.frag_order_confirm_pay_credit));
 								map.put("lower",	String.format(ReceiptTabApplication.AppContext.getString(R.string.frag_order_confirm_card_id), obj2.getString("last4")));
+								map.put("id", obj2.getString("id"));
 								payment.add(map);
 							}
 						}
@@ -120,6 +207,7 @@ public  class  FragmentOrderConfirmListener  implements  FragmentOrderConfirm.Fr
 								map.put("kind",		"2");
 								map.put("upper",	ReceiptTabApplication.AppContext.getString(R.string.frag_order_confirm_pay_invoice));
 								map.put("lower",	String.format("%s(%s)", obj2.getString("company_name"), obj2.getString("responsible_person")));
+								map.put("id", obj2.getString("id"));
 								payment.add(map);
 							}
 						}
@@ -168,37 +256,86 @@ public  class  FragmentOrderConfirmListener  implements  FragmentOrderConfirm.Fr
 
 					if (retView == null)
 					{
-
-
+						android.view.LayoutInflater inflater = (android.view.LayoutInflater) ReceiptTabApplication.AppContext.getSystemService(android.content.Context.LAYOUT_INFLATER_SERVICE);
+						retView = inflater.inflate(R.layout.layout_payment_list, null);
 					}
 
 					TextView	kind = (TextView)	retView.findViewById(R.id.kind);
 					ImageView	icon = (ImageView)	retView.findViewById(R.id.icon);
-					if (kind.getText().toString().equals("1"))
-							icon.setBackgroundResource(R.drawable.shape_oval_blue);
-					else	icon.setBackgroundResource(R.drawable.shape_oval_gray);
+					TextView	uTxt = (TextView)	retView.findViewById(R.id.upperText);
+					TextView	lTxt = (TextView)	retView.findViewById(R.id.lowerText);
+					ImageView	mark = (ImageView)	retView.findViewById(R.id.markCheck);
 
+					if		(pos == newPos)
+					{
+						if (kind.getText().toString().equals("1"))
+								icon.setBackgroundResource(R.drawable.ic_card_selected);
+						else	icon.setBackgroundResource(R.drawable.ic_invoice_selected);
+						uTxt.setTextColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.spacee_blue_dark));
+						lTxt.setTextColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.spacee_blue_dark));
+						mark.setBackgroundResource(R.drawable.ic_check);
+					}
+					else
+					{
+						if (kind.getText().toString().equals("1"))
+								icon.setBackgroundResource(R.drawable.ic_card);
+						else	icon.setBackgroundResource(R.drawable.ic_invoice);
+						uTxt.setTextColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.text_black));
+						lTxt.setTextColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.text_black));
+						mark.setBackgroundColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.white));
+					}
 					return  retView;
 				}
 			};
 			paymentListView.setAdapter(adapter);
+			paymentListView.setSelection(0);
 
 			paymentListView.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener()
 			{
 				public void onItemClick(android.widget.AdapterView<?> parent, View view, final int pos, long id)
 				{
-
-
-
-
+					newPos = pos;
+					adapter.notifyDataSetChanged();
 				}
 			});
 		}
 		else
 		{
-			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null,
-						 ReceiptTabApplication.AppContext.getResources().getString(R.string.frag_order_confirm_error_msg));
+///			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null,
+///						 ReceiptTabApplication.AppContext.getResources().getString(R.string.frag_order_confirm_error_msg));
 		}
+
+		//	各フィールドを設定する
+		TextView	name		= (TextView)	view.findViewById(R.id.areaName);
+		TextView	tgtMonth	= (TextView)	view.findViewById(R.id.targetMonth);
+		TextView	tgtDay		= (TextView)	view.findViewById(R.id.targetDay);
+		TextView	checkIn		= (TextView)	view.findViewById(R.id.checkInTime);
+		TextView	checkOut	= (TextView)	view.findViewById(R.id.checkOutTime);
+		TextView	numPsn		= (TextView)	view.findViewById(R.id.numPsn);
+		ListView	planList	= (ListView)	view.findViewById(R.id.planList);
+		TextView	amount1		= (TextView)	view.findViewById(R.id.amount1);
+		TextView	amount2		= (TextView)	view.findViewById(R.id.amount2);
+
+		name.setText(ReceiptTabApplication.bookingRoomData.namePlace);
+		tgtMonth.setText(String.format("%02d", ReceiptTabApplication.bookingRoomData.useMonth));
+		tgtDay.setText(String.format("%02d", ReceiptTabApplication.bookingRoomData.useDay));
+		checkIn.setText(ReceiptTabApplication.bookingRoomData.checkInTime);
+		checkOut.setText(ReceiptTabApplication.bookingRoomData.checkOutTime);
+		numPsn.setText("" + ReceiptTabApplication.bookingRoomData.numPsn);
+		amount1.setText(String.format("%,d", ReceiptTabApplication.bookingRoomData.TotalPrice));
+		amount2.setText(String.format("%,d", ReceiptTabApplication.bookingRoomData.payAmount));
+
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(ReceiptTabApplication.AppContext, android.R.layout.simple_list_item_1);
+		HashMap<String, String> mapin = new HashMap<String, String>();
+		for (i=0; i<ReceiptTabApplication.bookingRoomData.pricePlan.size(); i++)
+		{
+			mapin = ReceiptTabApplication.bookingRoomData.pricePlan.get(i);
+			wStr1  = mapin.get("bgnTime");
+			wStr2  = mapin.get("endTime");
+			wPrice = Integer.parseInt(mapin.get("price"));
+			adapter.add(String.format("%s-%s%,10d円/1h", wStr1, wStr2, wPrice));
+		}
+		planList.setAdapter(adapter);
 	}
 
 
@@ -248,7 +385,7 @@ public  class  FragmentOrderConfirmListener  implements  FragmentOrderConfirm.Fr
 				ReceiptTabApplication.isMsgShown =false;
 
 				android.os.Message msg = new android.os.Message();
-				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
 				msg.arg1 = 2;									//	id/pw ng
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
 			}

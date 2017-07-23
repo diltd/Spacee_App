@@ -295,6 +295,12 @@ public  class  FragmentMeetingListListener  implements  FragmentMeetingList.Frag
 			{
 				HashMap<String, String>  map = new HashMap<String, String>();
 
+				//	日付を設定しておく
+				Calendar cal = Calendar.getInstance();
+				ReceiptTabApplication.currentMeetingDetailYear	= cal.get(Calendar.YEAR);
+				ReceiptTabApplication.currentMeetingDetailMonth = cal.get(Calendar.MONTH) + 1;
+				ReceiptTabApplication.currentMeetingDetailDay	= cal.get(Calendar.DAY_OF_MONTH);
+
 				Message msg = new Message();
 				msg.what = SpaceeAppMain.MSG_MEETING_LIST_COMP;
 				map = meetingList.get(pos);
@@ -428,7 +434,7 @@ public  class  FragmentMeetingListListener  implements  FragmentMeetingList.Frag
 				ReceiptTabApplication.isMsgShown =false;
 
 				android.os.Message msg = new android.os.Message();
-				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
 				msg.arg1 = 2;									//	id/pw ng
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
 			}

@@ -83,7 +83,7 @@
 				android:layout_width="0dip"
 				android:layout_weight="90"
 				android:layout_height="match_parent"
-				android:text=" @string/xml_list_meetingroom_unit_price"
+				android:text="@string/xml_list_meetingroom_unit_price"
 				android:textColor="@color/text_black"
 				android:textSize="20sp"
 				android:layout_marginTop="10dip"

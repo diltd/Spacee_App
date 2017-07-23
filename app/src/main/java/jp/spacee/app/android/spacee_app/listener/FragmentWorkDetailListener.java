@@ -8,6 +8,7 @@ import android.widget.ListView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -27,6 +28,7 @@ import jp.spacee.app.android.spacee_app.activity.SpaceeAppMain;
 import jp.spacee.app.android.spacee_app.fragment.FragmentWorkDetail;
 import jp.spacee.app.android.spacee_app.ReceiptTabApplication;
 import jp.spacee.app.android.spacee_app.R;
+import jp.spacee.app.android.spacee_app.common.BookingRoomData;
 
 
 public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.FragmentInteractionListener
@@ -42,6 +44,7 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 	private 					Spinner							startTime		= null;
 	private 					Spinner							useHour			= null;
 	private 					Spinner							useMin			= null;
+	private 					TextView						useMinTag		= null;
 	private						ListView						priceList		= null;
 	private 					TextView						amount			= null;
 	private 					TextView						btnSelect		= null;
@@ -53,11 +56,13 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 
 	private						String							desk_id			= "";
 
+	private						List<HashMap<String, String>>	planList		= null;
 	private						List<HashMap<String, String>>	schedList		= null;
 
 	private						int								minBookUnit	= 0;
 	private						int								bookStep		= 0;
-
+	private						int								price			= 0;
+	private						String[]						pictUrl			= new String[1];
 
 
 	public FragmentWorkDetailListener(int id)
@@ -80,10 +85,39 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 	@Override
 	public void onBtnSelectClicked(View view)
 	{
-		android.os.Message msg = new android.os.Message();
-		msg.what = SpaceeAppMain.MSG_WORK_DETAIL_COMP;
-		msg.arg1 = 1;                                            //	by btnSelectClicked
-		SpaceeAppMain.mMsgHandler.sendMessage(msg);
+		if (price > 0)
+		{
+			if (ReceiptTabApplication.bookingRoomData == null)
+			{
+				ReceiptTabApplication.bookingRoomData = new BookingRoomData();
+			}
+			ReceiptTabApplication.bookingRoomData.roomId			= desk_id;
+			ReceiptTabApplication.bookingRoomData.namePlace		= ReceiptTabApplication.currentWorkName;
+			ReceiptTabApplication.bookingRoomData.useYear			= ReceiptTabApplication.currentWorkDetailYear;
+			ReceiptTabApplication.bookingRoomData.useMonth			= ReceiptTabApplication.currentWorkDetailMonth;
+			ReceiptTabApplication.bookingRoomData.useDay			= ReceiptTabApplication.currentWorkDetailDay;
+			String	wStr = startTime.getSelectedItem().toString().replace("　", " ").trim();
+			ReceiptTabApplication.bookingRoomData.checkInTime		= wStr;
+			int	temp  = Integer.parseInt(wStr.substring(0, 2))*60 + Integer.parseInt(wStr.substring(3, 5));
+				temp += useHour.getSelectedItemPosition()*60;
+			if (useMin.getVisibility() == View.VISIBLE)
+			{
+				temp += Integer.parseInt(useMin.getSelectedItem().toString().replace("　", " ").trim());
+			}
+			wStr = String.format("%02d:%02d", (int)(temp/60), (int)(temp % 60));
+			ReceiptTabApplication.bookingRoomData.checkOutTime		= wStr;
+			ReceiptTabApplication.bookingRoomData.numPsn			= 1;
+			ReceiptTabApplication.bookingRoomData.TotalPrice		= price;
+			ReceiptTabApplication.bookingRoomData.discount			= 0;
+			ReceiptTabApplication.bookingRoomData.payAmount		= price;
+			ReceiptTabApplication.bookingRoomData.pricePlan		= planList;
+			ReceiptTabApplication.bookingRoomData.pictUrl			= pictUrl;
+
+			android.os.Message msg = new android.os.Message();
+			msg.what = SpaceeAppMain.MSG_WORK_DETAIL_COMP;
+			msg.arg1 = 1;                                            //	by btnSelectClicked
+			SpaceeAppMain.mMsgHandler.sendMessage(msg);
+		}
 	}
 
 
@@ -91,20 +125,23 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 	public void retrieveDetaildata(View view)
 	{
 		int		i, k;
-		String	wStr;
+		String	wStr1, wStr2;
 
 		imgSpace		= (ImageView)	view.findViewById(R.id.imgSpace);
 		capacity		= (TextView)	view.findViewById(R.id.capacity);
 		areaSquare		= (TextView)	view.findViewById(R.id.areaSquare);
 		facilities		= (TextView)	view.findViewById(R.id.facilities);
+		btnDateList	= (TextView)	view.findViewById(R.id.btnDateList);
 		status			= (TextView)	view.findViewById(R.id.status);
 		availNo			= (TextView)	view.findViewById(R.id.availNo);
 		timeLine		= (ImageView)	view.findViewById(R.id.timeLine);
 		startTime		= (Spinner)		view.findViewById(R.id.startTime);
 		useHour			= (Spinner)		view.findViewById(R.id.useHour);
 		useMin			= (Spinner)		view.findViewById(R.id.useMin);
+		useMinTag		= (TextView)	view.findViewById(R.id.useMinTag);
 		priceList		= (ListView)	view.findViewById(R.id.priceList);
 		amount			= (TextView)	view.findViewById(R.id.amount);
+		btnSelect		= (TextView)	view.findViewById(R.id.btnSelect);
 
 		errLayout		= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
 		TextView	title	= (TextView)	errLayout.findViewById(R.id.errorTitle);
@@ -136,12 +173,14 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 							capacity.setText(String.format(ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_psn_no), obj2.getInt("capacity")));
 							areaSquare.setText(String.format(ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_square), obj2.getInt("square")));
 							JSONArray  arr1 = obj2.getJSONArray("equipments");
-							wStr = "";
+							wStr1 = "";
 							for (i=0; i<arr1.length(); i++)
 							{
-								wStr += (String.format(ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_equipment), arr1.getString(i)));
+								wStr1 += (String.format(ReceiptTabApplication.AppContext.getString(R.string.frag_work_detail_equipment), arr1.getString(i)));
 							}
-							facilities.setText(wStr);
+							if (arr1.length() > 0)
+									facilities.setText(wStr1);
+							else	facilities.setText(ReceiptTabApplication.AppContext.getResources().getString(R.string.frag_work_detail_no_equipment));
 							if (jp.spacee.app.android.spacee_app.ReceiptTabApplication.currentWorkStatus > 0)
 							{
 								if (obj2.getInt("available_amount") > 0)
@@ -170,6 +209,7 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 
 							roomThumnails = SpaceeAppMain.httpCommGlueRoutines.downloadBitmaps(detail_thumb_url);
 							imgSpace.setImageBitmap(roomThumnails[0]);
+							pictUrl[0] = detail_thumb_url[0];
 						}
 						else
 						{
@@ -201,11 +241,25 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 			return;
 		}
 
+
+		Calendar	cal		= Calendar.getInstance();
+		wStr1 = String.format(ReceiptTabApplication.AppContext.getResources().getString(R.string.frag_work_detail_format),
+							 ReceiptTabApplication.currentWorkDetailMonth, ReceiptTabApplication.currentWorkDetailDay);
+		if (   (ReceiptTabApplication.currentWorkDetailYear	 == cal.get(Calendar.YEAR))
+			&& (ReceiptTabApplication.currentWorkDetailMonth == cal.get(Calendar.MONTH) + 1)
+			&& (ReceiptTabApplication.currentWorkDetailDay	 == cal.get(Calendar.DAY_OF_MONTH)) )
+		{
+			wStr1 += ReceiptTabApplication.AppContext.getResources().getString(R.string.frag_work_detail_today);
+		}
+		btnDateList.setText(wStr1);
+
 		setSpinnerValue();
 
 		//	物件の料金プランの取得
-		Calendar	cal		= Calendar.getInstance();
-		String		wTDate	= String.format("%04d%02d%02d", cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DAY_OF_MONTH));
+		String	wTDate	= String.format("%04d%02d%02d",
+										ReceiptTabApplication.currentWorkDetailYear,
+										ReceiptTabApplication.currentWorkDetailMonth,
+										ReceiptTabApplication.currentWorkDetailDay);
 
 		result	= SpaceeAppMain.httpCommGlueRoutines.retrievePriceTable(desk_id, wTDate);
 		if (result != null)
@@ -218,6 +272,7 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 //					String	rc = obj1.getString("status");
 //					if (rc.equals("ok"))
 //					{
+						planList = new ArrayList<java.util.HashMap<String, String>>();
 						JSONObject obj2 = obj1.getJSONObject("price_plans");
 						if (obj2 != null)
 						{
@@ -228,12 +283,17 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 								ArrayAdapter<String> adapter = new ArrayAdapter<String>(ReceiptTabApplication.AppContext, android.R.layout.simple_list_item_1);
 								try
 								{
+									HashMap<String, String> map = new HashMap<String, String>();
 									SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 									Date wDate = sdf.parse(obj3.getString("start_at"));
-									wStr   = (new SimpleDateFormat("hh:mm").format(wDate));
-									wDate  = sdf.parse(obj3.getString("end_at"));
-									wStr  += ("-" + new SimpleDateFormat("hh:mm").format(wDate));
-									adapter.add(String.format("%s%,10d円/1h\n", wStr, obj3.getInt("price")));
+									wStr1 = (new SimpleDateFormat("HH:mm").format(wDate));
+									map.put("bgnTime", wStr1);
+									wDate = sdf.parse(obj3.getString("end_at"));
+									wStr2 = ("-" + new SimpleDateFormat("HH:mm").format(wDate));
+									map.put("endTime", wStr2);
+									adapter.add(String.format("%s-%s%,10d円/1h\n", wStr1, wStr2, obj3.getInt("price")));
+									map.put("price", ""+obj3.getInt("price"));
+									planList.add(map);
 								}
 								catch (java.text.ParseException e)
 								{
@@ -304,7 +364,8 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 				}
 				else
 				{
-
+					showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
+					return;
 				}
 			}
 			catch (org.json.JSONException e)
@@ -316,6 +377,10 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 			ImageView	timeLine	= (android.widget.ImageView)	view.findViewById(R.id.timeLine);
 			drawSchedule(timeLine);
 		}
+		else
+		{
+			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
+		}
 	}
 
 
@@ -324,7 +389,10 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 		int			i;
 		String		wStr;
 
-		android.widget.ArrayAdapter<String> adapter1 = new android.widget.ArrayAdapter<String>(ReceiptTabApplication.AppContext, R.layout.spinner_item);
+		Calendar	cal		= Calendar.getInstance();
+		int			nowPos	= (cal.get(Calendar.HOUR_OF_DAY)*60 + cal.get(Calendar.MINUTE) + 14)/15;
+
+		ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(ReceiptTabApplication.AppContext, R.layout.spinner_item);
 		adapter1.setDropDownViewResource(R.layout.spinner_dropdown_item);
 		for (i=0; i<24*60; i+=15)
 		{
@@ -332,28 +400,92 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 			adapter1.add(wStr);
 		}
 		startTime.setAdapter(adapter1);
+		startTime.setSelection(nowPos);
+
+		startTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+		{
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+			{
+				//	過去の時間を開いたら変更する
+				Calendar	cal = Calendar.getInstance();
+				int			now = (cal.get(Calendar.HOUR_OF_DAY)*60 + cal.get(Calendar.MINUTE) + 14) / 15;
+				if (startTime.getSelectedItemPosition() < now)
+				{
+					startTime.setSelection(now);
+				}
+
+				hideActionBar();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent)
+			{
+				hideActionBar();
+			}
+		});
 
 
-		android.widget.ArrayAdapter<String> adapter2 = new android.widget.ArrayAdapter<String>(ReceiptTabApplication.AppContext, R.layout.spinner_item);
+		ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(ReceiptTabApplication.AppContext, R.layout.spinner_item);
 		adapter2.setDropDownViewResource(R.layout.spinner_dropdown_item);
-		for (i=0; i<=24; i++)
+		for (i=0; i<=12; i++)
 		{
 			wStr = String.format("%2d　", i);
 			adapter2.add(wStr);
 		}
 		useHour.setAdapter(adapter2);
 
-
-		if (bookStep == 0)		bookStep = 30;			//	dummy
-
-		android.widget.ArrayAdapter<String> adapter3 = new android.widget.ArrayAdapter<String>(ReceiptTabApplication.AppContext, R.layout.spinner_item);
-		adapter3.setDropDownViewResource(R.layout.spinner_dropdown_item);
-		for (i=0; i<60; i+=bookStep)
+		useHour.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
 		{
-			wStr = String.format("%2d　", i);
-			adapter3.add(wStr);
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+			{
+				recalculatePrice();
+
+				hideActionBar();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent)
+			{
+				hideActionBar();
+			}
+		});
+
+
+		if ((bookStep > 0) && (bookStep < 60))
+		{
+			ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(ReceiptTabApplication.AppContext, R.layout.spinner_item);
+			adapter3.setDropDownViewResource(R.layout.spinner_dropdown_item);
+			for (i=0; i<60; i+=bookStep)
+			{
+				wStr = String.format("%2d　", i);
+				adapter3.add(wStr);
+			}
+			useMin.setAdapter(adapter3);
+
+			useMin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+			{
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+				{
+					recalculatePrice();
+
+					hideActionBar();
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> parent)
+				{
+					hideActionBar();
+				}
+			});
 		}
-		useMin.setAdapter(adapter3);
+		else
+		{
+			useMin.setVisibility(View.GONE);
+			useMinTag.setVisibility(View.GONE);
+		}
 	}
 
 
@@ -383,6 +515,51 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 		cvs.drawRect( 0,  5, 880, 95, paint2);
 
 		view.setImageBitmap(bmp);
+	}
+
+
+	private  void  recalculatePrice()
+	{
+		int		prmUseMin = useHour.getSelectedItemPosition()*60;
+		if (useMin.getVisibility() == View.VISIBLE)
+		{
+			prmUseMin += Integer.parseInt(useMin.getSelectedItem().toString().replace("　", " ").trim());
+		}
+		String stTime = String.format("2001-01-01T%s:00+9:00", startTime.getSelectedItem().toString().replace("　", " ").trim());
+
+		if (prmUseMin > 0)
+		{
+			//	物件の料金計算
+			String	result = SpaceeAppMain.httpCommGlueRoutines.retrieveRoomPrice(desk_id, stTime, prmUseMin, 1);
+			if (result != null)
+			{
+				try
+				{
+					JSONObject obj1 = new JSONObject(result);
+					price = obj1.getInt("total_price");
+				}
+				catch (org.json.JSONException e)
+				{
+					e.printStackTrace();
+					return;
+				}
+
+				amount.setText(String.format("%,d", price));
+				btnSelect.setBackground(ReceiptTabApplication.AppContext.getResources().getDrawable(R.drawable.shape_button_blue));
+			}
+			else
+			{
+				showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
+			}
+		}
+	}
+
+
+	private  void  hideActionBar()
+	{
+		Message msg = new Message();
+		msg.what = SpaceeAppMain.MSG_HIDE_ACTIONBAR;
+		SpaceeAppMain.mMsgHandler.sendMessage(msg);
 	}
 
 
@@ -432,7 +609,7 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 				ReceiptTabApplication.isMsgShown =false;
 
 				android.os.Message msg = new android.os.Message();
-				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
 				msg.arg1 = 2;									//	id/pw ng
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
 			}

@@ -62,6 +62,7 @@
 				android:orientation="horizontal" >
 
 				<TextView
+					android:id="@+id/areaName"
 					android:layout_width="0dip"
 					android:layout_weight="510"
 					android:layout_height="match_parent"
@@ -71,6 +72,7 @@
 					android:gravity="center_vertical" />
 
 				<TextView
+					android:id="@+id/btnShowDetail"
 					android:layout_width="0dip"
 					android:layout_weight="165"
 					android:layout_height="match_parent"
@@ -136,6 +138,7 @@
 				android:orientation="horizontal" >
 
 				<TextView
+					android:id="@+id/targetMonth"
 					android:layout_width="0dip"
 					android:layout_weight="70"
 					android:layout_height="match_parent"
@@ -154,6 +157,7 @@
 					android:gravity="bottom" />
 
 				<TextView
+					android:id="@+id/targetDay"
 					android:layout_width="0dip"
 					android:layout_weight="70"
 					android:layout_height="match_parent"
@@ -177,8 +181,9 @@
 					android:layout_height="match_parent" />
 
 				<TextView
+					android:id="@+id/checkInTime"
 					android:layout_width="0dip"
-					android:layout_weight="140"
+					android:layout_weight="160"
 					android:layout_height="match_parent"
 					android:text="12:34"
 					android:textColor="@color/text_black"
@@ -187,7 +192,7 @@
 
 				<TextView
 					android:layout_width="0dip"
-					android:layout_weight="90"
+					android:layout_weight="70"
 					android:layout_height="match_parent"
 					android:text="@string/xml_order_confirm_from"
 					android:textColor="@color/text_black"
@@ -196,8 +201,9 @@
 					android:gravity="bottom" />
 
 				<TextView
+					android:id="@+id/checkOutTime"
 					android:layout_width="0dip"
-					android:layout_weight="140"
+					android:layout_weight="160"
 					android:layout_height="match_parent"
 					android:text="13:00"
 					android:textColor="@color/text_black"
@@ -206,7 +212,7 @@
 
 				<TextView
 					android:layout_width="0dip"
-					android:layout_weight="90"
+					android:layout_weight="70"
 					android:layout_height="match_parent"
 					android:text="@string/xml_order_confirm_to"
 					android:textColor="@color/text_black"
@@ -215,6 +221,7 @@
 					android:gravity="bottom" />
 
 				<TextView
+					android:id="@+id/numPsn"
 					android:layout_width="0dip"
 					android:layout_weight="50"
 					android:layout_height="match_parent"
@@ -268,15 +275,11 @@
 				android:layout_weight="185"
 				android:orientation="horizontal" >
 
-				<TextView
+				<ListView
+					android:id="@+id/planList"
 					android:layout_width="0dip"
 					android:layout_weight="360"
-					android:layout_height="match_parent"
-					android:text="@string/xml_order_confirm_play_hint"
-					android:textColor="@color/text_black"
-					android:textSize="20sp"
-					android:gravity="top|left"
-					android:maxLines="10" />
+					android:layout_height="match_parent" />
 
 				<LinearLayout
 					android:layout_width="0dip"
@@ -299,13 +302,23 @@
 							android:textSize="20sp" />
 
 						<TextView
+							android:id="@+id/amount1"
 							android:layout_width="0dip"
-							android:layout_weight="180"
+							android:layout_weight="140"
 							android:layout_height="match_parent"
-							android:text="@string/xml_order_confirm_amount1"
+							android:text=""
 							android:textColor="@color/text_black"
 							android:textSize="24sp"
 							android:gravity="right" />
+
+						<TextView
+							android:layout_width="0dip"
+							android:layout_weight="40"
+							android:layout_height="match_parent"
+							android:text="@string/xml_order_confirm_yen"
+							android:textColor="@color/text_black"
+							android:textSize="18sp"
+							android:gravity="center_horizontal" />
 					</LinearLayout>
 
 					<View
@@ -319,6 +332,7 @@
 						android:layout_weight="80" >
 
 						<LinearLayout
+							android:id="@+id/couponPanel1"
 							android:layout_width="match_parent"
 							android:layout_height="match_parent"
 							android:orientation="horizontal" >
@@ -329,6 +343,7 @@
 								android:layout_height="match_parent" />
 
 							<LinearLayout
+								android:id="@+id/btnUseCoupon"
 								android:layout_width="0dip"
 								android:layout_weight="300"
 								android:layout_height="match_parent"
@@ -360,6 +375,7 @@
 						</LinearLayout>
 
 						<LinearLayout
+							android:id="@+id/couponPanel3"
 							android:layout_width="match_parent"
 							android:layout_height="match_parent"
 							android:orientation="horizontal" >
@@ -367,7 +383,7 @@
 							<TextView
 								android:id="@+id/discountTitle"
 								android:layout_width="0dip"
-								android:layout_weight="260"
+								android:layout_weight="240"
 								android:layout_height="match_parent"
 								android:text="@string/xml_order_confirm_title3"
 								android:textColor="@color/text_black"
@@ -378,12 +394,22 @@
 							<TextView
 								android:id="@+id/discount"
 								android:layout_width="0dip"
-								android:layout_weight="180"
+								android:layout_weight="160"
 								android:layout_height="match_parent"
-								android:text="@string/xml_order_confirm_discount"
+								android:text=""
 								android:textColor="@color/text_black"
 								android:textSize="24sp"
 								android:gravity="center_vertical|right"
+								android:visibility="invisible" />
+
+							<TextView
+								android:layout_width="0dip"
+								android:layout_weight="40"
+								android:layout_height="match_parent"
+								android:text="@string/xml_order_confirm_yen"
+								android:textColor="@color/text_black"
+								android:textSize="18sp"
+								android:gravity="center_horizontal"
 								android:visibility="invisible" />
 						</LinearLayout>
 					</FrameLayout>
@@ -393,14 +419,31 @@
 						android:layout_height="0dip"
 						android:layout_weight="15" />
 
-					<TextView
+					<LinearLayout
 						android:layout_width="match_parent"
 						android:layout_height="0dip"
 						android:layout_weight="70"
-						android:text="@string/xml_order_confirm_amount2"
-						android:textColor="@color/text_black"
-						android:textSize="36sp"
-						android:gravity="bottom|right" />
+						android:orientation="horizontal" >
+
+						<TextView
+							android:id="@+id/amount2"
+							android:layout_width="0dip"
+							android:layout_weight="390"
+							android:layout_height="match_parent"
+							android:text=""
+							android:textColor="@color/text_black"
+							android:textSize="36sp"
+							android:gravity="bottom|right" />
+
+						<TextView
+							android:layout_width="0dip"
+							android:layout_weight="50"
+							android:layout_height="match_parent"
+							android:text="@string/xml_order_confirm_yen"
+							android:textColor="@color/text_black"
+							android:textSize="22sp"
+							android:gravity="center_horizontal" />
+					</LinearLayout>
 				</LinearLayout>
 			</LinearLayout>
 
@@ -429,7 +472,7 @@
 					android:textColor="@color/text_white"
 					android:textSize="22sp"
 					android:gravity="center"
-					android:background="@color/point" />
+					android:background="@drawable/shape_button_lime" />
 			</LinearLayout>
 
 			<View
@@ -509,7 +552,7 @@
 					android:layout_height="match_parent" />
 
 				<TextView
-					android:id="@+id/btnUseCoupon"
+					android:id="@+id/btnApplyCoupon"
 					android:layout_width="0dip"
 					android:layout_weight="120"
 					android:layout_height="match_parent"

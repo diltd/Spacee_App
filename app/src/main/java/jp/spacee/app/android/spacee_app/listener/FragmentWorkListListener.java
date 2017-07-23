@@ -298,6 +298,12 @@ public  class  FragmentWorkListListener  implements  FragmentWorkList.FragmentIn
 			{
 				HashMap<String, String> map = new HashMap<String, String>();
 
+				//	日付を設定しておく
+				Calendar cal = Calendar.getInstance();
+				ReceiptTabApplication.currentWorkDetailYear	 = cal.get(Calendar.YEAR);
+				ReceiptTabApplication.currentWorkDetailMonth = cal.get(Calendar.MONTH) + 1;
+				ReceiptTabApplication.currentWorkDetailDay	 = cal.get(Calendar.DAY_OF_MONTH);
+
 				Message msg = new Message();
 				msg.what = SpaceeAppMain.MSG_WORK_LIST_COMP;
 				map = workList.get(pos);
@@ -431,7 +437,7 @@ public  class  FragmentWorkListListener  implements  FragmentWorkList.FragmentIn
 				ReceiptTabApplication.isMsgShown =false;
 
 				android.os.Message msg = new android.os.Message();
-				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
 				msg.arg1 = 2;									//	id/pw ng
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
 			}

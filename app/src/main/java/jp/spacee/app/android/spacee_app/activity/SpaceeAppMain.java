@@ -584,10 +584,13 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 	{
 		if (ReceiptTabApplication.isMsgShown == false)
 		{
+			ReceiptTabApplication.userRegData		= null;
+			ReceiptTabApplication.bookingRoomData	= null;
+
 			Message  msg = new Message();
-//			msg.what = MSG_BAR_PLACE_CLICKED;
-//			msg.arg1 = 3;
-//			mMsgHandler.sendMessage(msg);
+			msg.what = MSG_HOME_CLICKED;
+			msg.arg1 = 3;
+			mMsgHandler.sendMessage(msg);
 		}
 	}
 
@@ -638,7 +641,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 
 						case MSG_WORK_DETAIL_COMP:
 							if		(msg.arg1 == 1)		startFragmentCheckBooking();
-							else if (msg.arg1 == 2)	startFragmentStatusBooking(msg.arg2);
+							else if (msg.arg1 == 2)	startFragmentStatusBooking(msg.arg2, 1);
 								break;
 
 						case MSG_MEETING_LIST_COMP:
@@ -650,7 +653,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 
 						case MSG_MEETING_DETAIL_COMP:
 							if		(msg.arg1 == 1)		startFragmentCheckBooking();
-							else if (msg.arg1 == 2)	startFragmentStatusBooking(msg.arg2);
+							else if (msg.arg1 == 2)	startFragmentStatusBooking(msg.arg2, 2);
 								break;
 
 						case MSG_CHECK_BOOKING_COMP:
@@ -713,9 +716,13 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 										{
 											startFragmentBookList();
 										}
-										else
+										else if (ReceiptTabApplication.CallStack[pos1] == FRAGMENT_CHECK_BOOKING)
 										{
 											startFragmentOrderConfirm();
+										}
+										else if (ReceiptTabApplication.CallStack[pos1] == FRAGMENT_START_LINK)
+										{
+											startFragmentAccountLink();
 										}
 									}
 								}
@@ -731,6 +738,10 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 								if		(ReceiptTabApplication.CallStack[pos1] == FRAGMENT_TABLET_PORTRAIT)
 								{
 									startFragmentBookList();
+								}
+								else if (ReceiptTabApplication.CallStack[pos1] == FRAGMENT_CHECK_BOOKING)
+								{
+									startFragmentOrderConfirm();
 								}
 								else if (ReceiptTabApplication.CallStack[pos1] == FRAGMENT_START_LINK)
 								{
@@ -773,7 +784,12 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 								break;
 
 						case MSG_ORDER_CONFIRM_COMP:
-								startFragmentOrderComplete();
+								if		(msg.arg1 == 1)		startFragmentOrderComplete();
+								else if (msg.arg1 == 2)
+								{
+									ReceiptTabApplication.stackPos -= 2;
+									doBack();
+								}
 								break;
 
 						case MSG_ORDER_COMP_COMP:
@@ -802,6 +818,11 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 								break;
 
 						case MSG_STATUS_BOOKING_COMP:
+								ReceiptTabApplication.stackPos -= 2;
+								int		pos = ReceiptTabApplication.stackPos;
+
+								if		(msg.arg1 == 1)		startFragmentWorkDetail();
+								else if (msg.arg1 == 2)	startFragmentMeetingDetail();
 								break;
 
 						case MSG_PROVIDER_LOGIN_COMP:
@@ -912,7 +933,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 		else if (ReceiptTabApplication.CallStack[pos] == FRAGMENT_START_LINK)		startFragmentStartLink();
 		else if (ReceiptTabApplication.CallStack[pos] == FRAGMENT_ACC_LINK_START)	startFragmentAccountLink();
 		else if (ReceiptTabApplication.CallStack[pos] == FRAGMENT_ACC_LINK_COMP)		startFragmentLinkComplete();
-		else if (ReceiptTabApplication.CallStack[pos] == FRAGMENT_STATUS_BOOKING)	startFragmentStatusBooking(0);
+//		else if (ReceiptTabApplication.CallStack[pos] == FRAGMENT_STATUS_BOOKING)	startFragmentStatusBooking(0, 1);				//	goBackはない
 		else if (ReceiptTabApplication.CallStack[pos] == FRAGMENT_PROVIDER_LOGIN)	startFragmentProviderLogin();
 		else if (ReceiptTabApplication.CallStack[pos] == FRAGMENT_OFFICE_LIST)		startFragmentOfficeList();
 		else if (ReceiptTabApplication.CallStack[pos] == FRAGMENT_TABLET_PORTRAIT)	startFragmentTabletPortrait();
@@ -1504,7 +1525,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 	}
 
 
-	private  void  startFragmentStatusBooking(int id)
+	private  void  startFragmentStatusBooking(int id, int kind)
 	{
 		FragmentStatusBooking	fragment = new FragmentStatusBooking();
 		replaceFragment(fragment, TAG_STATUS_BOOKING);
@@ -1513,7 +1534,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 		{
 			mListener = null;
 		}
-		mListener = new FragmentStatusBookingListener(id);
+		mListener = new FragmentStatusBookingListener(id, kind);
 		fragment.setOnFragmentInteractionListener((FragmentStatusBooking.FragmentInteractionListener) mListener);
 
 		//	ヘッダーの設定
@@ -1774,10 +1795,13 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 					{
 						org.json.JSONObject obj1 = new org.json.JSONObject(auth);
 						String  status	= obj1.getString("status");
-						ReceiptTabApplication.userAuthToken = obj1.getString("auth_token");
 
 						if (status.equals("ok"))
 						{
+							ReceiptTabApplication.userAuthToken		= obj1.getString("auth_token");
+							ReceiptTabApplication.currentUserMAddr	= obj1.getString("email");
+//							ReceiptTabApplication.currentUserName	= obj1.getString("xxxxx");
+
 							PlayWaveFile playWaveFile = new PlayWaveFile();
 							playWaveFile.playWaveSound(R.raw.ok_sound);
 

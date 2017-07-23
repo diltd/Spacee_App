@@ -8,6 +8,7 @@ import android.widget.ListView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.graphics.Bitmap;
 import java.util.List;
@@ -40,6 +41,7 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 	private 					Spinner							startTime		= null;
 	private 					Spinner							useHour			= null;
 	private 					Spinner							useMin			= null;
+	private 					TextView						useMinTag		= null;
 	private 					Spinner							numPsn			= null;
 	private						ListView						priceList		= null;
 	private 					TextView						amount			= null;
@@ -52,11 +54,14 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 
 	private						String							space_id		= "";
 
+	private						List<HashMap<String, String>>	planList		= null;
 	private						List<HashMap<String, String>>	schedList		= null;
 
 	private						int								avail_No		= 0;
 	private						int								minBookUnit	= 0;
 	private						int								bookStep		= 0;
+	private						int								price			= 0;
+	private						String[]						pictUrl			= new String[1];
 
 
 	public  FragmentMeetingDetailListener(int id)
@@ -79,10 +84,39 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 	@Override
 	public  void  onBtnSelectClicked(View view)
 	{
-		android.os.Message msg = new android.os.Message();
-		msg.what = SpaceeAppMain.MSG_MEETING_DETAIL_COMP;
-		msg.arg1 = 1;											//	by btnSelectClicked
-		SpaceeAppMain.mMsgHandler.sendMessage(msg);
+		if (price > 0)
+		{
+			if (ReceiptTabApplication.bookingRoomData == null)
+			{
+				ReceiptTabApplication.bookingRoomData = new jp.spacee.app.android.spacee_app.common.BookingRoomData();
+			}
+			ReceiptTabApplication.bookingRoomData.roomId			= space_id;
+			ReceiptTabApplication.bookingRoomData.namePlace		= ReceiptTabApplication.currentMeetingName;
+			ReceiptTabApplication.bookingRoomData.useYear			= ReceiptTabApplication.currentMeetingDetailYear;
+			ReceiptTabApplication.bookingRoomData.useMonth			= ReceiptTabApplication.currentMeetingDetailMonth;
+			ReceiptTabApplication.bookingRoomData.useDay			= ReceiptTabApplication.currentMeetingDetailDay;
+			String	wStr = startTime.getSelectedItem().toString().replace("　", " ").trim();
+			ReceiptTabApplication.bookingRoomData.checkInTime		= wStr;
+			int	temp  = Integer.parseInt(wStr.substring(0, 2))*60 + Integer.parseInt(wStr.substring(3, 5));
+			temp += useHour.getSelectedItemPosition()*60;
+			if (useMin.getVisibility() == View.VISIBLE)
+			{
+				temp += Integer.parseInt(useMin.getSelectedItem().toString().replace("　", " ").trim());
+			}
+			wStr = String.format("%02d:%02d", (int)(temp/60), (int)(temp % 60));
+			ReceiptTabApplication.bookingRoomData.checkOutTime		= wStr;
+			ReceiptTabApplication.bookingRoomData.numPsn			= numPsn.getSelectedItemPosition() + 1;
+			ReceiptTabApplication.bookingRoomData.TotalPrice		= price;
+			ReceiptTabApplication.bookingRoomData.discount			= 0;
+			ReceiptTabApplication.bookingRoomData.payAmount		= price;
+			ReceiptTabApplication.bookingRoomData.pricePlan		= planList;
+			ReceiptTabApplication.bookingRoomData.pictUrl			= pictUrl;
+
+			android.os.Message msg = new android.os.Message();
+			msg.what = SpaceeAppMain.MSG_MEETING_DETAIL_COMP;
+			msg.arg1 = 1;											//	by btnSelectClicked
+			SpaceeAppMain.mMsgHandler.sendMessage(msg);
+		}
 	}
 
 
@@ -90,21 +124,24 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 	public void retrieveDetaildata(View view)
 	{
 		int		i, k;
-		String	wStr;
+		String	wStr1, wStr2;
 
 		imgSpace		= (ImageView)	view.findViewById(R.id.imgSpace);
 		capacity		= (TextView)	view.findViewById(R.id.capacity);
 		areaSquare		= (TextView)	view.findViewById(R.id.areaSquare);
 		facilities		= (TextView)	view.findViewById(R.id.facilities);
+		btnDateList	= (TextView)	view.findViewById(R.id.btnDateList);
 		status			= (TextView)	view.findViewById(R.id.status);
 		availNo			= (TextView)	view.findViewById(R.id.availNo);
 		timeLine		= (ImageView)	view.findViewById(R.id.timeLine);
 		startTime		= (Spinner)		view.findViewById(R.id.startTime);
 		useHour			= (Spinner)		view.findViewById(R.id.useHour);
 		useMin			= (Spinner)		view.findViewById(R.id.useMin);
+		useMinTag		= (TextView)	view.findViewById(R.id.useMinTag);
 		numPsn			= (Spinner)		view.findViewById(R.id.numPsn);
 		priceList		= (ListView)	view.findViewById(R.id.priceList);
 		amount			= (TextView)	view.findViewById(R.id.amount);
+		btnSelect		= (TextView)	view.findViewById(R.id.btnSelect);
 
 		errLayout			= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
 		TextView	title	= (TextView)		errLayout.findViewById(R.id.errorTitle);
@@ -136,12 +173,15 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 							capacity.setText(String.format(ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_psn_no), obj2.getInt("capacity")));
 							areaSquare.setText(String.format(ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_square), obj2.getInt("square")));
 							JSONArray  arr1 = obj2.getJSONArray("equipments");
-							wStr = "";
+							wStr1 = "";
 							for (i=0; i<arr1.length(); i++)
 							{
-								wStr += (String.format(ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_equipment), arr1.getString(i)));
+								wStr1 += (String.format(ReceiptTabApplication.AppContext.getString(R.string.frag_meeting_detail_equipment), arr1.getString(i)));
 							}
-							facilities.setText(wStr);
+							facilities.setText(wStr1);
+							if (arr1.length() > 0)
+									facilities.setText(wStr1);
+							else	facilities.setText(ReceiptTabApplication.AppContext.getResources().getString(R.string.frag_meeting_detail_no_equipment));
 							if (jp.spacee.app.android.spacee_app.ReceiptTabApplication.currentMeetingStatus > 0)
 							{
 								if (obj2.getInt("available_amount") > 0)
@@ -171,6 +211,7 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 
 							roomThumnails = SpaceeAppMain.httpCommGlueRoutines.downloadBitmaps(detail_thumb_url);
 							imgSpace.setImageBitmap(roomThumnails[0]);
+							pictUrl[0] = detail_thumb_url[0];
 						}
 						else
 						{
@@ -202,11 +243,25 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 			return;
 		}
 
+
+		Calendar	cal		= Calendar.getInstance();
+		wStr1 = String.format(ReceiptTabApplication.AppContext.getResources().getString(R.string.frag_meeting_detail_format),
+							 ReceiptTabApplication.currentMeetingDetailMonth, ReceiptTabApplication.currentMeetingDetailDay);
+		if (   (ReceiptTabApplication.currentMeetingDetailYear	== cal.get(Calendar.YEAR))
+			&& (ReceiptTabApplication.currentMeetingDetailMonth == cal.get(Calendar.MONTH) + 1)
+			&& (ReceiptTabApplication.currentMeetingDetailDay	== cal.get(Calendar.DAY_OF_MONTH)) )
+		{
+			wStr1 += ReceiptTabApplication.AppContext.getResources().getString(R.string.frag_meeting_detail_today);
+		}
+		btnDateList.setText(wStr1);
+
 		setSpinnerValue();
 
 		//	物件の料金プランの取得
-		Calendar	cal		= Calendar.getInstance();
-		String		wTDate	= String.format("%04d%02d%02d", cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DAY_OF_MONTH));
+		String	wTDate	= String.format("%04d%02d%02d",
+										ReceiptTabApplication.currentMeetingDetailYear,
+										ReceiptTabApplication.currentMeetingDetailMonth,
+										ReceiptTabApplication.currentMeetingDetailDay);
 
 		result	= SpaceeAppMain.httpCommGlueRoutines.retrievePriceTable(space_id, wTDate);
 		if (result != null)
@@ -219,6 +274,7 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 //					String	rc = obj1.getString("status");
 //					if (rc.equals("ok"))
 //					{
+						planList = new ArrayList<java.util.HashMap<String, String>>();
 						JSONObject obj2 = obj1.getJSONObject("price_plans");
 						if (obj2 != null)
 						{
@@ -229,12 +285,17 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 								ArrayAdapter<String> adapter = new ArrayAdapter<String>(ReceiptTabApplication.AppContext, android.R.layout.simple_list_item_1);
 								try
 								{
+									HashMap<String, String> map = new HashMap<String, String>();
 									SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 									Date wDate = sdf.parse(obj3.getString("start_at"));
-									wStr   = (new SimpleDateFormat("hh:mm").format(wDate));
-									wDate  = sdf.parse(obj3.getString("end_at"));
-									wStr  += ("-" + new SimpleDateFormat("hh:mm").format(wDate));
-									adapter.add(String.format("%s%,10d円/1h\n", wStr, obj3.getInt("price")));
+									wStr1 = (new SimpleDateFormat("HH:mm").format(wDate));
+									map.put("bgnTime", wStr1);
+									wDate = sdf.parse(obj3.getString("end_at"));
+									wStr2 = ("-" + new SimpleDateFormat("HH:mm").format(wDate));
+									map.put("endTime", wStr2);
+									adapter.add(String.format("%s-%s%,10d円/1h\n", wStr1, wStr2, obj3.getInt("price")));
+									map.put("price", ""+obj3.getInt("price"));
+									planList.add(map);
 								}
 								catch (java.text.ParseException e)
 								{
@@ -304,7 +365,8 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 				}
 				else
 				{
-
+					showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
+					return;
 				}
 			}
 			catch (org.json.JSONException e)
@@ -316,6 +378,10 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 			ImageView	timeLine	= (android.widget.ImageView)	view.findViewById(R.id.timeLine);
 			drawSchedule(timeLine);
 		}
+		else
+		{
+			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
+		}
 	}
 
 
@@ -323,6 +389,9 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 	{
 		int			i;
 		String		wStr;
+
+		Calendar	cal		= Calendar.getInstance();
+		int			nowPos	= (cal.get(Calendar.HOUR_OF_DAY)*60 + cal.get(Calendar.MINUTE) + 14)/15;
 
 		ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(ReceiptTabApplication.AppContext, R.layout.spinner_item);
 		adapter1.setDropDownViewResource(R.layout.spinner_dropdown_item);
@@ -332,28 +401,92 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 			adapter1.add(wStr);
 		}
 		startTime.setAdapter(adapter1);
+		startTime.setSelection(nowPos);
+
+		startTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+		{
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+			{
+				//	過去の時間を開いたら変更する
+				Calendar	cal = Calendar.getInstance();
+				int			now = (cal.get(Calendar.HOUR_OF_DAY)*60 + cal.get(Calendar.MINUTE) + 14) / 15;
+				if (startTime.getSelectedItemPosition() < now)
+				{
+					startTime.setSelection(now);
+				}
+
+				hideActionBar();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent)
+			{
+				hideActionBar();
+			}
+		});
 
 
 		ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(ReceiptTabApplication.AppContext, R.layout.spinner_item);
 		adapter2.setDropDownViewResource(R.layout.spinner_dropdown_item);
-		for (i=0; i<=24; i++)
+		for (i=0; i<=12; i++)
 		{
 			wStr = String.format("%2d　", i);
 			adapter2.add(wStr);
 		}
 		useHour.setAdapter(adapter2);
 
-
-		if (bookStep == 0)		bookStep = 30;			//	dummy
-
-		ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(ReceiptTabApplication.AppContext, R.layout.spinner_item);
-		adapter3.setDropDownViewResource(R.layout.spinner_dropdown_item);
-		for (i=0; i<60; i+=bookStep)
+		useHour.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
 		{
-			wStr = String.format("%2d　", i);
-			adapter3.add(wStr);
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+			{
+				recalculatePrice();
+
+				hideActionBar();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent)
+			{
+				hideActionBar();
+			}
+		});
+
+
+		if ((bookStep > 0) && (bookStep < 60))
+		{
+			ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(ReceiptTabApplication.AppContext, R.layout.spinner_item);
+			adapter3.setDropDownViewResource(R.layout.spinner_dropdown_item);
+			for (i=0; i<60; i+=bookStep)
+			{
+				wStr = String.format("%2d　", i);
+				adapter3.add(wStr);
+			}
+			useMin.setAdapter(adapter3);
+
+			useMin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+			{
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+				{
+					recalculatePrice();
+
+					hideActionBar();
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> parent)
+				{
+					hideActionBar();
+				}
+			});
 		}
-		useMin.setAdapter(adapter3);
+		else
+		{
+			useMin.setVisibility(View.GONE);
+			useMinTag.setVisibility(View.GONE);
+		}
 
 
 		ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(ReceiptTabApplication.AppContext, R.layout.spinner_item);
@@ -364,6 +497,23 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 			adapter4.add(wStr);
 		}
 		numPsn.setAdapter(adapter4);
+
+		numPsn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+		{
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+			{
+				recalculatePrice();
+
+				hideActionBar();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent)
+			{
+				hideActionBar();
+			}
+		});
 	}
 
 
@@ -393,6 +543,52 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 		cvs.drawRect( 0,  5, 880, 95, paint2);
 
 		view.setImageBitmap(bmp);
+	}
+
+
+	private  void  recalculatePrice()
+	{
+		int		prmUseMin = useHour.getSelectedItemPosition()*60;
+		if (useMin.getVisibility() == View.VISIBLE)
+		{
+			prmUseMin += Integer.parseInt(useMin.getSelectedItem().toString().replace("　", " ").trim());
+		}
+		String stTime = String.format("2001-01-01T%s:00+9:00", startTime.getSelectedItem().toString().replace("　", " ").trim());
+		int		nPsn = numPsn.getSelectedItemPosition() + 1;
+
+		if (prmUseMin > 0)
+		{
+			//	物件の料金計算
+			String	result = SpaceeAppMain.httpCommGlueRoutines.retrieveRoomPrice(space_id, stTime, prmUseMin, nPsn);
+			if (result != null)
+			{
+				try
+				{
+					JSONObject obj1 = new JSONObject(result);
+					price = obj1.getInt("total_price");
+				}
+				catch (org.json.JSONException e)
+				{
+					e.printStackTrace();
+					return;
+				}
+
+				amount.setText(String.format("%,d", price));
+				btnSelect.setBackground(ReceiptTabApplication.AppContext.getResources().getDrawable(R.drawable.shape_button_blue));
+			}
+			else
+			{
+				showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
+			}
+		}
+	}
+
+
+	private  void  hideActionBar()
+	{
+		Message msg = new Message();
+		msg.what = SpaceeAppMain.MSG_HIDE_ACTIONBAR;
+		SpaceeAppMain.mMsgHandler.sendMessage(msg);
 	}
 
 
@@ -442,7 +638,7 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 				ReceiptTabApplication.isMsgShown =false;
 
 				android.os.Message msg = new android.os.Message();
-				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
 				msg.arg1 = 2;									//	id/pw ng
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
 			}

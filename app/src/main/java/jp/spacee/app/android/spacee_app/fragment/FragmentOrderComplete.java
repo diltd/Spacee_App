@@ -86,7 +86,8 @@ public  class  FragmentOrderComplete  extends  Fragment
 	{
 		// ここにイベントハンドリング用の関数を羅列する
 		void	onBtnFloorGuideClicked	(View view);
-		void	onBtnCompleteClicked		(View view);
+		void	onBtnCompleteClicked	(View view);
+		void	onListProcess			(View view);
 	}
 
 
@@ -122,6 +123,14 @@ public  class  FragmentOrderComplete  extends  Fragment
 				mListener.onBtnCompleteClicked(v);
 			}
 		});
+
+
+		while (mListener == null)
+		{
+			android.os.SystemClock.sleep(100);
+		}
+		mListener.onListProcess(view);
+
 
 		return  view;
 	}

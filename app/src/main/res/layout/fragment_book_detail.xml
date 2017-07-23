@@ -155,16 +155,16 @@
 					android:id="@+id/spaceName"
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
-					android:layout_weight="45"
+					android:layout_weight="65"
 					android:text=""
 					android:textColor="@color/text_black"
-					android:textSize="26sp"
+					android:textSize="36sp"
 					android:gravity="center_vertical" />
 
 				<View
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
-					android:layout_weight="30" />
+					android:layout_weight="20" />
 
 				<LinearLayout
 					android:layout_width="match_parent"
@@ -249,6 +249,7 @@
 					android:gravity="center_vertical" />
 
 				<TextView
+					android:id="@+id/usage"
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
 					android:layout_weight="100"
@@ -256,12 +257,12 @@
 					android:textColor="@color/text_black"
 					android:textSize="16sp"
 					android:gravity="center_vertical"
-					android:maxLines="2" />
+					android:maxLines="3" />
 
 				<View
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
-					android:layout_weight="25" />
+					android:layout_weight="15" />
 			</LinearLayout>
 
 			<ImageView

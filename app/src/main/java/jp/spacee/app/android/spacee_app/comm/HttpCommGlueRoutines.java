@@ -220,11 +220,6 @@ public  class  HttpCommGlueRoutines
 	}
 
 
-
-
-
-
-
 	//	利用者登録(ID・パスワード認証)
 	public  String  signupUser()
 	{
@@ -429,7 +424,90 @@ public  class  HttpCommGlueRoutines
 	}
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//	物件の料金計算の取得
+	public  String  retrieveRoomPrice(String id, String stTime, int useMin, int psnNo)
+	{
+		String		outStr;
+
+		String	url = ReceiptTabApplication.URL_PROVIDERS_ROOM_AVAILABLE;
+		url	= url.replace(":OFFICE_ID", id);
+
+		String	prmGet = String.format("start_at=%s&minutes=%d&party=%d", stTime, useMin, psnNo);
+
+		outStr = commHttpCall(GET, url, null, prmGet);
+
+		return	 outStr;
+	}
+
+
+	//	予約の詳細情報の取得
+	public  String  retrieveBookingInfo(String id)
+	{
+		String		outStr;
+
+		String	url = ReceiptTabApplication.URL_USERS_PRE_BOOKING_INFO;
+		url	= url.replace(":OFFICE_ID", id);
+
+		outStr = commHttpCall(GET, url, null, "");
+
+		return	 outStr;
+	}
+
+
+	//	予約登録
+	public  String  bookingSpace()
+	{
+		String		outStr;
+		int			diff;
+
+		String	url = ReceiptTabApplication.URL_USERS_PRE_BOOKING_REG;
+
+		JSONObject jsonPrm = new JSONObject();
+		try
+		{
+			JSONObject jsonObj1 = new JSONObject();
+			JSONObject jsonObj2 = new JSONObject();
+			jsonObj1.put("listing_id",		ReceiptTabApplication.bookingRoomData.roomId);
+			String wStr = String.format("%04d-%02d-%02dT%s:00+900",	ReceiptTabApplication.bookingRoomData.useYear,
+																		ReceiptTabApplication.bookingRoomData.useMonth,
+																		ReceiptTabApplication.bookingRoomData.useDay,
+																		ReceiptTabApplication.bookingRoomData.checkInTime);
+			jsonObj1.put("start_at",		wStr);
+			diff	= Integer.parseInt(ReceiptTabApplication.bookingRoomData.checkOutTime.substring(0, 2))*60
+					+ Integer.parseInt(ReceiptTabApplication.bookingRoomData.checkOutTime.substring(3, 5))
+					- Integer.parseInt(ReceiptTabApplication.bookingRoomData.checkInTime.substring (0, 2))*60
+					- Integer.parseInt(ReceiptTabApplication.bookingRoomData.checkInTime.substring (3, 5));
+			jsonObj1.put("minutes",		String.format("%d", diff));
+			jsonObj1.put("party",			String.format("%d", ReceiptTabApplication.bookingRoomData.numPsn));
+//			jsonObj1.put("coupon_id",		ReceiptTabApplication.bookingRoomData.cardToken);
+			jsonObj1.put("coupon_id",		"");
+			if (ReceiptTabApplication.bookingRoomData.paidWay.equals("1"))
+			{
+				jsonObj1.put("payment_type",	"card");
+				jsonObj2.put("card_id", ReceiptTabApplication.bookingRoomData.paidId);
+				jsonObj1.put("card_payment", jsonObj2);
+			}
+			else
+			{
+				jsonObj1.put("payment_type",	"invoice");
+				jsonObj2.put("billing_destination_id", ReceiptTabApplication.bookingRoomData.paidId);
+				jsonObj1.put("invoice_payment", jsonObj2);
+			}
+			jsonPrm.put("pre_booking", jsonObj1);
+		}
+		catch (org.json.JSONException e)
+		{
+			e.printStackTrace();
+			return	 "";
+		}
+
+		outStr = commHttpCall(POST, url, jsonPrm, "");
+
+		return	 outStr;
+	}
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public  boolean  retrieveUserStatus()

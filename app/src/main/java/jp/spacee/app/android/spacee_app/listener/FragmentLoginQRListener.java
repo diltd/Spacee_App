@@ -218,7 +218,9 @@ public  class  FragmentLoginQRListener  implements  FragmentLoginQR.FragmentInte
 									String	rc = obj1.getString("status");
 									if (rc.equals("ok"))
 									{
-										ReceiptTabApplication.userAuthToken = obj1.getString("auth_token");
+										ReceiptTabApplication.userAuthToken		= obj1.getString("auth_token");
+										ReceiptTabApplication.currentUserMAddr	= obj1.getString("email");
+//										ReceiptTabApplication.currentUserName	= obj1.getString("xxxxx");
 
 										PlayWaveFile playWaveFile = new PlayWaveFile();
 										playWaveFile.playWaveSound(R.raw.ok_sound);
@@ -484,7 +486,7 @@ public  class  FragmentLoginQRListener  implements  FragmentLoginQR.FragmentInte
 				ReceiptTabApplication.isMsgShown =false;
 
 				android.os.Message msg = new android.os.Message();
-				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
 				msg.arg1 = 2;									//	id/pw ng
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
 			}

@@ -27,7 +27,7 @@
 			android:layout_width="0dip"
 			android:layout_weight="865"
 			android:layout_height="match_parent"
-			android:text="@string/xml_order_complete_btn_floor_guide"
+			android:text="@string/xml_order_complete_msg1"
 			android:textColor="@color/spacee_blue"
 			android:textSize="24sp"
 			android:gravity="center_vertical" />
@@ -124,10 +124,11 @@
 				android:gravity="center_vertical" />
 
 			<TextView
+				android:id="@+id/areaName"
 				android:layout_width="match_parent"
 				android:layout_height="0dip"
 				android:layout_weight="85"
-				android:text="@string/xml_order_complete_title"
+				android:text=""
 				android:textColor="@color/text_black"
 				android:textSize="28sp"
 				android:gravity="center_vertical" />
@@ -173,8 +174,9 @@
 				android:orientation="horizontal">
 
 				<TextView
+					android:id="@+id/targetMonth"
 					android:layout_width="0dip"
-					android:layout_weight="60"
+					android:layout_weight="70"
 					android:layout_height="match_parent"
 					android:text="06"
 					android:textColor="@color/text_black"
@@ -183,7 +185,7 @@
 
 				<TextView
 					android:layout_width="0dip"
-					android:layout_weight="30"
+					android:layout_weight="25"
 					android:layout_height="match_parent"
 					android:text="@string/xml_order_complete_month"
 					android:textColor="@color/text_black"
@@ -191,8 +193,9 @@
 					android:gravity="bottom" />
 
 				<TextView
+					android:id="@+id/targetDay"
 					android:layout_width="0dip"
-					android:layout_weight="60"
+					android:layout_weight="70"
 					android:layout_height="match_parent"
 					android:text="30"
 					android:textColor="@color/text_black"
@@ -201,7 +204,7 @@
 
 				<TextView
 					android:layout_width="0dip"
-					android:layout_weight="30"
+					android:layout_weight="25"
 					android:layout_height="match_parent"
 					android:text="@string/xml_order_complete_day"
 					android:textColor="@color/text_black"
@@ -210,12 +213,13 @@
 
 				<View
 					android:layout_width="0dip"
-					android:layout_weight="30"
+					android:layout_weight="20"
 					android:layout_height="match_parent" />
 
 				<TextView
+					android:id="@+id/checkInTime"
 					android:layout_width="0dip"
-					android:layout_weight="130"
+					android:layout_weight="150"
 					android:layout_height="match_parent"
 					android:text="12:34"
 					android:textColor="@color/text_black"
@@ -224,7 +228,7 @@
 
 				<TextView
 					android:layout_width="0dip"
-					android:layout_weight="90"
+					android:layout_weight="65"
 					android:layout_height="match_parent"
 					android:text="@string/xml_order_complete_from"
 					android:textColor="@color/text_black"
@@ -232,8 +236,9 @@
 					android:gravity="bottom" />
 
 				<TextView
+					android:id="@+id/checkOutTime"
 					android:layout_width="0dip"
-					android:layout_weight="130"
+					android:layout_weight="150"
 					android:layout_height="match_parent"
 					android:text="12:34"
 					android:textColor="@color/text_black"
@@ -242,7 +247,7 @@
 
 				<TextView
 					android:layout_width="0dip"
-					android:layout_weight="80"
+					android:layout_weight="65"
 					android:layout_height="match_parent"
 					android:text="@string/xml_order_complete_to"
 					android:textColor="@color/text_black"
@@ -264,14 +269,32 @@
 				android:textSize="18sp"
 				android:gravity="center_vertical" />
 
-			<TextView
+			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="0dip"
 				android:layout_weight="70"
-				android:text="@string/xml_order_complete_amount"
-				android:textColor="@color/text_black"
-				android:textSize="36sp"
-				android:gravity="center_vertical" />
+				android:orientation="horizontal" >
+
+				<TextView
+					android:id="@+id/amount"
+					android:layout_width="0dip"
+					android:layout_height="match_parent"
+					android:layout_weight="160"
+					android:text=""
+					android:textColor="@color/text_black"
+					android:textSize="36sp"
+					android:gravity="center_vertical|right" />
+
+				<TextView
+					android:layout_width="0dip"
+					android:layout_height="match_parent"
+					android:layout_weight="460"
+					android:text="@string/xml_order_complete_yen"
+					android:textColor="@color/text_black"
+					android:textSize="36sp"
+					android:layout_marginLeft="15sp"
+					android:gravity="center_vertical" />
+			</LinearLayout>
 
 			<View
 				android:layout_width="match_parent"
@@ -288,6 +311,7 @@
 				android:gravity="center_vertical" />
 
 			<TextView
+				android:id="@+id/explain"
 				android:layout_width="match_parent"
 				android:layout_height="0dip"
 				android:layout_weight="70"
@@ -335,6 +359,7 @@
 				android:layout_weight="40" />
 
 			<ImageView
+				android:id="@+id/picture"
 				android:layout_width="match_parent"
 				android:layout_height="0dip"
 				android:layout_weight="345"

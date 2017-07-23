@@ -11,11 +11,11 @@
 				android:topLeftRadius="15dp" />
 
 			<solid
-				android:color="@color/spacee_blue" />
+				android:color="@color/point" />
 
 			<stroke
 				android:width="2dip"
-				android:color="@color/spacee_blue" />
+				android:color="@color/point" />
 		</shape>
 	</item>
 </selector>

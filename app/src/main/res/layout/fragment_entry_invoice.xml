@@ -145,7 +145,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
 					android:layout_weight="60"
-					android:text="xml_entry_invoice_pcode"
+					android:text="@string/xml_entry_invoice_pcode"
 					android:textColor="@color/spacee_blue"
 					android:textSize="20sp"
 					android:gravity="center_vertical" />

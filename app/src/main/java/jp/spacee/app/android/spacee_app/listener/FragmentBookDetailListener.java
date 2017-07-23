@@ -28,13 +28,13 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 	private						TextView					content				= null;
 	private						ImageView					msgOff				= null;
 
-	private						int							id					= -1;
+	private						String						id					= "";
 	private						Bitmap[]					thumbnails			= new android.graphics.Bitmap[1];
 
 
 	public  FragmentBookDetailListener(int prmId)
 	{
-		id = prmId;
+		id = String.format("%d",prmId);
 
 	}
 
@@ -78,15 +78,15 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 		TextView	spaceName	= (TextView)	view.findViewById(R.id.spaceName);
 		TextView	timeBegin	= (TextView)	view.findViewById(R.id.timeBegin);
 		TextView	timeEnd		= (TextView)	view.findViewById(R.id.timeEnd);
+		TextView	usage		= (TextView)	view.findViewById(R.id.usage);
 		ImageView	thumbnail	= (ImageView)	view.findViewById(R.id.thumbnail);
-
 
 		RelativeLayout errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
 		TextView	title			= (TextView)		errLayout.findViewById(R.id.errorTitle);
 		TextView	content			= (TextView)		errLayout.findViewById(R.id.errorMessage);
 		ImageView	msgOff			= (ImageView)		errLayout.findViewById(R.id.messageOff);
 
-		String  result = SpaceeAppMain.httpCommGlueRoutines.retrieveBookingList("present");
+		String  result = SpaceeAppMain.httpCommGlueRoutines.retrieveBookingInfo(id);
 		if (result != null)
 		{
 			try
@@ -94,9 +94,9 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 				JSONObject obj1 = new JSONObject(result);
 				if (obj1 != null)
 				{
-					String	rc = obj1.getString("status");
-					if (rc.equals("ok"))
-					{
+//					String	rc = obj1.getString("status");
+//					if (rc.equals("ok"))
+//					{
 						JSONArray arr1 = obj1.getJSONArray("pre_bookings");
 						if (arr1 != null)
 						{
@@ -104,7 +104,7 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 							{
 								JSONObject obj2 = arr1.getJSONObject(i);
 								JSONObject obj3 = obj2.getJSONObject("listing");
-								if (id == obj3.getInt("id"))
+								if (id == obj3.getString("id"))
 								{
 									JSONObject obj4 = new JSONObject(obj3.getString("thumb"));
 									thumb_url[0] = obj4.getString("url");
@@ -112,17 +112,18 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 									org.json.JSONObject obj5 = obj2.getJSONObject("pre_booking");
 									try
 									{
-										SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+										SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 										Date wDate = sdf.parse(obj5.getString("start_at"));
-										timeBegin.setText(new SimpleDateFormat("hh:mm").format(wDate));
+										timeBegin.setText(new SimpleDateFormat("HH:mm").format(wDate));
 										wDate =  sdf.parse(obj5.getString("end_at"));
-										timeEnd.setText(new SimpleDateFormat("hh:mm").format(wDate));
+										timeEnd.setText(new SimpleDateFormat("HH:mm").format(wDate));
 									}
 									catch (java.text.ParseException e)
 									{
 										e.printStackTrace();
 										return;
 									}
+									usage.setText("");
 								}
 							}
 						}
@@ -131,12 +132,12 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 							showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
 							return;
 						}
-					}
-					else
-					{
-						showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), obj1, "");
-						return;
-					}
+//					}
+//					else
+//					{
+//						showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), obj1, "");
+//						return;
+//					}
 				}
 				else
 				{
@@ -207,7 +208,7 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 				jp.spacee.app.android.spacee_app.ReceiptTabApplication.isMsgShown =false;
 
 				android.os.Message msg = new android.os.Message();
-				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
 				msg.arg1 = 2;									//	id/pw ng
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
 			}
