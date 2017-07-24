@@ -224,16 +224,53 @@
 				android:layout_height="0dip"
 				android:layout_weight="10" />
 
-			<ImageView
-				android:id="@+id/timeLine"
+			<FrameLayout
 				android:layout_width="match_parent"
 				android:layout_height="0dip"
-				android:layout_weight="145" />
+				android:layout_weight="155" >
+
+				<ImageView
+					android:id="@+id/timeLine"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent" />
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:orientation="horizontal"
+					android:background="@color/see_through" >
+
+					<ImageView
+						android:id="@+id/btnPrev"
+						android:layout_width="0dip"
+						android:layout_weight="90"
+						android:layout_height="match_parent"
+						android:layout_marginTop="15dp"
+						android:layout_marginLeft="10dp"
+						android:layout_marginBottom="50dp"
+						android:src="@drawable/ic_arrow_left" />
+
+					<View
+						android:layout_width="0dip"
+						android:layout_weight="700"
+						android:layout_height="match_parent" />
+
+					<ImageView
+						android:id="@+id/btnNext"
+						android:layout_width="0dip"
+						android:layout_weight="90"
+						android:layout_height="match_parent"
+						android:layout_marginTop="15dp"
+						android:layout_marginRight="10dp"
+						android:layout_marginBottom="50dp"
+						android:src="@drawable/ic_arrow_right" />
+				</LinearLayout>
+			</FrameLayout>
 
 			<View
 				android:layout_width="match_parent"
 				android:layout_height="0dip"
-				android:layout_weight="30"
+				android:layout_weight="20"
 				android:background="@color/white" />
 
 			<LinearLayout

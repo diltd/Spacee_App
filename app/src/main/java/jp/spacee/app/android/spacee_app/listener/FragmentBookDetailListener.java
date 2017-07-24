@@ -81,10 +81,10 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 		TextView	usage		= (TextView)	view.findViewById(R.id.usage);
 		ImageView	thumbnail	= (ImageView)	view.findViewById(R.id.thumbnail);
 
-		RelativeLayout errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
-		TextView	title			= (TextView)		errLayout.findViewById(R.id.errorTitle);
-		TextView	content			= (TextView)		errLayout.findViewById(R.id.errorMessage);
-		ImageView	msgOff			= (ImageView)		errLayout.findViewById(R.id.messageOff);
+		errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
+		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
+		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
+		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
 
 		String  result = SpaceeAppMain.httpCommGlueRoutines.retrieveBookingInfo(id);
 		if (result != null)

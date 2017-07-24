@@ -70,10 +70,10 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 		int		i, k;
 		String	wStr;
 
-		RelativeLayout	errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
-		TextView		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
-		TextView		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
-		ImageView		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
+		errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
+		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
+		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
+		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
 
 		String  result = SpaceeAppMain.httpCommGlueRoutines.retrieveBookingList("present");
 		if (result != null)

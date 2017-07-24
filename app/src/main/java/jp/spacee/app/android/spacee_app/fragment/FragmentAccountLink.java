@@ -73,7 +73,7 @@ public  class  FragmentAccountLink  extends  Fragment
 	public  interface  FragmentInteractionListener
 	{
 		// ここにイベントハンドリング用の関数を羅列する
-		void	onBtnDoLinkClicked		(View view, RelativeLayout errLayout);
+		void	onBtnDoLinkClicked		(View view);
 		void	onBtnCancelClicked		(View view);
 		void	setUserName				(View view);
 	}
@@ -89,7 +89,7 @@ public  class  FragmentAccountLink  extends  Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		// Inflate the layout for this fragment
-		View view = inflater.inflate(R.layout.fragment_account_link, container, false);
+		final View view = inflater.inflate(R.layout.fragment_account_link, container, false);
 
 		btnDoLink	= (TextView)		view.findViewById(R.id.btnDoLink);
 		btnCancel	= (TextView)		view.findViewById(R.id.btnCancel);
@@ -99,7 +99,7 @@ public  class  FragmentAccountLink  extends  Fragment
 		{
 			public void onClick(View v)
 			{
-				mListener.onBtnDoLinkClicked(v, errLayout);
+				mListener.onBtnDoLinkClicked(view);
 			}
 		});
 

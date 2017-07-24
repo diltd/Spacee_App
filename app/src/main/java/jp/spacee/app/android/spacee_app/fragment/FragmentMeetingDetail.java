@@ -19,6 +19,8 @@ import jp.spacee.app.android.spacee_app.R;
 public  class  FragmentMeetingDetail  extends  Fragment
 {
 	private 					TextView						btnDateList	= null;
+	private 					ImageView						btnPrev			= null;
+	private 					ImageView						btnNext			= null;
 	private 					TextView						btnSelect		= null;
 
 	private						FragmentInteractionListener		mListener;
@@ -88,6 +90,8 @@ public  class  FragmentMeetingDetail  extends  Fragment
 	{
 		// ここにイベントハンドリング用の関数を羅列する
 		void	onBtnSelectClicked		(View view);
+		void	onBtnPrevClicked		(View view);
+		void	onBtnNextClicked		(View view);
 		void	onBtnDateListClicked	(View view);
 		void	retrieveDetaildata		(View view);
 	}
@@ -103,9 +107,11 @@ public  class  FragmentMeetingDetail  extends  Fragment
 	public  View  onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		// Inflate the layout for this fragment
-		View  view = inflater.inflate(R.layout.fragment_meeting_detail, container, false);
+		final  View  view = inflater.inflate(R.layout.fragment_meeting_detail, container, false);
 
 		btnDateList	= (TextView)	view.findViewById(R.id.btnDateList);
+		btnPrev			= (ImageView)	view.findViewById(R.id.btnPrev);
+		btnNext			= (ImageView)	view.findViewById(R.id.btnNext);
 		btnSelect		= (TextView)	view.findViewById(R.id.btnSelect);
 
 
@@ -114,6 +120,24 @@ public  class  FragmentMeetingDetail  extends  Fragment
 			public void onClick(View v)
 			{
 				mListener.onBtnDateListClicked(v);
+			}
+		});
+
+
+		btnPrev.setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				mListener.onBtnPrevClicked(view);
+			}
+		});
+
+
+		btnNext.setOnClickListener(new View.OnClickListener()
+		{
+			public void onClick(View v)
+			{
+				mListener.onBtnNextClicked(view);
 			}
 		});
 

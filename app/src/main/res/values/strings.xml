@@ -326,6 +326,7 @@
 	<string name="xml_order_confirm_yen">円</string>
 	<string name="xml_order_confirm_btn_use_coupon">クーポンを利用する</string>
 	<string name="xml_order_confirm_title3">クーポンの割引</string>
+	<string name="xml_order_confirm_total">合計(税込)</string>
 	<string name="xml_order_confirm_btn_checkin">決済して、チェックインする</string>
 	<string name="xml_order_confirm_coupon_code">クーポンコードの入力</string>
 	<string name="xml_order_confirm_ccode_hint">AA100</string>

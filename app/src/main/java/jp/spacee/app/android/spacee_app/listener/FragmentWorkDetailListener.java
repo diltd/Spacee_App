@@ -62,6 +62,11 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 	private						int								minBookUnit	= 0;
 	private						int								bookStep		= 0;
 	private						int								price			= 0;
+	private						int								occupiedMin	= 0;
+
+	private						int								schedNow		= 0;
+	private						int								schedTime		= 0;
+
 	private						String[]						pictUrl			= new String[1];
 
 
@@ -112,12 +117,34 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 			ReceiptTabApplication.bookingRoomData.payAmount		= price;
 			ReceiptTabApplication.bookingRoomData.pricePlan		= planList;
 			ReceiptTabApplication.bookingRoomData.pictUrl			= pictUrl;
+			ReceiptTabApplication.bookingRoomData.payAmount		= price;
+			ReceiptTabApplication.bookingRoomData.occupiedMin		= occupiedMin;
 
 			android.os.Message msg = new android.os.Message();
 			msg.what = SpaceeAppMain.MSG_WORK_DETAIL_COMP;
 			msg.arg1 = 1;                                            //	by btnSelectClicked
 			SpaceeAppMain.mMsgHandler.sendMessage(msg);
 		}
+	}
+
+
+	@Override
+	public void onBtnPrevClicked(View view)
+	{
+		if (schedTime >= 4*60)		schedTime -= 60*4;
+
+		ImageView	timeLine	= (android.widget.ImageView)	view.findViewById(R.id.timeLine);
+		drawSchedule(timeLine);
+	}
+
+
+	@Override
+	public void onBtnNextClicked(View view)
+	{
+		if (schedTime < 18*60)		schedTime += 60*4;
+
+		ImageView	timeLine	= (android.widget.ImageView)	view.findViewById(R.id.timeLine);
+		drawSchedule(timeLine);
 	}
 
 
@@ -143,10 +170,10 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 		amount			= (TextView)	view.findViewById(R.id.amount);
 		btnSelect		= (TextView)	view.findViewById(R.id.btnSelect);
 
-		errLayout		= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
-		TextView	title	= (TextView)	errLayout.findViewById(R.id.errorTitle);
-		TextView	content	= (TextView)	errLayout.findViewById(R.id.errorMessage);
-		ImageView	msgOff	= (ImageView)	errLayout.findViewById(R.id.messageOff);
+		errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
+		title		= (TextView)	errLayout.findViewById(R.id.errorTitle);
+		content		= (TextView)	errLayout.findViewById(R.id.errorMessage);
+		msgOff		= (ImageView)	errLayout.findViewById(R.id.messageOff);
 
 
 		String[]	detail_thumb_url	= null;
@@ -351,15 +378,25 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 						JSONObject obj3 = new JSONObject(obj2.getString("room_calendars"));
 						JSONObject obj4 = new JSONObject(obj3.getString("calendar"));
 						JSONArray  arr2 = obj4.getJSONArray("room_schedules");
-						HashMap<String, String> map = new HashMap<String, String>();
 						for (k=0; k<arr2.length(); k++)
 						{
+							HashMap<String, String> map = new HashMap<String, String>();
 							JSONObject obj5 = arr2.getJSONObject(i);
-							map.put("entNo", String.format("%d", (+i)));
+							map.put("entNo", String.format("%d", (i)));
 							map.put("start_at",	obj5.getString("start_at"));
 							map.put("end_at",		obj5.getString("end_at"));
+							schedList.add(map);
 						}
-						schedList.add(map);
+/*
+	for (k=9; k<=21; k+=3)
+	{
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("entNo",		String.format("%d", (i)));
+		map.put("start_at",	String.format("2001-01-01T%02d:%02d:00+900", k,		0));
+		map.put("end_at",		String.format("2001-01-01T%02d:%02d:00+900", k+2,	0));
+		schedList.add(map);
+	}
+*/
 					}
 				}
 				else
@@ -374,6 +411,8 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 				return;
 			}
 
+			schedNow  = (cal.get(java.util.Calendar.HOUR_OF_DAY)*60 + cal.get(java.util.Calendar.MINUTE) + 14)/15*15;
+			schedTime = schedNow;
 			ImageView	timeLine	= (android.widget.ImageView)	view.findViewById(R.id.timeLine);
 			drawSchedule(timeLine);
 		}
@@ -491,8 +530,11 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 
 	private  void  drawSchedule(ImageView view)
 	{
-		//		float	ratio	= SpaceeAppMain.scale * 3 / 4;
-		//		Bitmap	bmp		= Bitmap.createBitmap((int)(580*ratio), (int)(54*ratio), Bitmap.Config.ARGB_8888);
+		int		i, wSTime, wETime;
+		Date	wDate;
+
+//		float	ratio	= SpaceeAppMain.scale * 3 / 4;
+//		Bitmap	bmp		= Bitmap.createBitmap((int)(580*ratio), (int)(54*ratio), Bitmap.Config.ARGB_8888);
 		Bitmap	bmp		= Bitmap.createBitmap(880, 145, Bitmap.Config.ARGB_8888);
 		Canvas cvs		= new Canvas(bmp);
 		Paint paint1	= new Paint();
@@ -501,18 +543,58 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 		paint1.setColor(android.graphics.Color.BLACK);
 		Paint paint2	= new Paint();
 		paint2.setColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.light_grey));
+		Paint paint3	= new Paint();
+		paint3.setColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.alert));
+		Paint paint4	= new Paint();
+		paint4.setColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.text_white));
+		paint4.setStrokeWidth(3.0f);
+		paint4.setTextSize(26);
 
 		cvs.drawColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.light_grey_white));
 
-		cvs.drawText(ReceiptTabApplication.AppContext.getResources().getString(R.string.frag_work_list_time_now),   60, 120, paint1);
-		cvs.drawText("13:00", 180, 120, paint1);
-		cvs.drawText("14:00", 300, 120, paint1);
-		cvs.drawText("15:00", 420, 120, paint1);
-		cvs.drawText("16:00", 540, 120, paint1);
-		cvs.drawText("17:00", 660, 120, paint1);
-		cvs.drawText("18:00", 780, 120, paint1);
+		if ((schedTime <= schedNow) && (schedNow <= (schedTime+6*60)))
+		{
+			cvs.drawText(ReceiptTabApplication.AppContext.getResources().getString(R.string.frag_meeting_detail_time_now),
+					(schedNow-schedTime)*2+65, 140, paint1);
+		}
+		cvs.drawText(String.format("%02d:%02d", (int)((schedTime      ) / 60), (schedTime      ) % 60),  60, 115, paint1);
+		cvs.drawText(String.format("%02d:%02d", (int)((schedTime +  60) / 60), (schedTime +  60) % 60), 180, 115, paint1);
+		cvs.drawText(String.format("%02d:%02d", (int)((schedTime + 120) / 60), (schedTime + 120) % 60), 300, 115, paint1);
+		cvs.drawText(String.format("%02d:%02d", (int)((schedTime + 180) / 60), (schedTime + 180) % 60), 420, 115, paint1);
+		cvs.drawText(String.format("%02d:%02d", (int)((schedTime + 240) / 60), (schedTime + 240) % 60), 540, 115, paint1);
+		cvs.drawText(String.format("%02d:%02d", (int)((schedTime + 300) / 60), (schedTime + 300) % 60), 660, 115, paint1);
+		cvs.drawText(String.format("%02d:%02d", (int)((schedTime + 360) / 60), (schedTime + 360) % 60), 780, 115, paint1);
 
-		cvs.drawRect( 0,  5, 880, 95, paint2);
+		cvs.drawRect( 0,  5, 880, 90, paint2);
+
+		HashMap<String, String>  map = new HashMap<String, String>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		for (i=0; i<schedList.size(); i++)
+		{
+			map = schedList.get(i);
+			try
+			{
+				wDate = sdf.parse(map.get("start_at"));
+				wSTime = Integer.parseInt(new SimpleDateFormat("HH").format(wDate))*60 + Integer.parseInt(new SimpleDateFormat("mm").format(wDate));
+				wDate = sdf.parse(map.get("end_at"));
+				wETime = Integer.parseInt(new SimpleDateFormat("HH").format(wDate))*60 + Integer.parseInt(new SimpleDateFormat("mm").format(wDate));
+
+				if ((schedTime <= wETime) && (wSTime <= (schedTime+6*60)))
+				{
+					if (wSTime < schedTime)			wSTime = schedTime;
+					if ((schedTime+6*60) < wETime)		wETime = schedTime + 6*60;
+
+					cvs.drawRect((wSTime-schedTime)*2+85,  5, (wETime-schedTime)*2+85, 90, paint3);
+
+					cvs.drawText("満", ((wSTime+wETime)/2-schedTime)*2+65, 55, paint4);
+				}
+			}
+			catch (java.text.ParseException e)
+			{
+				e.printStackTrace();
+				return;
+			}
+		}
 
 		view.setImageBitmap(bmp);
 	}
@@ -520,17 +602,17 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 
 	private  void  recalculatePrice()
 	{
-		int		prmUseMin = useHour.getSelectedItemPosition()*60;
+		occupiedMin = useHour.getSelectedItemPosition()*60;
 		if (useMin.getVisibility() == View.VISIBLE)
 		{
-			prmUseMin += Integer.parseInt(useMin.getSelectedItem().toString().replace("　", " ").trim());
+			occupiedMin += Integer.parseInt(useMin.getSelectedItem().toString().replace("　", " ").trim());
 		}
 		String stTime = String.format("2001-01-01T%s:00+9:00", startTime.getSelectedItem().toString().replace("　", " ").trim());
 
-		if (prmUseMin > 0)
+		if (occupiedMin > 0)
 		{
 			//	物件の料金計算
-			String	result = SpaceeAppMain.httpCommGlueRoutines.retrieveRoomPrice(desk_id, stTime, prmUseMin, 1);
+			String	result = SpaceeAppMain.httpCommGlueRoutines.retrieveRoomPrice(desk_id, stTime, occupiedMin, 1, "");
 			if (result != null)
 			{
 				try

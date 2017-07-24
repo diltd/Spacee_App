@@ -97,6 +97,7 @@ public  class  FragmentEntryInvoice  extends  Fragment
 		void	onKindCardSelected		(View view);
 		void	onBtnInputCompClicked	(View view);
 		void	setBtnInputCompView		(View view);
+		void	killFocusPostCode		(View view);
 		void	setInputStatus			(int eno, boolean sts);
 	}
 
@@ -257,6 +258,19 @@ public  class  FragmentEntryInvoice  extends  Fragment
 			public void afterTextChanged(android.text.Editable s)
 			{
 				mListener.setInputStatus(5, (s.toString().length() >= 10));
+			}
+		});
+
+
+		postCode.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener()
+		{
+			@Override
+			public void onFocusChange(android.view.View v, boolean hasFocus)
+			{
+				if (hasFocus == false)
+				{
+					mListener.killFocusPostCode(view);				//	not v, view
+				}
 			}
 		});
 

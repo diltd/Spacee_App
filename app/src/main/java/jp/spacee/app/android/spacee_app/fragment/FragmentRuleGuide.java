@@ -86,7 +86,7 @@ public  class  FragmentRuleGuide  extends  Fragment
 	public  interface  FragmentInteractionListener
 	{
 		// ここにイベントハンドリング用の関数を羅列する
-		void	onListProcess		(ListView view1, TextView view2, TextView view3);
+		void	onListProcess		(View view);
 	}
 
 
@@ -100,18 +100,18 @@ public  class  FragmentRuleGuide  extends  Fragment
 	public  View  onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		// Inflate the layout for this fragment
-		View  view = inflater.inflate(R.layout.fragment_rule_guide, container, false);
+		final View  view = inflater.inflate(R.layout.fragment_rule_guide, container, false);
 
-		indexListView	= (ListView)	view.findViewById(R.id.ruleIndex);
-		ruleTitle		= (TextView)	view.findViewById(R.id.ruleTitle);
-		explanation	= (TextView)	view.findViewById(R.id.explanation);
+//		indexListView	= (ListView)	view.findViewById(R.id.ruleIndex);
+//		ruleTitle		= (TextView)	view.findViewById(R.id.ruleTitle);
+//		explanation	= (TextView)	view.findViewById(R.id.explanation);
 
 
 		while (mListener == null)
 		{
 			android.os.SystemClock.sleep(100);
 		}
-		mListener.onListProcess(indexListView, ruleTitle, explanation);
+		mListener.onListProcess(view);
 
 		return  view;
 	}

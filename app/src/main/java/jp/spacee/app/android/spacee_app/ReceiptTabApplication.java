@@ -97,4 +97,6 @@ public  class  ReceiptTabApplication  extends  Application
 	public  static  final		String						URL_USERS_PAYMENTS			= URL_BASE + "/api/v2/users/payment_means.json";										//	予約登録	決済方法一覧
 
 	public  static  final		String						URL_SEND_SMS					= URL_BASE + "/api/v2/sms/entry_app.json";												//	SMS API		SMS送信
+
+	public   static  final	String						GOOGLEAPIS_MAPS_GEOCODE		= "https://maps.googleapis.com/maps/api/geocode/xml";
 }

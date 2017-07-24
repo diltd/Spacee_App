@@ -44,6 +44,11 @@ public  class  FragmentOfficeListListener  implements  FragmentOfficeList.Fragme
 		int			i;
 		String		wStr;
 
+		errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
+		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
+		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
+		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
+
 		String	result = SpaceeAppMain.httpCommGlueRoutines.retrieveProviderOffices();
 
 		if (result != null)

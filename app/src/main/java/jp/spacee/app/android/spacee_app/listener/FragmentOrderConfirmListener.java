@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.EditText;
 import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
@@ -80,8 +81,48 @@ public  class  FragmentOrderConfirmListener  implements  FragmentOrderConfirm.Fr
 	@Override
 	public  void  onBtnApplyCouponClicked(View view)
 	{
+		EditText	cpnNo	= (EditText)	view.findViewById(R.id.couponCode);
+		String		cpnCode	= cpnNo.getText().toString();
+
+		RelativeLayout	couponLayout = (RelativeLayout)	view.findViewById(R.id.couponLayout);
+		couponLayout.setVisibility(View.INVISIBLE);
+
+		LinearLayout	couponPanel1 = (LinearLayout)	view.findViewById(R.id.couponPanel1);
+		couponPanel1.setVisibility(View.INVISIBLE);
+		LinearLayout	couponPanel3 = (LinearLayout)	view.findViewById(R.id.couponPanel3);
+		couponPanel3.setVisibility(View.VISIBLE);
 
 
+		//	物件の料金計算
+		String	result = SpaceeAppMain.httpCommGlueRoutines.retrieveRoomPrice(ReceiptTabApplication.bookingRoomData.roomId,
+																			  ReceiptTabApplication.bookingRoomData.checkInTime,
+																			  ReceiptTabApplication.bookingRoomData.occupiedMin,
+																			  ReceiptTabApplication.bookingRoomData.numPsn,
+																			  cpnCode);
+		if (result != null)
+		{
+			try
+			{
+				JSONObject obj1 = new JSONObject(result);
+				ReceiptTabApplication.bookingRoomData.payAmount = obj1.getInt("total_price");
+				JSONObject obj2 = obj1.getJSONObject("coupon");
+				ReceiptTabApplication.bookingRoomData.discount	 = obj2.getInt("discount_price");
+			}
+			catch (org.json.JSONException e)
+			{
+				e.printStackTrace();
+				return;
+			}
+		}
+		else
+		{
+			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
+		}
+
+		TextView	discount		= (TextView)	view.findViewById(R.id.discount);
+		discount.setText(String.format("%,d", ReceiptTabApplication.bookingRoomData.discount));
+		TextView	amount2			= (TextView)	view.findViewById(R.id.amount2);
+		amount2.setText(String.format("%,d", ReceiptTabApplication.bookingRoomData.payAmount));
 	}
 
 

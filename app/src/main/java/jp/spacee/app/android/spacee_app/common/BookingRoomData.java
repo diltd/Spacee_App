@@ -11,6 +11,7 @@ public  class  BookingRoomData
 	public		int				useYear;
 	public		int				useMonth;
 	public		int				useDay;
+	public 		int				occupiedMin;
 	public		String			checkInTime;
 	public		String			checkOutTime;
 	public		int				numPsn;

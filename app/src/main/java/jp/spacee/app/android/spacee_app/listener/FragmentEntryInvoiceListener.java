@@ -3,6 +3,7 @@ package jp.spacee.app.android.spacee_app.listener;
 
 import android.view.View;
 import android.widget.TextView;
+import android.widget.EditText;
 
 import jp.spacee.app.android.spacee_app.activity.SpaceeAppMain;
 import jp.spacee.app.android.spacee_app.fragment.FragmentEntryInvoice;
@@ -60,6 +61,58 @@ public  class  FragmentEntryInvoiceListener  implements  FragmentEntryInvoice.Fr
 
 
 	@Override
+	public  void  killFocusPostCode(View view)
+	{
+		EditText	pCode = (EditText)	view.findViewById(R.id.postCode);
+		EditText	addr1 = (EditText)	view.findViewById(R.id.companyAddr1);
+		String		pcode = pCode.getText().toString();
+		String[]	addr  = new String[10];
+		String		wStr1, wStr2;
+		int			pos, idx;
+
+		String  result = SpaceeAppMain.httpCommGlueRoutines.retrieveAddrfromPostCode(pcode);
+		if (result != null)
+		{
+			pos = 0;
+			wStr1 = parseParam(result, "status" , pos);
+			if (wStr1.equals("OK"))
+			{
+				idx = 0;
+				while (wStr1.equals("") != true)
+				{
+					wStr1 = parseParam(result, "address_component" , pos);
+					if (wStr1.equals("") != true)
+					{
+						addr[idx++] = parseParam(wStr1, "long_name" , 0);
+					}
+					pos += (wStr1.length() + 19 + 20);			//	19:len of <address_component>  20:</  >
+				}
+
+				wStr2 = "";
+				idx --;
+				if (addr[idx].equals("日本"))
+				{
+					idx --;
+					while (idx >= 2)			//	addr[1]=addr[0]=postcode
+					{
+						wStr2 += addr[idx--];
+					}
+				}
+				addr1.setText(wStr2);
+			}
+			else
+			{
+
+			}
+		}
+		else
+		{
+
+		}
+	}
+
+
+	@Override
 	public  void  setInputStatus(int eno, boolean sts)
 	{
 		fieldFilled[eno] = sts;
@@ -82,4 +135,25 @@ public  class  FragmentEntryInvoiceListener  implements  FragmentEntryInvoice.Fr
 			btnInputComp.setEnabled(false);
 		}
 	}
-};
+
+
+	private  String	  parseParam(String inPrm, String keycode, int stPos)
+	{
+		String	outStr	= "";
+		String	keyBgn	= "<"  + keycode + ">";
+		String	keyEnd	= "</" + keycode + ">";
+		int		idx		= stPos;
+		int		bPos, ePos;
+
+		if ((bPos = inPrm.indexOf(keyBgn, idx)) != -1)
+		{
+			if ((ePos = inPrm.indexOf(keyEnd, bPos+keyBgn.length())) != -1)
+			{
+				outStr = inPrm.substring(bPos + keyBgn.length(), ePos);
+			}
+		}
+
+		return	outStr;
+	}
+}
+

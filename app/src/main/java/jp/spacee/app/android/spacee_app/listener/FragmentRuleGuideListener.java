@@ -45,11 +45,16 @@ public  class  FragmentRuleGuideListener  implements  FragmentRuleGuide.Fragment
 
 
 	@Override
-	public  void  onListProcess(ListView view1, TextView view2, TextView view3)
+	public  void  onListProcess(View view)
 	{
-		ruleIndexList	= view1;
-		ruleTitle		= view2;
-		explanation	= view3;
+		ruleIndexList	= (ListView)	view.findViewById(R.id.ruleIndex);
+		ruleTitle		= (TextView)	view.findViewById(R.id.ruleTitle);
+		explanation	= (TextView)	view.findViewById(R.id.explanation);
+
+		errLayout		= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
+		title			= (TextView)		errLayout.findViewById(R.id.errorTitle);
+		content			= (TextView)		errLayout.findViewById(R.id.errorMessage);
+		msgOff			= (ImageView)		errLayout.findViewById(R.id.messageOff);
 
 		retrieveListInfo();
 

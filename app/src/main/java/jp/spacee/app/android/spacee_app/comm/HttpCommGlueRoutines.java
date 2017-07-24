@@ -361,7 +361,6 @@ public  class  HttpCommGlueRoutines
 		{
 			JSONObject jsonObj = new JSONObject();
 			jsonObj.put("company_name",			ReceiptTabApplication.userRegData.companyName);
-			jsonObj.put("department_name",		"");
 			jsonObj.put("responsible_person",		ReceiptTabApplication.userRegData.operName);
 			jsonObj.put("zip_code",				ReceiptTabApplication.userRegData.postCode);
 			jsonObj.put("address_before",			ReceiptTabApplication.userRegData.companyAddress1);
@@ -425,14 +424,14 @@ public  class  HttpCommGlueRoutines
 
 
 	//	物件の料金計算の取得
-	public  String  retrieveRoomPrice(String id, String stTime, int useMin, int psnNo)
+	public  String  retrieveRoomPrice(String id, String stTime, int useMin, int psnNo, String cpnCode)
 	{
 		String		outStr;
 
 		String	url = ReceiptTabApplication.URL_PROVIDERS_ROOM_AVAILABLE;
 		url	= url.replace(":OFFICE_ID", id);
 
-		String	prmGet = String.format("start_at=%s&minutes=%d&party=%d", stTime, useMin, psnNo);
+		String	prmGet = String.format("start_at=%s&minutes=%d&party=%d&coupon_code=%s", stTime, useMin, psnNo, cpnCode);
 
 		outStr = commHttpCall(GET, url, null, prmGet);
 
@@ -523,6 +522,15 @@ public  class  HttpCommGlueRoutines
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public  String  retrieveAddrfromPostCode(String postcode)
+	{
+		String		outStr = "";
+
+		String	prmGet = String.format("address=%s&language=ja", postcode);
+
+		outStr = commHttpCall(2, ReceiptTabApplication.GOOGLEAPIS_MAPS_GEOCODE, null, prmGet);		//	GET interface
+		return	outStr;
+	}
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
