@@ -119,6 +119,7 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 									wDate =  sdf.parse(obj5.getString("end_at"));
 									map.put("endDate", new SimpleDateFormat("MM月dd日").format(wDate));
 									map.put("endTime", new SimpleDateFormat("HH:mm").format(wDate));
+                                    map.put("pre_booking_id", obj5.getString("id"));
 								}
 								catch (java.text.ParseException e)
 								{
@@ -233,7 +234,7 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 
 				Message msg = new Message();
 				msg.what = SpaceeAppMain.MSG_BOOK_LIST_COMP;
-				msg.arg1 = Integer.parseInt(map.get("id"));	//	id
+				msg.arg1 = Integer.parseInt(map.get("pre_booking_id"));	//	id
 				msg.obj  = map.get("subtitle");				//	次のタイトル用
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
 			}

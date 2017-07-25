@@ -444,14 +444,16 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 		startTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
 		{
 			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-			{
-				//	過去の時間を開いたら変更する
-				Calendar	cal = Calendar.getInstance();
-				int			now = (cal.get(Calendar.HOUR_OF_DAY)*60 + cal.get(Calendar.MINUTE) + 14) / 15;
-				if (startTime.getSelectedItemPosition() < now)
-				{
-					startTime.setSelection(now);
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				Calendar cal = Calendar.getInstance();
+				if ((ReceiptTabApplication.currentWorkDetailYear == cal.get(Calendar.YEAR))
+						&& (ReceiptTabApplication.currentWorkDetailMonth == cal.get(Calendar.MONTH) + 1)
+						&& (ReceiptTabApplication.currentWorkDetailDay == cal.get(Calendar.DAY_OF_MONTH))) {
+					//	過去の時間を開いたら変更する
+					int now = (cal.get(Calendar.HOUR_OF_DAY) * 60 + cal.get(Calendar.MINUTE) + 14) / 15;
+					if (startTime.getSelectedItemPosition() < now) {
+						startTime.setSelection(now);
+					}
 				}
 
 				hideActionBar();
@@ -607,7 +609,10 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 		{
 			occupiedMin += Integer.parseInt(useMin.getSelectedItem().toString().replace("　", " ").trim());
 		}
-		String stTime = String.format("2001-01-01T%s:00+9:00", startTime.getSelectedItem().toString().replace("　", " ").trim());
+		String stTime = String.format("%04d-%02d-%02dT%s:00+09:00", ReceiptTabApplication.currentWorkDetailYear,
+				ReceiptTabApplication.currentWorkDetailMonth,
+				ReceiptTabApplication.currentWorkDetailDay,
+				startTime.getSelectedItem().toString().replace("　", " ").trim());
 
 		if (occupiedMin > 0)
 		{

@@ -97,6 +97,7 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 //					String	rc = obj1.getString("status");
 //					if (rc.equals("ok"))
 //					{
+						// FIXME: ここは配列では無くlistingの連想配列です
 						JSONArray arr1 = obj1.getJSONArray("pre_bookings");
 						if (arr1 != null)
 						{

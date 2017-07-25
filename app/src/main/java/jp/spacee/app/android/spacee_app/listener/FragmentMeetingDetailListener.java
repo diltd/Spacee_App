@@ -447,12 +447,15 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 			{
-				//	過去の時間を開いたら変更する
-				Calendar	cal = Calendar.getInstance();
-				int			now = (cal.get(Calendar.HOUR_OF_DAY)*60 + cal.get(Calendar.MINUTE) + 14) / 15;
-				if (startTime.getSelectedItemPosition() < now)
-				{
-					startTime.setSelection(now);
+				Calendar cal = Calendar.getInstance();
+				if (   (ReceiptTabApplication.currentMeetingDetailYear	== cal.get(Calendar.YEAR))
+						&& (ReceiptTabApplication.currentMeetingDetailMonth == cal.get(Calendar.MONTH) + 1)
+						&& (ReceiptTabApplication.currentMeetingDetailDay	== cal.get(Calendar.DAY_OF_MONTH)) ) {
+					//	過去の時間を開いたら変更する
+					int now = (cal.get(Calendar.HOUR_OF_DAY) * 60 + cal.get(Calendar.MINUTE) + 14) / 15;
+					if (startTime.getSelectedItemPosition() < now) {
+						startTime.setSelection(now);
+					}
 				}
 
 				hideActionBar();
@@ -633,7 +636,10 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 		{
 			occupiedMin += Integer.parseInt(useMin.getSelectedItem().toString().replace("　", " ").trim());
 		}
-		String stTime = String.format("2001-01-01T%s:00+9:00", startTime.getSelectedItem().toString().replace("　", " ").trim());
+		String stTime = String.format("%04d-%02d-%02dT%s:00+09:00", ReceiptTabApplication.currentMeetingDetailYear,
+				ReceiptTabApplication.currentMeetingDetailMonth,
+				ReceiptTabApplication.currentMeetingDetailDay,
+				startTime.getSelectedItem().toString().replace("　", " ").trim());
 		int		nPsn = numPsn.getSelectedItemPosition() + 1;
 
 		if (occupiedMin > 0)

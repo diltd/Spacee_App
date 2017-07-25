@@ -2,32 +2,29 @@ package jp.spacee.app.android.spacee_app.comm;
 
 
 import android.os.AsyncTask;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
+import android.util.Log;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.params.HttpParams;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.NameValuePair;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import jp.spacee.app.android.spacee_app.ReceiptTabApplication;
 
 
 public  class  AsyncTaskAPICall  extends AsyncTask<HttpParamAPICall, Void, Void>
 {
+	private static final String TAG = "AsyncTaskAPICall";
+
 	public  AsyncTaskAPICall()
 	{
 		super();
@@ -63,8 +60,11 @@ public  class  AsyncTaskAPICall  extends AsyncTask<HttpParamAPICall, Void, Void>
 			ArrayList<BasicHeader> arryHdr = new ArrayList<BasicHeader>();
 			httpParams.setParameter("http.default-headers", arryHdr);
 
+			Log.d(TAG, "type:" + param.type);
+
 			if (param.type == 1)
 			{
+				Log.d(TAG, "url:" + param.sUrl);
 				httpPost = new HttpPost(param.sUrl);
 				StringEntity se = new StringEntity(param.jsonObj.toString());
 				httpPost.setEntity(se);
@@ -76,6 +76,7 @@ public  class  AsyncTaskAPICall  extends AsyncTask<HttpParamAPICall, Void, Void>
 			}
 			else
 			{
+				Log.d(TAG, "url:" + param.sUrl + "?" + param.paramGet);
 				httpGet = new HttpGet(param.sUrl + "?" + param.paramGet);
 				httpGet.setHeader("Accept", "application/json");
 				httpGet.setHeader("Content-Type", "application/json");
@@ -101,6 +102,7 @@ public  class  AsyncTaskAPICall  extends AsyncTask<HttpParamAPICall, Void, Void>
 
 				ReceiptTabApplication.CommRetCode	= ReceiptTabApplication.COMM_RC_OK;
 				ReceiptTabApplication.CommResult	= inData;
+				Log.d(TAG, "result:" + inData);
 			}
 			else
 			{

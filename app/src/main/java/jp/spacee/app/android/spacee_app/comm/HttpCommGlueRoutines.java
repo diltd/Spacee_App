@@ -1,16 +1,15 @@
 package jp.spacee.app.android.spacee_app.comm;
 
 
-import android.os.AsyncTask;
-import android.graphics.Bitmap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.concurrent.Semaphore;
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
+import android.text.TextUtils;
+
 import org.json.JSONObject;
-import org.json.JSONArray;
-import org.json.JSONException;
+
+import java.util.HashMap;
+import java.util.concurrent.Semaphore;
 
 import jp.spacee.app.android.spacee_app.ReceiptTabApplication;
 import jp.spacee.app.android.spacee_app.activity.SpaceeAppMain;
@@ -431,7 +430,10 @@ public  class  HttpCommGlueRoutines
 		String	url = ReceiptTabApplication.URL_PROVIDERS_ROOM_AVAILABLE;
 		url	= url.replace(":OFFICE_ID", id);
 
-		String	prmGet = String.format("start_at=%s&minutes=%d&party=%d&coupon_code=%s", stTime, useMin, psnNo, cpnCode);
+		String	prmGet = String.format("start_at=%s&minutes=%d&party=%d", stTime, useMin, psnNo);
+		if (!TextUtils.isEmpty(cpnCode)) {
+			prmGet += String.format("&coupon_code=%s", cpnCode);
+		}
 
 		outStr = commHttpCall(GET, url, null, prmGet);
 
