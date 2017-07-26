@@ -248,7 +248,7 @@
 						android:layout_marginTop="15dp"
 						android:layout_marginLeft="10dp"
 						android:layout_marginBottom="50dp"
-						android:src="@drawable/ic_arrow_left" />
+						android:src="@drawable/ic_circleleft" />
 
 					<View
 						android:layout_width="0dip"
@@ -263,7 +263,7 @@
 						android:layout_marginTop="15dp"
 						android:layout_marginRight="10dp"
 						android:layout_marginBottom="50dp"
-						android:src="@drawable/ic_arrow_right" />
+						android:src="@drawable/ic_circleright" />
 				</LinearLayout>
 			</FrameLayout>
 
