@@ -1,6 +1,7 @@
 package jp.spacee.app.android.spacee_app.listener;
 
 
+import android.util.Log;
 import android.widget.ListView;
 import android.os.Message;
 import java.util.List;
@@ -70,10 +71,10 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 		int		i, k;
 		String	wStr;
 
-		errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
-		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
-		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
-		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
+		RelativeLayout	errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
+		TextView		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
+		TextView		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
+		ImageView		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
 
 		String  result = SpaceeAppMain.httpCommGlueRoutines.retrieveBookingList("present");
 		if (result != null)
@@ -112,14 +113,13 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 								JSONObject obj5 = obj2.getJSONObject("pre_booking");
 								try
 								{
-									SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+									SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
 									Date wDate = sdf.parse(obj5.getString("start_at"));
 									map.put("startDate", new SimpleDateFormat("MM月dd日").format(wDate));
-									map.put("startTime", new SimpleDateFormat("HH:mm").format(wDate));
+									map.put("startTime", new SimpleDateFormat("hh:mm").format(wDate));
 									wDate =  sdf.parse(obj5.getString("end_at"));
 									map.put("endDate", new SimpleDateFormat("MM月dd日").format(wDate));
-									map.put("endTime", new SimpleDateFormat("HH:mm").format(wDate));
-                                    map.put("pre_booking_id", obj5.getString("id"));
+									map.put("endTime", new SimpleDateFormat("hh:mm").format(wDate));
 								}
 								catch (java.text.ParseException e)
 								{
@@ -188,8 +188,8 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 		adapter = new SimpleAdapter(ReceiptTabApplication.AppContext,
 									seatsList,
 									R.layout.layout_list_book,
-									new		String[]{"startDate",	 "endDate",	 "startTime",	 "endTime",	"subtitle", 	  "title",	   "equipments"},
-									new		int[]   {R.id.dateBegin, R.id.dateEnd, R.id.timeBegin, R.id.timeEnd, R.id.placeName, R.id.info1, R.id.info2})
+									new		String[]{"startDate",	 "endDate",	 "startTime",	 "endTime",	"subtitle", 	 "equipments"},
+									new		int[]   {R.id.dateBegin, R.id.dateEnd, R.id.timeBegin, R.id.timeEnd, R.id.placeName, R.id.info2})
 		{
 			@Override
 			public View getView(int pos, View cView, ViewGroup parent)
@@ -201,18 +201,10 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 					LayoutInflater inflater = (LayoutInflater) ReceiptTabApplication.AppContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 					retView = inflater.inflate(R.layout.layout_list_book, null);
 				}
-/*
-				if ()
-				{
+
+				//	status1/status2の設定が必要
 
 
-				}
-				else
-				{
-
-
-				}
-*/
 				ImageView iv = (ImageView) retView.findViewById(R.id.thumbnail);
 				if (roomThumnails != null)
 				{
@@ -234,7 +226,7 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 
 				Message msg = new Message();
 				msg.what = SpaceeAppMain.MSG_BOOK_LIST_COMP;
-				msg.arg1 = Integer.parseInt(map.get("pre_booking_id"));	//	id
+				msg.arg1 = Integer.parseInt(map.get("id"));	//	id
 				msg.obj  = map.get("subtitle");				//	次のタイトル用
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
 			}
@@ -288,7 +280,7 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 				ReceiptTabApplication.isMsgShown =false;
 
 				android.os.Message msg = new android.os.Message();
-				msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
+				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
 				msg.arg1 = 2;									//	id/pw ng
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
 			}
