@@ -361,6 +361,7 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 		}
 
 
+		// FIXME: ここは「物件の営業時間・予約状況の取得」APIを使用して下さい
 		//	WorkListからスケジュールを取り出す
 		result = SpaceeAppMain.httpCommGlueRoutines.retrieveOfficeInfo("desk");
 		if (result != null)
@@ -381,8 +382,8 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 						for (k=0; k<arr2.length(); k++)
 						{
 							HashMap<String, String> map = new HashMap<String, String>();
-							JSONObject obj5 = arr2.getJSONObject(i);
-							map.put("entNo", String.format("%d", (i)));
+							JSONObject obj5 = arr2.getJSONObject(k);
+							map.put("entNo", String.format("%d", (k)));
 							map.put("start_at",	obj5.getString("start_at"));
 							map.put("end_at",		obj5.getString("end_at"));
 							schedList.add(map);
