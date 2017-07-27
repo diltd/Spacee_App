@@ -77,7 +77,9 @@ public  class  AsyncTaskAPICall  extends AsyncTask<HttpParamAPICall, Void, Void>
 			else
 			{
 				Log.d(TAG, "url:" + param.sUrl + "?" + param.paramGet);
-				httpGet = new HttpGet(param.sUrl + "?" + param.paramGet);
+				if (param.paramGet.length() > 0)
+						httpGet = new HttpGet(param.sUrl + "?" + param.paramGet);
+				else	httpGet = new HttpGet(param.sUrl);
 				httpGet.setHeader("Accept", "application/json");
 				httpGet.setHeader("Content-Type", "application/json");
 				httpGet.setHeader("X-Provider-Auth-Token", ReceiptTabApplication.providerAuthToken);

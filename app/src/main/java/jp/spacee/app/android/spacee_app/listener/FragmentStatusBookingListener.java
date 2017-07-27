@@ -110,10 +110,9 @@ public  class  FragmentStatusBookingListener  implements  jp.spacee.app.android.
 		int		i, month;
 
 		errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
-		// FIXME: ここが原因で落ちます。一旦コメントアウト
-//		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
-//		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
-//		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
+		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
+		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
+		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
 
 		bookingStatusList	= (ListView)		view.findViewById(R.id.bookingStatus);
 		statusProgress		= (RelativeLayout)	view.findViewById(R.id.statusProgress);

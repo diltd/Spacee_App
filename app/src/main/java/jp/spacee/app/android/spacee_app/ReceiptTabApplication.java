@@ -92,7 +92,7 @@ public  class  ReceiptTabApplication  extends  Application
 	public  static  final		String						URL_USERS_BILLING				= URL_BASE + "/api/v2/users/billing_destination.json";								//	決済情報登録	請求先登録
 
 	public  static  final		String						URL_USERS_PRE_BOOKING_REG	= URL_BASE + "/api/v2/users/pre_bookings.json";										//	予約登録	予約登録
-	public  static  final		String						URL_USERS_PRE_BOOKING_INFO	= URL_BASE + "/api/v2/users/pre_bookings/:OFFICE_ID.json";							//	利用者用	予約の詳細情報の取得
+	public  static  final		String						URL_USERS_PRE_BOOKING_INFO	= URL_BASE + "/api/v2/users/pre_bookings/:ID.json";									//	利用者用	予約の詳細情報の取得
 	public  static  final		String						URL_USERS_LISTING				= URL_BASE + "/api/v2/users/listing/<listing_id>/coupon/<coupon_code>.json";		//	予約登録	クーポン情報
 	public  static  final		String						URL_USERS_PAYMENTS			= URL_BASE + "/api/v2/users/payment_means.json";										//	予約登録	決済方法一覧
 

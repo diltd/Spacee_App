@@ -447,7 +447,7 @@ public  class  HttpCommGlueRoutines
 		String		outStr;
 
 		String	url = ReceiptTabApplication.URL_USERS_PRE_BOOKING_INFO;
-		url	= url.replace(":OFFICE_ID", id);
+		url	= url.replace(":ID", id);
 
 		outStr = commHttpCall(GET, url, null, "");
 
@@ -459,7 +459,7 @@ public  class  HttpCommGlueRoutines
 	public  String  bookingSpace()
 	{
 		String		outStr;
-		int			diff;
+		int			diff, pos1, pos2;
 
 		String	url = ReceiptTabApplication.URL_USERS_PRE_BOOKING_REG;
 
@@ -474,10 +474,12 @@ public  class  HttpCommGlueRoutines
 																		ReceiptTabApplication.bookingRoomData.useDay,
 																		ReceiptTabApplication.bookingRoomData.checkInTime);
 			jsonObj1.put("start_at",		wStr);
-			diff	= Integer.parseInt(ReceiptTabApplication.bookingRoomData.checkOutTime.substring(0, 2))*60
-					+ Integer.parseInt(ReceiptTabApplication.bookingRoomData.checkOutTime.substring(3, 5))
-					- Integer.parseInt(ReceiptTabApplication.bookingRoomData.checkInTime.substring (0, 2))*60
-					- Integer.parseInt(ReceiptTabApplication.bookingRoomData.checkInTime.substring (3, 5));
+			pos1 = ReceiptTabApplication.bookingRoomData.checkInTime.indexOf(":");
+			pos2 = ReceiptTabApplication.bookingRoomData.checkOutTime.indexOf(":");
+			diff	= Integer.parseInt(ReceiptTabApplication.bookingRoomData.checkOutTime.substring(0, pos2))*60
+					+ Integer.parseInt(ReceiptTabApplication.bookingRoomData.checkOutTime.substring(pos2+1, ReceiptTabApplication.bookingRoomData.checkOutTime.length()))
+					- Integer.parseInt(ReceiptTabApplication.bookingRoomData.checkInTime.substring (0, pos1))*60
+					- Integer.parseInt(ReceiptTabApplication.bookingRoomData.checkInTime.substring (pos2+1, ReceiptTabApplication.bookingRoomData.checkInTime.length()));
 			jsonObj1.put("minutes",		String.format("%d", diff));
 			jsonObj1.put("party",			String.format("%d", ReceiptTabApplication.bookingRoomData.numPsn));
 //			jsonObj1.put("coupon_id",		ReceiptTabApplication.bookingRoomData.cardToken);

@@ -140,13 +140,13 @@
 				<View
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
-					android:layout_weight="10" />
+					android:layout_weight="5" />
 
 				<TextView
 					android:id="@+id/status1"
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
-					android:layout_weight="60"
+					android:layout_weight="70"
 					android:text="@string/xml_list_book_status"
 					android:textColor="@color/text_white"
 					android:textSize="18sp"
@@ -156,7 +156,7 @@
 				<View
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
-					android:layout_weight="10" />
+					android:layout_weight="5" />
 			</LinearLayout>
 
 			<View
@@ -167,12 +167,25 @@
 			<TextView
 				android:id="@+id/status2"
 				android:layout_width="0dip"
-				android:layout_weight="300"
+				android:layout_weight="200"
 				android:layout_height="match_parent"
-				android:text=""
-				android:textColor="@color/text_black"
-				android:textSize="18sp"
-				android:gravity="center_vertical" />
+				android:text="@string/xml_book_list_space_status2"
+				android:textColor="@color/sub"
+				android:textSize="14sp"
+				android:gravity="center_vertical|right"
+				android:layout_marginRight="10sp"
+				android:visibility="invisible" />
+
+			<TextView
+				android:id="@+id/residual"
+				android:layout_width="0dip"
+				android:layout_height="match_parent"
+				android:layout_weight="100"
+				android:gravity="center_vertical"
+				android:text="10:10"
+				android:textColor="@color/spacee_blue"
+				android:textSize="20sp"
+				android:visibility="invisible"/>
 		</LinearLayout>
 
 		<TextView

@@ -171,7 +171,10 @@
 
 	<!-- fragment_book_detail.xml -->
 	<string name="xml_book_detail_space_avail">利用可</string>
-	<string name="xml_book_detail_msg">このスペースは今すぐご利用頂けます</string>
+	<string name="xml_book_detail_space_not_avail">利用不可</string>
+	<string name="xml_book_detail_status3_title">ご利用開始まであと</string>
+	<string name="xml_book_detail_msg1">このスペースは今すぐご利用頂けます</string>
+	<string name="xml_book_detail_msg2">このスペースはまだご利用頂けません</string>
 	<string name="xml_book_detail_btn_floor_guide">フロアガイド</string>
 	<string name="xml_book_detail_space_name">スペース名</string>
 	<string name="xml_book_detail_checkin">チェックイン</string>
@@ -182,6 +185,11 @@
 	<string name="xml_book_detail_use_sample">廊下をまっすぐ行き、突き当たりを左に行くと左手にあります。\n鍵は「5895」で開くことができます</string>
 	<string name="xml_book_detail_btn_check_space">ログアウトして、スペースを詳しく見る</string>
 	<string name="xml_book_detail_btn_gohome">ログアウトして、ホームに戻る</string>
+
+	<!-- fragment_book_list.xml -->
+	<string name="xml_book_list_space_avail">利用可</string>
+	<string name="xml_book_list_space_not_avail">利用不可</string>
+	<string name="xml_book_list_space_status2">ご利用開始まであと</string>
 
 	<!-- fragment_check_booking.xml -->
 	<string name="xml_check_booking_msg1">ログイン方法を選択してください</string>

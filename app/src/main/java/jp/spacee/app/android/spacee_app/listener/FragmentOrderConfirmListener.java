@@ -137,6 +137,8 @@ public  class  FragmentOrderConfirmListener  implements  FragmentOrderConfirm.Fr
 	@Override
 	public  void  onBtnAgreeClicked(View view)
 	{
+		int		pre_booking_id;
+
 		HashMap<String, String> map = new HashMap<String, String>();
 		map = payment.get(newPos);
 
@@ -151,16 +153,16 @@ public  class  FragmentOrderConfirmListener  implements  FragmentOrderConfirm.Fr
 				JSONObject obj1 = new JSONObject(result);
 				if (obj1 != null)
 				{
-//					String	rc = obj1.getString("status");
-//					if (rc.equals("ok"))
-//					{
-
-//					}
-//					else
-//					{
-//						showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), obj1, "");
-//						return;
-//					}
+					String	rc = obj1.getString("status");
+					if (rc.equals("ok"))
+					{
+						pre_booking_id = obj1.getInt("pre_booking_id");
+					}
+					else
+					{
+						showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), obj1, "");
+						return;
+					}
 				}
 				else
 				{
@@ -187,6 +189,7 @@ public  class  FragmentOrderConfirmListener  implements  FragmentOrderConfirm.Fr
 		Message msg = new Message();
 		msg.what = SpaceeAppMain.MSG_ORDER_CONFIRM_COMP;
 		msg.arg1 = 1;											//	by AgreeClicked
+		msg.arg2 = pre_booking_id;
 		SpaceeAppMain.mMsgHandler.sendMessage(msg);
 	}
 

@@ -102,7 +102,8 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 			ReceiptTabApplication.bookingRoomData.useDay			= ReceiptTabApplication.currentMeetingDetailDay;
 			String	wStr = startTime.getSelectedItem().toString().replace("　", " ").trim();
 			ReceiptTabApplication.bookingRoomData.checkInTime		= wStr;
-			int	temp  = Integer.parseInt(wStr.substring(0, 2))*60 + Integer.parseInt(wStr.substring(3, 5));
+			int	 semicln = wStr.indexOf(":");
+			int	temp  = Integer.parseInt(wStr.substring(0, semicln))*60 + Integer.parseInt(wStr.substring(semicln+1, wStr.length()));
 			temp += useHour.getSelectedItemPosition()*60;
 			if (useMin.getVisibility() == View.VISIBLE)
 			{
@@ -578,6 +579,8 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 		paint3.setColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.alert));
 		android.graphics.Paint paint4	= new android.graphics.Paint();
 		paint4.setColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.text_white));
+		paint4.setStrokeWidth(3.0f);
+		paint4.setTextSize(26);
 
 		cvs.drawColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.light_grey_white));
 
@@ -637,9 +640,9 @@ public  class  FragmentMeetingDetailListener  implements  FragmentMeetingDetail.
 			occupiedMin += Integer.parseInt(useMin.getSelectedItem().toString().replace("　", " ").trim());
 		}
 		String stTime = String.format("%04d-%02d-%02dT%s:00+09:00", ReceiptTabApplication.currentMeetingDetailYear,
-				ReceiptTabApplication.currentMeetingDetailMonth,
-				ReceiptTabApplication.currentMeetingDetailDay,
-				startTime.getSelectedItem().toString().replace("　", " ").trim());
+																		ReceiptTabApplication.currentMeetingDetailMonth,
+																		ReceiptTabApplication.currentMeetingDetailDay,
+																		startTime.getSelectedItem().toString().replace("　", " ").trim());
 		int		nPsn = numPsn.getSelectedItemPosition() + 1;
 
 		if (occupiedMin > 0)

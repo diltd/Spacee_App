@@ -103,7 +103,8 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 			ReceiptTabApplication.bookingRoomData.useDay			= ReceiptTabApplication.currentWorkDetailDay;
 			String	wStr = startTime.getSelectedItem().toString().replace("　", " ").trim();
 			ReceiptTabApplication.bookingRoomData.checkInTime		= wStr;
-			int	temp  = Integer.parseInt(wStr.substring(0, 2))*60 + Integer.parseInt(wStr.substring(3, 5));
+			int	 semicln = wStr.indexOf(":");
+			int	temp  = Integer.parseInt(wStr.substring(0, semicln))*60 + Integer.parseInt(wStr.substring(semicln+1, wStr.length()));
 				temp += useHour.getSelectedItemPosition()*60;
 			if (useMin.getVisibility() == View.VISIBLE)
 			{
@@ -610,9 +611,9 @@ public  class  FragmentWorkDetailListener  implements  FragmentWorkDetail.Fragme
 			occupiedMin += Integer.parseInt(useMin.getSelectedItem().toString().replace("　", " ").trim());
 		}
 		String stTime = String.format("%04d-%02d-%02dT%s:00+09:00", ReceiptTabApplication.currentWorkDetailYear,
-				ReceiptTabApplication.currentWorkDetailMonth,
-				ReceiptTabApplication.currentWorkDetailDay,
-				startTime.getSelectedItem().toString().replace("　", " ").trim());
+																		ReceiptTabApplication.currentWorkDetailMonth,
+																		ReceiptTabApplication.currentWorkDetailDay,
+																		startTime.getSelectedItem().toString().replace("　", " ").trim());
 
 		if (occupiedMin > 0)
 		{

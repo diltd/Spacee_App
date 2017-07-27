@@ -1,7 +1,7 @@
 <FrameLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@+id/fragmentAppMain"
+	android:id="@+id/fragmentStatusBooking"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent" >
 
@@ -234,4 +234,8 @@
 			android:layout_centerVertical="true" />
 
 	</RelativeLayout>
+
+	<include
+		android:id="@+id/errorMessagePanel"
+		layout="@layout/layout_error_message" />
 </FrameLayout>

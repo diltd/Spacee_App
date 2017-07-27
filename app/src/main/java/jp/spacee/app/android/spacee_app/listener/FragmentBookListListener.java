@@ -1,13 +1,13 @@
 package jp.spacee.app.android.spacee_app.listener;
 
 
-import android.util.Log;
 import android.widget.ListView;
 import android.os.Message;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Date;
+import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,10 +71,10 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 		int		i, k;
 		String	wStr;
 
-		RelativeLayout	errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
-		TextView		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
-		TextView		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
-		ImageView		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
+		errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
+		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
+		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
+		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
 
 		String  result = SpaceeAppMain.httpCommGlueRoutines.retrieveBookingList("present");
 		if (result != null)
@@ -96,7 +96,6 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 								java.util.HashMap<String, String> map = new java.util.HashMap<String, String>();
 								JSONObject obj2 = arr1.getJSONObject(i);
 								JSONObject obj3 = obj2.getJSONObject("listing");
-								map.put("id",			"" + obj3.getInt("id"));
 								map.put("title",		obj3.getString("title"));
 								JSONObject obj4 = new JSONObject(obj3.getString("thumb"));
 								map.put("thumb_url",	obj4.getString("url"));
@@ -113,13 +112,16 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 								JSONObject obj5 = obj2.getJSONObject("pre_booking");
 								try
 								{
-									SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+									SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 									Date wDate = sdf.parse(obj5.getString("start_at"));
+									map.put("start_at", obj5.getString("start_at"));
 									map.put("startDate", new SimpleDateFormat("MM月dd日").format(wDate));
-									map.put("startTime", new SimpleDateFormat("hh:mm").format(wDate));
+									map.put("startTime", new SimpleDateFormat("HH:mm").format(wDate));
 									wDate =  sdf.parse(obj5.getString("end_at"));
+									map.put("end_at", obj5.getString("end_at"));
 									map.put("endDate", new SimpleDateFormat("MM月dd日").format(wDate));
-									map.put("endTime", new SimpleDateFormat("hh:mm").format(wDate));
+									map.put("endTime", new SimpleDateFormat("HH:mm").format(wDate));
+									map.put("id",		"" + obj5.getInt("id"));
 								}
 								catch (java.text.ParseException e)
 								{
@@ -188,8 +190,8 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 		adapter = new SimpleAdapter(ReceiptTabApplication.AppContext,
 									seatsList,
 									R.layout.layout_list_book,
-									new		String[]{"startDate",	 "endDate",	 "startTime",	 "endTime",	"subtitle", 	 "equipments"},
-									new		int[]   {R.id.dateBegin, R.id.dateEnd, R.id.timeBegin, R.id.timeEnd, R.id.placeName, R.id.info2})
+									new		String[]{"startDate",	 "endDate",	 "startTime",	 "endTime",	"subtitle", 	  "title",	   "equipments"},
+									new		int[]   {R.id.dateBegin, R.id.dateEnd, R.id.timeBegin, R.id.timeEnd, R.id.placeName, R.id.info1, R.id.info2})
 		{
 			@Override
 			public View getView(int pos, View cView, ViewGroup parent)
@@ -202,8 +204,44 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 					retView = inflater.inflate(R.layout.layout_list_book, null);
 				}
 
-				//	status1/status2の設定が必要
+				HashMap<String, String> map = seatsList.get(pos);
+				Date	bDate = null;
+				Date	eDate = null;
+				Date	now	  = null;
+				try
+				{
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+					Calendar cal = Calendar.getInstance();
+					bDate = sdf.parse(map.get("start_at"));
+					eDate = sdf.parse(map.get("end_at"));
+					now   = cal.getTime();
+				}
+				catch (java.text.ParseException e)
+				{
+					e.printStackTrace();
+					return	 retView;
+				}
 
+				TextView	status1  = (TextView)	retView.findViewById(R.id.status1);
+				TextView	status2  = (TextView)	retView.findViewById(R.id.status2);
+				TextView	residual = (TextView)	retView.findViewById(R.id.residual);
+				if ((bDate.compareTo(now) <= 0) && (now.compareTo(eDate) <= 0))
+				{
+					status1.setText(ReceiptTabApplication.AppContext.getResources().getString(R.string.xml_book_list_space_avail));
+					status1.setBackground(ReceiptTabApplication.AppContext.getResources().getDrawable(R.drawable.shape_oval_blue));
+					status2.setVisibility(View.INVISIBLE);
+					residual.setVisibility(View.INVISIBLE);
+				}
+				else
+				{
+					status1.setText(ReceiptTabApplication.AppContext.getResources().getString(R.string.xml_book_list_space_not_avail));
+					status1.setBackground(ReceiptTabApplication.AppContext.getResources().getDrawable(R.drawable.shape_oval_gray));
+					status2.setVisibility(View.VISIBLE);
+					residual.setVisibility(View.VISIBLE);
+
+					long diff = ((long) bDate.getTime() - (long) now.getTime()) / 1000;				//	sec
+					residual.setText(String.format("%02d:%02d", diff/60, diff%60));
+				}
 
 				ImageView iv = (ImageView) retView.findViewById(R.id.thumbnail);
 				if (roomThumnails != null)
@@ -280,7 +318,7 @@ public  class  FragmentBookListListener  implements  FragmentBookList.FragmentIn
 				ReceiptTabApplication.isMsgShown =false;
 
 				android.os.Message msg = new android.os.Message();
-				msg.what = SpaceeAppMain.MSG_PROVIDER_LOGIN_COMP;
+				msg.what = SpaceeAppMain.MSG_HOME_CLICKED;
 				msg.arg1 = 2;									//	id/pw ng
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
 			}

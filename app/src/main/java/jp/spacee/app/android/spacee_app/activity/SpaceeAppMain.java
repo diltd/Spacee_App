@@ -784,7 +784,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 								break;
 
 						case MSG_ORDER_CONFIRM_COMP:
-								if		(msg.arg1 == 1)		startFragmentOrderComplete();
+								if		(msg.arg1 == 1)		startFragmentOrderComplete(msg.arg2);
 								else if (msg.arg1 == 2)
 								{
 									ReceiptTabApplication.stackPos -= 2;
@@ -926,8 +926,8 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 		else if (ReceiptTabApplication.CallStack[pos] == FRAGMENT_ENTRY_INVOICE)		startFragmentEntryInvoice();
 		else if (ReceiptTabApplication.CallStack[pos] == FRAGMENT_ENTRY_POLICY)		startFragmentEntryPolicy();
 		else if (ReceiptTabApplication.CallStack[pos] == FRAGMENT_BOOK_LIST)			startFragmentBookList();
-		else if (ReceiptTabApplication.CallStack[pos] == FRAGMENT_BOOK_DETAIL)		startFragmentBookDetail(0, "");				//	<<<<< 0:tentative
-		else if (ReceiptTabApplication.CallStack[pos] == FRAGMENT_ORDER_COMP)		startFragmentOrderComplete();
+//		else if (ReceiptTabApplication.CallStack[pos] == FRAGMENT_BOOK_DETAIL)		startFragmentBookDetail(0, "");				//	ココに戻る事は無い
+//		else if (ReceiptTabApplication.CallStack[pos] == FRAGMENT_ORDER_COMP)		startFragmentOrderComplete();				//	ココに戻る事は無い
 		else if (ReceiptTabApplication.CallStack[pos] == FRAGMENT_ORDER_CONFIRM)		startFragmentOrderConfirm();
 		else if (ReceiptTabApplication.CallStack[pos] == FRAGMENT_RULE_GUIDE)		startFragmentRuleGuide();
 		else if (ReceiptTabApplication.CallStack[pos] == FRAGMENT_START_LINK)		startFragmentStartLink();
@@ -1374,7 +1374,8 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 		FragmentBookDetail	fragment = new FragmentBookDetail();
 		replaceFragment(fragment, TAG_BOOK_DETAIL);
 
-		if (mListener != null) {
+		if (mListener != null)
+		{
 			mListener = null;
 		}
 		mListener = new FragmentBookDetailListener(id);
@@ -1421,7 +1422,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 	}
 
 
-	private  void  startFragmentOrderComplete()
+	private  void  startFragmentOrderComplete(int id)
 	{
 		FragmentOrderComplete	fragment = new FragmentOrderComplete();
 		replaceFragment(fragment, TAG_ORDER_COMP);
@@ -1429,7 +1430,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 		if (mListener != null) {
 			mListener = null;
 		}
-		mListener = new FragmentOrderCompleteListener();
+		mListener = new FragmentOrderCompleteListener(id);
 		fragment.setOnFragmentInteractionListener((FragmentOrderComplete.FragmentInteractionListener) mListener);
 
 		//	ヘッダーの設定

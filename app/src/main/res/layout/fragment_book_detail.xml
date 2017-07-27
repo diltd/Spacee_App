@@ -43,7 +43,7 @@
 				android:layout_width="0dip"
 				android:layout_weight="725"
 				android:layout_height="match_parent"
-				android:text="@string/xml_book_detail_msg"
+				android:text="@string/xml_book_detail_msg1"
 				android:textColor="@color/spacee_blue"
 				android:textSize="24sp"
 				android:paddingLeft="10sp"
@@ -60,53 +60,85 @@
 					android:layout_height="0dip"
 					android:layout_weight="25" />
 
-				<LinearLayout
-					android:id="@+id/btnFloorGuide"
+				<FrameLayout
 					android:layout_width="match_parent"
 					android:layout_height="0dip"
-					android:layout_weight="70"
-					android:background="@xml/shape_button_white"
-					android:orientation="horizontal" >
-
-					<View
-						android:layout_width="0dip"
-						android:layout_weight="29"
-						android:layout_height="match_parent" />
+					android:layout_weight="70">
 
 					<LinearLayout
-						android:layout_width="0dip"
-						android:layout_weight="36"
+						android:id="@+id/btnFloorGuide"
+						android:layout_width="match_parent"
 						android:layout_height="match_parent"
-						android:orientation="vertical" >
+						android:background="@xml/shape_button_white"
+						android:orientation="horizontal" >
 
 						<View
-							android:layout_width="match_parent"
-							android:layout_height="0dip"
-							android:layout_weight="17" />
+							android:layout_width="0dip"
+							android:layout_weight="29"
+							android:layout_height="match_parent" />
 
-						<ImageView
-							android:layout_width="match_parent"
-							android:layout_height="0dip"
+						<LinearLayout
+							android:layout_width="0dip"
 							android:layout_weight="36"
-							android:background="@drawable/ic_pin_red"
-							android:layout_gravity="center"
-							android:scaleType="center" />
+							android:layout_height="match_parent"
+							android:orientation="vertical" >
 
-						<View
-							android:layout_width="match_parent"
-							android:layout_height="0dip"
-							android:layout_weight="17" />
+							<View
+								android:layout_width="match_parent"
+								android:layout_height="0dip"
+								android:layout_weight="17" />
+
+							<ImageView
+								android:layout_width="match_parent"
+								android:layout_height="0dip"
+								android:layout_weight="36"
+								android:background="@drawable/ic_pin_red"
+								android:layout_gravity="center"
+								android:scaleType="center" />
+
+							<View
+								android:layout_width="match_parent"
+								android:layout_height="0dip"
+								android:layout_weight="17" />
+						</LinearLayout>
+
+						<TextView
+							android:layout_width="0dip"
+							android:layout_weight="230"
+							android:layout_height="match_parent"
+							android:text="@string/xml_book_detail_btn_floor_guide"
+							android:textColor="@color/text_black"
+							android:textSize="18sp"
+							android:gravity="center_vertical" />
 					</LinearLayout>
 
-					<TextView
-						android:layout_width="0dip"
-						android:layout_weight="230"
+					<LinearLayout
+						android:id="@+id/layoutStatus3"
+						android:layout_width="match_parent"
 						android:layout_height="match_parent"
-						android:text="@string/xml_book_detail_btn_floor_guide"
-						android:textColor="@color/text_black"
-						android:textSize="18sp"
-						android:gravity="center_vertical" />
-				</LinearLayout>
+						android:orientation="horizontal" >
+
+						<TextView
+							android:layout_width="0dip"
+							android:layout_weight="215"
+							android:layout_height="match_parent"
+							android:text="@string/xml_book_detail_status3_title"
+							android:textColor="@color/sub"
+							android:textSize="16sp"
+							android:layout_marginRight="10sp"
+							android:gravity="center_vertical|right" />
+
+						<TextView
+							android:id="@+id/residual"
+							android:layout_width="0dip"
+							android:layout_weight="80"
+							android:layout_height="match_parent"
+							android:text="12345:67"
+							android:textColor="@color/spacee_blue"
+							android:textSize="20sp"
+							android:gravity="center_vertical" />
+					</LinearLayout>
+				</FrameLayout>
 
 				<View
 					android:layout_width="match_parent"
@@ -255,8 +287,9 @@
 					android:layout_weight="100"
 					android:text="@string/xml_book_detail_use_sample"
 					android:textColor="@color/text_black"
-					android:textSize="16sp"
+					android:textSize="18sp"
 					android:gravity="center_vertical"
+					android:layout_marginRight="50sp"
 					android:maxLines="3" />
 
 				<View

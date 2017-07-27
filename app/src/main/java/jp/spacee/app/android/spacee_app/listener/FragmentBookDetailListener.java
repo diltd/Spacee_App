@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Date;
+import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import android.widget.TextView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.graphics.Bitmap;
 import org.json.JSONObject;
@@ -75,16 +77,22 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 		int		i, k;
 		String[]	thumb_url = new String[1];
 
-		TextView	spaceName	= (TextView)	view.findViewById(R.id.spaceName);
-		TextView	timeBegin	= (TextView)	view.findViewById(R.id.timeBegin);
-		TextView	timeEnd		= (TextView)	view.findViewById(R.id.timeEnd);
-		TextView	usage		= (TextView)	view.findViewById(R.id.usage);
-		ImageView	thumbnail	= (ImageView)	view.findViewById(R.id.thumbnail);
+		TextView		status1		= (TextView)		view.findViewById(R.id.status1);
+		TextView		status2		= (TextView)		view.findViewById(R.id.status2);
+		LinearLayout	layoutFG	= (LinearLayout)	view.findViewById(R.id.btnFloorGuide);
+		LinearLayout	layoutSts3	= (LinearLayout)	view.findViewById(R.id.layoutStatus3);
+		TextView		residual	= (TextView)		view.findViewById(R.id.residual);
+		TextView		spaceName	= (TextView)		view.findViewById(R.id.spaceName);
+		TextView		timeBegin	= (TextView)		view.findViewById(R.id.timeBegin);
+		TextView		timeEnd		= (TextView)		view.findViewById(R.id.timeEnd);
+		TextView		usage		= (TextView)		view.findViewById(R.id.usage);
+		ImageView		thumbnail	= (ImageView)		view.findViewById(R.id.thumbnail);
 
 		errLayout	= (RelativeLayout)	view.findViewById(R.id.errorMessagePanel);
 		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
 		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
 		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
+
 
 		String  result = SpaceeAppMain.httpCommGlueRoutines.retrieveBookingInfo(id);
 		if (result != null)
@@ -97,41 +105,49 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 //					String	rc = obj1.getString("status");
 //					if (rc.equals("ok"))
 //					{
-						// FIXME: ここは配列では無くlistingの連想配列です
-						JSONArray arr1 = obj1.getJSONArray("pre_bookings");
-						if (arr1 != null)
+						JSONObject obj2 = obj1.getJSONObject("listing");
+						JSONObject obj3 = obj1.getJSONObject("pre_booking");
+						if (Integer.parseInt(id) == obj3.getInt("id"))
 						{
-							for (i=0; i<arr1.length(); i++)
+							JSONObject obj4 = new JSONObject(obj2.getString("thumb"));
+							thumb_url[0] = obj4.getString("url");
+							spaceName.setText(obj2.getString("subtitle"));
+							usage.setText(obj2.getString("usage"));
+							try
 							{
-								JSONObject obj2 = arr1.getJSONObject(i);
-								JSONObject obj3 = obj2.getJSONObject("listing");
-								if (id == obj3.getString("id"))
+								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+								Date bDate = sdf.parse(obj3.getString("start_at"));
+								timeBegin.setText(new SimpleDateFormat("HH:mm").format(bDate));
+								Date eDate =  sdf.parse(obj3.getString("end_at"));
+								timeEnd.setText(new SimpleDateFormat("HH:mm").format(eDate));
+								Calendar cal = Calendar.getInstance();
+								Date now   = cal.getTime();
+
+								if ((bDate.compareTo(now) <= 0) && (now.compareTo(eDate) <= 0))
 								{
-									JSONObject obj4 = new JSONObject(obj3.getString("thumb"));
-									thumb_url[0] = obj4.getString("url");
-									spaceName.setText(obj3.getString("subtitle"));
-									org.json.JSONObject obj5 = obj2.getJSONObject("pre_booking");
-									try
-									{
-										SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-										Date wDate = sdf.parse(obj5.getString("start_at"));
-										timeBegin.setText(new SimpleDateFormat("HH:mm").format(wDate));
-										wDate =  sdf.parse(obj5.getString("end_at"));
-										timeEnd.setText(new SimpleDateFormat("HH:mm").format(wDate));
-									}
-									catch (java.text.ParseException e)
-									{
-										e.printStackTrace();
-										return;
-									}
-									usage.setText("");
+									status1.setText(ReceiptTabApplication.AppContext.getResources().getString(R.string.xml_book_detail_space_avail));
+									status1.setBackground(ReceiptTabApplication.AppContext.getResources().getDrawable(R.drawable.shape_oval_blue));
+									status2.setText(ReceiptTabApplication.AppContext.getResources().getString(R.string.xml_book_detail_msg1));
+									layoutFG.setVisibility(View.VISIBLE);
+									layoutSts3.setVisibility(View.INVISIBLE);
+								}
+								else
+								{
+									status1.setText(ReceiptTabApplication.AppContext.getResources().getString(R.string.xml_book_detail_space_not_avail));
+									status1.setBackground(ReceiptTabApplication.AppContext.getResources().getDrawable(R.drawable.shape_oval_gray));
+									status2.setText(ReceiptTabApplication.AppContext.getResources().getString(R.string.xml_book_detail_msg2));
+									layoutFG.setVisibility(View.INVISIBLE);
+									layoutSts3.setVisibility(View.VISIBLE);
+
+									long diff = ((long) bDate.getTime() - (long) now.getTime()) / 1000;				//	sec
+									residual.setText(String.format("%02d:%02d", diff/60, diff%60));
 								}
 							}
-						}
-						else
-						{
-							showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), null, "");
-							return;
+							catch (java.text.ParseException e)
+							{
+								e.printStackTrace();
+								return;
+							}
 						}
 //					}
 //					else
