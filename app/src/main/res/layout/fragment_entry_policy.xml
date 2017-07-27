@@ -105,4 +105,11 @@
 	<include
 		android:id="@+id/errorMessagePanel"
 		layout="@layout/layout_error_message" />
+
+	<WebView
+		android:id="@+id/webView"
+		android:layout_width="1dp"
+		android:layout_height="1dp"
+		android:visibility="gone" />
+
 </FrameLayout>
