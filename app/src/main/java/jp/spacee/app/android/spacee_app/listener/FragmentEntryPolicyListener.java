@@ -2,21 +2,27 @@ package jp.spacee.app.android.spacee_app.listener;
 
 
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
-import org.json.JSONObject;
-import org.json.JSONArray;
-import android.widget.TextView;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-import jp.spacee.app.android.spacee_app.activity.SpaceeAppMain;
-import jp.spacee.app.android.spacee_app.fragment.FragmentEntryPolicy;
-import jp.spacee.app.android.spacee_app.ReceiptTabApplication;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import jp.spacee.app.android.spacee_app.BuildConfig;
 import jp.spacee.app.android.spacee_app.R;
+import jp.spacee.app.android.spacee_app.ReceiptTabApplication;
+import jp.spacee.app.android.spacee_app.activity.SpaceeAppMain;
+import jp.spacee.app.android.spacee_app.web.GmoTokenCallbackInterface;
 
 
-public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.spacee_app.fragment.FragmentEntryPolicy.FragmentInteractionListener
+public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.spacee_app.fragment.FragmentEntryPolicy.FragmentInteractionListener,
+		GmoTokenCallbackInterface.GmoTokenCallbackListener
 {
+	public static final String TAG = "FragmentEntryPolicyL";
 	private						TextView				btnAgree				= null;
 	private						ImageView				chkBoxAgree			= null;
 
@@ -24,6 +30,7 @@ public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.sp
 	private						TextView				title					= null;
 	private						TextView				content					= null;
 	private						ImageView				msgOff					= null;
+	private WebView mWebView;
 
 	private						boolean					statusChkBox			= false;
 
@@ -44,7 +51,7 @@ public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.sp
 		title		= (TextView)		errLayout.findViewById(R.id.errorTitle);
 		content		= (TextView)		errLayout.findViewById(R.id.errorMessage);
 		msgOff		= (ImageView)		errLayout.findViewById(R.id.messageOff);
-
+		mWebView = (WebView) view.findViewById(R.id.webView);
 
 		result = jp.spacee.app.android.spacee_app.activity.SpaceeAppMain.httpCommGlueRoutines.signupUser();
 		if (result != null)
@@ -61,40 +68,44 @@ public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.sp
 
 					if (jp.spacee.app.android.spacee_app.ReceiptTabApplication.userRegData.paymentKind == 1)			//	カードで登録
 					{
-						result = SpaceeAppMain.httpCommGlueRoutines.registerCreditCardInfo();
+						// card_token を取得します。
+						callGetGmoToken();
 
-						if (result != null)
-						{
-							try
-							{
-								org.json.JSONObject obj2 = new org.json.JSONObject(result);
-								status	= obj2.getString("status");
-
-								if (status.equals("ok"))
-								{
-									result = obj2.getString("card_id");
-				//	resultにはcard_idが入っている		<<<<<<<<<<<<<<<<<	どこにどうする？
-
-									Message msg = new Message();
-									msg.what = SpaceeAppMain.MSG_ENTRY_POLICY_COMP;
-									msg.arg1 = 1;											//	by btnAgree Clicked
-									SpaceeAppMain.mMsgHandler.sendMessage(msg);
-								}
-								else
-								{
-									showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), obj2, "");
-								}
-							}
-							catch (org.json.JSONException e)
-							{
-								e.printStackTrace();
-								return;
-							}
-						}
-						else
-						{
-							showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
-						}
+						// FIXME: クレジットカード登録API呼び出しは onSuccess 時に行って下さい。
+//						result = SpaceeAppMain.httpCommGlueRoutines.registerCreditCardInfo();
+//
+//						if (result != null)
+//						{
+//							try
+//							{
+//								org.json.JSONObject obj2 = new org.json.JSONObject(result);
+//								status	= obj2.getString("status");
+//
+//								if (status.equals("ok"))
+//								{
+//									result = obj2.getString("card_id");
+//				//	resultにはcard_idが入っている		<<<<<<<<<<<<<<<<<	どこにどうする？
+//
+//									Message msg = new Message();
+//									msg.what = SpaceeAppMain.MSG_ENTRY_POLICY_COMP;
+//									msg.arg1 = 1;											//	by btnAgree Clicked
+//									SpaceeAppMain.mMsgHandler.sendMessage(msg);
+//								}
+//								else
+//								{
+//									showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), obj2, "");
+//								}
+//							}
+//							catch (org.json.JSONException e)
+//							{
+//								e.printStackTrace();
+//								return;
+//							}
+//						}
+//						else
+//						{
+//							showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
+//						}
 					}
 					else
 					{
@@ -245,5 +256,29 @@ public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.sp
 			{
 			}
 		});
+	}
+
+	private void callGetGmoToken() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("javascript:window.getGmoToken('")
+				.append(BuildConfig.GMO_SHOP_ID).append("','")
+				.append(ReceiptTabApplication.userRegData.cardNo).append("','")
+				.append(ReceiptTabApplication.userRegData.cardExpireYear)
+				.append(ReceiptTabApplication.userRegData.cardExpireMonth).append("','")
+				.append(ReceiptTabApplication.userRegData.secretCode).append("','")
+				.append(ReceiptTabApplication.userRegData.cardHolder).append("');");
+		mWebView.loadUrl(builder.toString());
+	}
+
+	@Override
+	public void onSuccess(String token) {
+		// TODO: クレジットカード登録APIを実行して下さい。 card_token にこのtokenを渡します。
+		Log.d(TAG, "token:" + token);
+	}
+
+	@Override
+	public void onError(String code) {
+		// TODO: エラー表示して下さい。
+		Log.d(TAG, "error code:" + code);
 	}
 }

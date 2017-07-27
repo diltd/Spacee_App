@@ -47,8 +47,8 @@ public  class  FragmentEntryCardListener  implements  FragmentEntryCard.Fragment
 		ReceiptTabApplication.userRegData.cardNo			= wStr;
 		ReceiptTabApplication.userRegData.secretCode		= ((TextView) view.findViewById(R.id.cardNo5)).getText().toString();
 		ReceiptTabApplication.userRegData.cardHolder		= ((TextView) view.findViewById(R.id.namePsn)).getText().toString();
-		ReceiptTabApplication.userRegData.cardExpireYear	= ((Spinner) view.findViewById(R.id.expireYear)).getSelectedItemPosition();
-		ReceiptTabApplication.userRegData.cardExpireMonth	= ((Spinner) view.findViewById(R.id.expireMonth)).getSelectedItemPosition();
+		ReceiptTabApplication.userRegData.cardExpireYear	= ((Spinner) view.findViewById(R.id.expireYear)).getSelectedItem().toString();
+		ReceiptTabApplication.userRegData.cardExpireMonth	= ((Spinner) view.findViewById(R.id.expireMonth)).getSelectedItem().toString();
 
 		android.os.Message msg = new android.os.Message();
 		msg.what = SpaceeAppMain.MSG_ENTRY_CARD_COMP;

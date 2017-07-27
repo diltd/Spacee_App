@@ -1,11 +1,13 @@
 <html>
 <head>
-    <script type="text/javascript" src="https://pt01.mul-pay.jp/ext/js/token.js"></script>
-    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
-            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="${GMO_JS_URL}"></script>
     <script type="text/javascript">
         function getGmoTokenCallback(response) {
-            Native.setToken(response.resultCode, response.tokenObject.token);
+            if (response.resultCode != '000') {
+                Native.callbackCode(response.resultCode);
+            } else {
+                Native.callbackToken(response.tokenObject.token);
+             }
         }
 
         window.getGmoToken = function(shopId, cardNo, expire, secCode, holderName) {

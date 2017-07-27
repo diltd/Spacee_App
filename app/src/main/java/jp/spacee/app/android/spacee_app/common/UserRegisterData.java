@@ -11,8 +11,8 @@ public  class  UserRegisterData
 	public		String			cardNo;
 	public		String			secretCode;
 	public		String			cardHolder;
-	public		int				cardExpireYear;
-	public		int				cardExpireMonth;
+	public		String			cardExpireYear;
+	public		String			cardExpireMonth;
 	public		String			companyName;
 	public		String			operName;
 	public		String			postCode;
