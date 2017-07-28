@@ -243,8 +243,9 @@ public  class  FragmentStatusBookingListener  implements  jp.spacee.app.android.
 				//	今日の表示
 				Calendar	cal = Calendar.getInstance();
 				String	wStr = date.getText().toString();
-				if (   (cal.get(Calendar.MONTH) + 1		== Integer.parseInt(wStr.substring(0, 2)))
-					&& (cal.get(Calendar.DAY_OF_MONTH)	== Integer.parseInt(wStr.substring(3, 5))) )
+				int		wPos = wStr.indexOf("/");
+				if (   (cal.get(Calendar.MONTH) + 1		== Integer.parseInt(wStr.substring(0, wPos)))
+					&& (cal.get(Calendar.DAY_OF_MONTH)	== Integer.parseInt(wStr.substring(wPos+1, wStr.length()))) )
 				{
 					sts.setText(ReceiptTabApplication.AppContext.getResources().getString(R.string.frag_status_booking_today));
 				}
@@ -255,11 +256,11 @@ public  class  FragmentStatusBookingListener  implements  jp.spacee.app.android.
 
 				//	Selected
 				if (  (  (caller == 1)
-					  && (ReceiptTabApplication.currentWorkDetailMonth	== Integer.parseInt(wStr.substring(0, 2)))
-					  && (ReceiptTabApplication.currentWorkDetailDay	== Integer.parseInt(wStr.substring(3, 5))))
+					  && (ReceiptTabApplication.currentWorkDetailMonth	== Integer.parseInt(wStr.substring(0, wPos)))
+					  && (ReceiptTabApplication.currentWorkDetailDay	== Integer.parseInt(wStr.substring(wPos+1, wStr.length()))))
 				   || (  (caller == 2)
-					  && (ReceiptTabApplication.currentMeetingDetailMonth == Integer.parseInt(wStr.substring(0, 2)))
-					  && (ReceiptTabApplication.currentMeetingDetailDay	  == Integer.parseInt(wStr.substring(3, 5)))) )
+					  && (ReceiptTabApplication.currentMeetingDetailMonth == Integer.parseInt(wStr.substring(0, wPos)))
+					  && (ReceiptTabApplication.currentMeetingDetailDay	  == Integer.parseInt(wStr.substring(wPos+1, wStr.length())))) )
 				{
 					mark.setImageResource(R.drawable.ic_check);
 					ll.setBackgroundColor(ReceiptTabApplication.AppContext.getResources().getColor(R.color.light_grey));

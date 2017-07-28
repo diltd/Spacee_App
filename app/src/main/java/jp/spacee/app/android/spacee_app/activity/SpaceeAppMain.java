@@ -814,12 +814,21 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 								break;
 
 						case MSG_ACC_LINK_COMP:
+							int	  pos3 = ReceiptTabApplication.stackPos - 7;
+							if		(ReceiptTabApplication.CallStack[pos3] == FRAGMENT_APP_MAIN)
+							{
+								startFragmentBookList();
+							}
+							else if (  (ReceiptTabApplication.CallStack[pos3] == FRAGMENT_WORK_DETAIL)
+									 || (ReceiptTabApplication.CallStack[pos3] == FRAGMENT_MEETING_DETAIL))
+							{
 								startFragmentOrderConfirm();
-								break;
+							}
+							break;
 
 						case MSG_STATUS_BOOKING_COMP:
 								ReceiptTabApplication.stackPos -= 2;
-								int		pos = ReceiptTabApplication.stackPos;
+//								int		pos = ReceiptTabApplication.stackPos;
 
 								if		(msg.arg1 == 1)		startFragmentWorkDetail();
 								else if (msg.arg1 == 2)	startFragmentMeetingDetail();

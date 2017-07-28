@@ -104,9 +104,10 @@ public  class  FragmentOrderConfirmListener  implements  FragmentOrderConfirm.Fr
 			try
 			{
 				JSONObject obj1 = new JSONObject(result);
-				ReceiptTabApplication.bookingRoomData.payAmount = obj1.getInt("total_price");
+				ReceiptTabApplication.bookingRoomData.payAmount  = obj1.getInt("total_price");
 				JSONObject obj2 = obj1.getJSONObject("coupon");
-				ReceiptTabApplication.bookingRoomData.discount	 = obj2.getInt("discount_price");
+				ReceiptTabApplication.bookingRoomData.discount	  = obj2.getInt("discount_price");
+				ReceiptTabApplication.bookingRoomData.couponCode = cpnCode;
 			}
 			catch (org.json.JSONException e)
 			{
@@ -181,10 +182,6 @@ public  class  FragmentOrderConfirmListener  implements  FragmentOrderConfirm.Fr
 			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
 			return;
 		}
-
-
-
-
 
 		Message msg = new Message();
 		msg.what = SpaceeAppMain.MSG_ORDER_CONFIRM_COMP;

@@ -16,6 +16,7 @@ public  class  BookingRoomData
 	public		String			checkOutTime;
 	public		int				numPsn;
 	public		int				TotalPrice;
+	public 		String			couponCode;
 	public		int				discount;
 	public		int				payAmount;
 	public 		String			paidWay;

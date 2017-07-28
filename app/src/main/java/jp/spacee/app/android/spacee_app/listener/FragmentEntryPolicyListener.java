@@ -84,7 +84,7 @@ public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.sp
 //								if (status.equals("ok"))
 //								{
 //									result = obj2.getString("card_id");
-//				//	resultにはcard_idが入っている		<<<<<<<<<<<<<<<<<	どこにどうする？
+//									//	resultにはcard_idが入っている		<<<<<<<<<<<<<<<<<	どこにどうする？
 //
 //									Message msg = new Message();
 //									msg.what = SpaceeAppMain.MSG_ENTRY_POLICY_COMP;
@@ -121,7 +121,7 @@ public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.sp
 								if (status.equals("ok"))
 								{
 									result = obj2.getString("billing_destination_id");
-			//	resultにはbilling_destination_idが入っている		<<<<<<<<<<<<<<<<<	どこにどうする？
+									//	resultにはbilling_destination_idが入っている		<<<<<<<<<<<<<<<<<	どこにどうする？
 
 									Message msg = new Message();
 									msg.what = SpaceeAppMain.MSG_ENTRY_POLICY_COMP;
@@ -271,9 +271,44 @@ public  class  FragmentEntryPolicyListener  implements  jp.spacee.app.android.sp
 	}
 
 	@Override
-	public void onSuccess(String token) {
-		// TODO: クレジットカード登録APIを実行して下さい。 card_token にこのtokenを渡します。
-		Log.d(TAG, "token:" + token);
+	public void onSuccess(String token)
+	{
+		ReceiptTabApplication.userRegData.cardToken = token;
+
+		String	result = SpaceeAppMain.httpCommGlueRoutines.registerCreditCardInfo();
+
+		if (result != null)
+		{
+			try
+			{
+				org.json.JSONObject obj2 = new org.json.JSONObject(result);
+				String	status	= obj2.getString("status");
+
+				if (status.equals("ok"))
+				{
+					result = obj2.getString("card_id");
+					//	resultにはcard_idが入っている		<<<<<<<<<<<<<<<<<	どこにどうする？
+
+					Message msg = new Message();
+					msg.what = SpaceeAppMain.MSG_ENTRY_POLICY_COMP;
+					msg.arg1 = 1;											//	by btnAgree Clicked
+					SpaceeAppMain.mMsgHandler.sendMessage(msg);
+				}
+				else
+				{
+					showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title1), obj2, "");
+				}
+			}
+			catch (org.json.JSONException e)
+			{
+				e.printStackTrace();
+				return;
+			}
+		}
+		else
+		{
+			showErrorMsg(ReceiptTabApplication.AppContext.getResources().getString(R.string.error_title2), null, "");
+		}
 	}
 
 	@Override

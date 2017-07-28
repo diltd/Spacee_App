@@ -483,7 +483,11 @@ public  class  HttpCommGlueRoutines
 			jsonObj1.put("minutes",		String.format("%d", diff));
 			jsonObj1.put("party",			String.format("%d", ReceiptTabApplication.bookingRoomData.numPsn));
 //			jsonObj1.put("coupon_id",		ReceiptTabApplication.bookingRoomData.cardToken);
-			jsonObj1.put("coupon_id",		"");
+			if (  (ReceiptTabApplication.bookingRoomData.couponCode != null)
+				&& (ReceiptTabApplication.bookingRoomData.couponCode.equals("") == false) )
+			{
+				jsonObj1.put("coupon_id", ReceiptTabApplication.bookingRoomData.couponCode);
+			}
 			if (ReceiptTabApplication.bookingRoomData.paidWay.equals("1"))
 			{
 				jsonObj1.put("payment_type",	"card");
