@@ -584,6 +584,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 	{
 		if (ReceiptTabApplication.isMsgShown == false)
 		{
+			ReceiptTabApplication.userAuthToken		= "";
 			ReceiptTabApplication.userRegData		= null;
 			ReceiptTabApplication.bookingRoomData	= null;
 
@@ -779,8 +780,18 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 
 						case MSG_BOOK_DETAIL_COMP:
 								if		(msg.arg1 == 1)		startDialogFloorGuide();
-								else if (msg.arg1 == 2)	startFragmentAppMain();				//	違いは????
-								else if (msg.arg1 == 3)	startFragmentAppMain();				//	違いは????
+								else if (msg.arg1 == 2)							//	ログアウトしてスペースを詳しく見る
+								{
+									ReceiptTabApplication.userAuthToken		= "";
+									if (msg.arg2 == 1)
+											startFragmentWorkDetail();
+									else	startFragmentMeetingDetail();
+								}
+								else if (msg.arg1 == 3)
+								{
+									ReceiptTabApplication.userAuthToken		= "";
+									startFragmentAppMain();							//	ログアウトしてホームに戻る
+								}
 								break;
 
 						case MSG_ORDER_CONFIRM_COMP:
@@ -978,7 +989,9 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 		  {
 			ReceiptTabApplication.CallStack[i] = -1;
 		  }
-		ReceiptTabApplication.stackPos = 0;
+		ReceiptTabApplication.stackPos			= 0;
+		ReceiptTabApplication.userAuthToken		= "";
+
 
 		ReceiptTabApplication.CallStack[ReceiptTabApplication.stackPos++] = FRAGMENT_APP_MAIN;
 	}

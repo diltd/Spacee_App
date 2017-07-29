@@ -310,7 +310,7 @@ public  class  FragmentWorkListListener  implements  FragmentWorkList.FragmentIn
 				msg.arg1 = Integer.parseInt(map.get("id"));			//	id
 				msg.obj  = map.get("subtitle");						//	subtitle
 				map = workAreaInfo.get(pos);
-				msg.arg2 = Integer.parseInt(map.get("StsCode"));		//	status code 0/1/2
+				msg.arg2 = Integer.parseInt(map.get("StsCode"));		//	status code 0:時間外/1:avail/2:busy
 				SpaceeAppMain.mMsgHandler.sendMessage(msg);
 			}
 		});

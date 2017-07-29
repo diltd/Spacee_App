@@ -31,7 +31,11 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 	private						ImageView					msgOff				= null;
 
 	private						String						id					= "";
+	private						String						name				= "";
+	private						int							spaceKind			= 0;
+	private						int							status				= 0;
 	private						Bitmap[]					thumbnails			= new android.graphics.Bitmap[1];
+
 
 
 	public  FragmentBookDetailListener(int prmId)
@@ -46,7 +50,7 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 	{
 		android.os.Message msg = new android.os.Message();
 		msg.what = SpaceeAppMain.MSG_BOOK_DETAIL_COMP;
-		msg.arg1 = 1;											//	by LoginICClicked
+		msg.arg1 = 1;											//	フロアガイド
 		SpaceeAppMain.mMsgHandler.sendMessage(msg);
 	}
 
@@ -56,7 +60,23 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 	{
 		android.os.Message msg = new android.os.Message();
 		msg.what = SpaceeAppMain.MSG_BOOK_DETAIL_COMP;
-		msg.arg1 = 2;											//	by LoginQRClicked
+		msg.arg1 = 2;											//	ログアウトしてスペースを詳しく見る
+		msg.arg2 = spaceKind;									//	1:ワークスペース / 2:ミーティングルーム
+
+		if (msg.arg2 == 1)
+		{
+			ReceiptTabApplication.currentWorkId		 = Integer.parseInt(id);
+			ReceiptTabApplication.currentWorkStatus	 = status;						//	0:時間外/1:時間内（利用可かどうかは各detailでチェックしている）
+			ReceiptTabApplication.currentWorkName	 = (String)msg.obj;
+			msg.obj = name;
+		}
+		else
+		{
+			ReceiptTabApplication.currentMeetingId		= Integer.parseInt(id);
+			ReceiptTabApplication.currentMeetingStatus	= status;					//	0:時間外/1:時間内（利用可かどうかは各detailでチェックしている）
+			ReceiptTabApplication.currentMeetingName	= (String)msg.obj;
+			msg.obj = name;
+		}
 		SpaceeAppMain.mMsgHandler.sendMessage(msg);
 	}
 
@@ -66,7 +86,7 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 	{
 		android.os.Message msg = new android.os.Message();
 		msg.what = SpaceeAppMain.MSG_BOOK_DETAIL_COMP;
-		msg.arg1 = 3;											//	by LoginQRClicked
+		msg.arg1 = 3;											//	ログアウトしてホームに戻る
 		SpaceeAppMain.mMsgHandler.sendMessage(msg);
 	}
 
@@ -112,6 +132,7 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 							JSONObject obj4 = new JSONObject(obj2.getString("thumb"));
 							thumb_url[0] = obj4.getString("url");
 							spaceName.setText(obj2.getString("subtitle"));
+							name = obj2.getString("subtitle");
 							usage.setText(obj2.getString("usage"));
 							try
 							{
@@ -123,6 +144,12 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 								Calendar cal = Calendar.getInstance();
 								Date now   = cal.getTime();
 
+								//	仕様不足に対応する処理	本来は上記で行う
+								//	本来はここでワークスペース(spaceKind=1) か ミーティングルーム(spaceKind=2)をサーバーから取込む
+								if (obj2.getInt("id") == 2980)
+										spaceKind = 1;					//	*****tentative*****  ワークスペース
+								else	spaceKind = 2;					//	*****tentative*****  ミーティングルーム
+
 								if ((bDate.compareTo(now) <= 0) && (now.compareTo(eDate) <= 0))
 								{
 									status1.setText(ReceiptTabApplication.AppContext.getResources().getString(R.string.xml_book_detail_space_avail));
@@ -130,6 +157,8 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 									status2.setText(ReceiptTabApplication.AppContext.getResources().getString(R.string.xml_book_detail_msg1));
 									layoutFG.setVisibility(View.VISIBLE);
 									layoutSts3.setVisibility(View.INVISIBLE);
+
+									status = 1;					//	時間内
 								}
 								else
 								{
@@ -141,6 +170,8 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 
 									long diff = ((long) bDate.getTime() - (long) now.getTime()) / 1000;				//	sec
 									residual.setText(String.format("%02d:%02d", diff/60, diff%60));
+
+									status = 0;					//	時間外
 								}
 							}
 							catch (java.text.ParseException e)
