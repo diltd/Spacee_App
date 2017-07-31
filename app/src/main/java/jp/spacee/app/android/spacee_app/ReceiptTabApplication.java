@@ -87,6 +87,7 @@ public  class  ReceiptTabApplication  extends  Application
 	public  static  final		String						URL_USERS_IDMS_AUTH			= URL_BASE + "/api/v2/users/idms/auth.json";											//	利用者(user)認証	IDｍ認証
 	public  static  final		String						URL_USERS_QR_AUTH				= URL_BASE + "/api/v2/users/qr/auth.json";												//	利用者(user)認証	QRコード認証
 	public  static  final		String						URL_USERS_SIGNUP				= URL_BASE + "/api/v2/users/sign_up.json";												//	利用者登録・変更	利用者登録(ID・パスワード認証)
+	public  static  final		String						URL_USERS_SIGNOUT				= URL_BASE + "/api/v2/users/sign_out.json";												//	利用者(user)		サインアウト
 	public  static  final		String						URL_USERS						= URL_BASE + "/api/v2/users.json";														//	利用者登録・変更	利用者情報の取得
 	public  static  final		String						URL_USERS_CARD					= URL_BASE + "/api/v2/users/card.json";													//	決済情報登録	クレジットカード登録
 	public  static  final		String						URL_USERS_BILLING				= URL_BASE + "/api/v2/users/billing_destination.json";								//	決済情報登録	請求先登録

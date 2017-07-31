@@ -23,6 +23,7 @@ public  class  HttpCommGlueRoutines
 
 	private  static  final	int							POST					= 1;
 	private  static  final	int							GET						= 2;
+	private  static  final	int							DELETE					= 3;
 
 
 	public  String  commHttpCall(int type, String sUrl, JSONObject paramJsonObj, String  prmGet)
@@ -514,7 +515,21 @@ public  class  HttpCommGlueRoutines
 	}
 
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//	ユーザー	ログアウト
+	public  String  userLogout()
+	{
+		String		outStr;
+		int			diff, pos1, pos2;
+
+		String	url = ReceiptTabApplication.URL_USERS_SIGNOUT;
+
+		outStr = commHttpCall(DELETE, url, null, "");
+
+		return	 outStr;
+	}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public  boolean  retrieveUserStatus()
