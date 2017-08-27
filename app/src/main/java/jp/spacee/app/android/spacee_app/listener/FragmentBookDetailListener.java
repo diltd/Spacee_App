@@ -33,7 +33,9 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 	private						String						id					= "";
 	private						String						name				= "";
 	private						int							spaceKind			= 0;
+	private						int							spaceId				= 0;
 	private						int							status				= 0;
+	private						Date						bookDate			= null;
 	private						Bitmap[]					thumbnails			= new android.graphics.Bitmap[1];
 
 
@@ -65,18 +67,25 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 
 		if (msg.arg2 == 1)
 		{
-			ReceiptTabApplication.currentWorkId		 = Integer.parseInt(id);
+			ReceiptTabApplication.currentWorkId		 = spaceId;
 			ReceiptTabApplication.currentWorkStatus	 = status;						//	0:時間外/1:時間内（利用可かどうかは各detailでチェックしている）
-			ReceiptTabApplication.currentWorkName	 = (String)msg.obj;
+			ReceiptTabApplication.currentWorkName	 = name;
 			msg.obj = name;
 		}
 		else
 		{
-			ReceiptTabApplication.currentMeetingId		= Integer.parseInt(id);
+			ReceiptTabApplication.currentMeetingId		= spaceId;
 			ReceiptTabApplication.currentMeetingStatus	= status;					//	0:時間外/1:時間内（利用可かどうかは各detailでチェックしている）
-			ReceiptTabApplication.currentMeetingName	= (String)msg.obj;
+			ReceiptTabApplication.currentMeetingName	= name;
 			msg.obj = name;
 		}
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(bookDate);
+		ReceiptTabApplication.currentWorkDetailYear		= cal.get(Calendar.YEAR);
+		ReceiptTabApplication.currentWorkDetailMonth	= cal.get(Calendar.MONTH) + 1;
+		ReceiptTabApplication.currentWorkDetailDay		= cal.get(java.util.Calendar.DAY_OF_MONTH);
+
 		SpaceeAppMain.mMsgHandler.sendMessage(msg);
 	}
 
@@ -138,17 +147,18 @@ public  class  FragmentBookDetailListener  implements  FragmentBookDetail.Fragme
 							{
 								SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 								Date bDate = sdf.parse(obj3.getString("start_at"));
+								bookDate  = bDate;
 								timeBegin.setText(new SimpleDateFormat("HH:mm").format(bDate));
 								Date eDate =  sdf.parse(obj3.getString("end_at"));
 								timeEnd.setText(new SimpleDateFormat("HH:mm").format(eDate));
 								Calendar cal = Calendar.getInstance();
 								Date now   = cal.getTime();
 
-								//	仕様不足に対応する処理	本来は上記で行う
-								//	本来はここでワークスペース(spaceKind=1) か ミーティングルーム(spaceKind=2)をサーバーから取込む
+///								if (obj2.getString("category").equals("desk"))
 								if (obj2.getInt("id") == 2980)
-										spaceKind = 1;					//	*****tentative*****  ワークスペース
-								else	spaceKind = 2;					//	*****tentative*****  ミーティングルーム
+										spaceKind = 1;					// ワークスペース
+								else	spaceKind = 2;					// ミーティングルーム
+								spaceId = obj2.getInt("id");
 
 								if ((bDate.compareTo(now) <= 0) && (now.compareTo(eDate) <= 0))
 								{

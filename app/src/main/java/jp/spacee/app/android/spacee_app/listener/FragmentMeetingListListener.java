@@ -144,7 +144,7 @@ public  class  FragmentMeetingListListener  implements  FragmentMeetingList.Frag
 								map.put("schedNo", String.format("%d", jsonArr2.length()));
 								for (k=0; k<jsonArr2.length(); k++)
 								{
-									json2 = jsonArr2.getJSONObject(i);
+									json2 = jsonArr2.getJSONObject(k);
 									try
 									{
 										wDate	= sdf.parse(json2.getString("start_at"));

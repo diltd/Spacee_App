@@ -8,6 +8,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
@@ -45,6 +46,7 @@ public  class  AsyncTaskAPICall  extends AsyncTask<HttpParamAPICall, Void, Void>
 
 		HttpPost		httpPost = null;
 		HttpGet			httpGet	 = null;
+		HttpDelete		httpDel	 = null;
 		HttpResponse	httpResp = null;
 
 		HttpClient	httpClient = new DefaultHttpClient();
@@ -62,7 +64,7 @@ public  class  AsyncTaskAPICall  extends AsyncTask<HttpParamAPICall, Void, Void>
 
 			Log.d(TAG, "type:" + param.type);
 
-			if (param.type == 1)
+			if		(param.type == 1)
 			{
 				Log.d(TAG, "url:" + param.sUrl);
 				httpPost = new HttpPost(param.sUrl);
@@ -70,11 +72,11 @@ public  class  AsyncTaskAPICall  extends AsyncTask<HttpParamAPICall, Void, Void>
 				httpPost.setEntity(se);
 				httpPost.setHeader("Accept", "application/json");
 				httpPost.setHeader("Content-Type", "application/json");
-				httpPost.setHeader("X-Provider-Auth-Token", ReceiptTabApplication.providerAuthToken);
-				httpPost.setHeader("X-User-Auth-Token", ReceiptTabApplication.userAuthToken);
+				httpPost.setHeader("X-Provider-Auth-Token",	ReceiptTabApplication.providerAuthToken);
+				httpPost.setHeader("X-User-Auth-Token",		ReceiptTabApplication.userAuthToken);
 				httpResp = httpClient.execute(httpPost);
 			}
-			else
+			else if (param.type == 2)
 			{
 				Log.d(TAG, "url:" + param.sUrl + "?" + param.paramGet);
 				if (param.paramGet.length() > 0)
@@ -82,9 +84,18 @@ public  class  AsyncTaskAPICall  extends AsyncTask<HttpParamAPICall, Void, Void>
 				else	httpGet = new HttpGet(param.sUrl);
 				httpGet.setHeader("Accept", "application/json");
 				httpGet.setHeader("Content-Type", "application/json");
-				httpGet.setHeader("X-Provider-Auth-Token", ReceiptTabApplication.providerAuthToken);
-				httpGet.setHeader("X-User-Auth-Token", ReceiptTabApplication.userAuthToken);
+				httpGet.setHeader("X-Provider-Auth-Token",	ReceiptTabApplication.providerAuthToken);
+				httpGet.setHeader("X-User-Auth-Token",		ReceiptTabApplication.userAuthToken);
 				httpResp = httpClient.execute(httpGet);
+			}
+			else if (param.type == 3)
+			{
+				httpDel = new HttpDelete(param.sUrl);
+				httpDel.setHeader("Accept", "application/json");
+				httpDel.setHeader("Content-Type", "application/json");
+				httpDel.setHeader("X-Provider-Auth-Token",	ReceiptTabApplication.providerAuthToken);
+				httpDel.setHeader("X-User-Auth-Token",		ReceiptTabApplication.userAuthToken);
+				httpResp = httpClient.execute(httpDel);
 			}
 
 			if (httpResp.getStatusLine().getStatusCode() <= 400)
