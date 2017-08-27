@@ -51,6 +51,7 @@ public  class  FindIccBleDevice
 		mBTAdapter = mBTManager.getAdapter();
 		if (mBTAdapter != null)
 		{
+			mBtDevice = null;
 			if (mBTAdapter.isEnabled() == false)
 			{
 				Intent intnt = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -67,7 +68,7 @@ public  class  FindIccBleDevice
 				else
 				{
 					//	OK
-					//	BLE搭載かどうかは確認済み・・ここ22には来ないはず
+					//	BLE搭載かどうかは確認済み・・ここには来ないはず
 				}
 			}
 		}
@@ -94,22 +95,27 @@ public  class  FindIccBleDevice
 	{
 		android.bluetooth.BluetoothDevice mBtDev;
 		String				mBtName;
+		String				mBtAddr;
 
 		if ((result != null) && (result.getDevice() != null))
 		{
 			mBtDev  = result.getDevice();
+			mBtAddr = mBtDev.getAddress().toString();
 			mBtName = mBtDev.getName();
 			if (  (mBtName != null)
-					&& (ReceiptTabApplication.targetBLEDeviceName.compareTo(mBtName.substring(0, ReceiptTabApplication.targetBLEDeviceName.length())) == 0))
+				&& (ReceiptTabApplication.targetBLEDeviceName.compareTo(mBtName.substring(0, ReceiptTabApplication.targetBLEDeviceName.length())) == 0))
 			{
 				if (mBtDevice == null)
 				{
 					mBtDevice = mBtDev;
 					mBTLeScanner.stopScan(scanCallback);
 
-					if (mBtDevice != null)
-					{
+//					if (mBtDevice != null)
+//					{
 						ReceiptTabApplication.AppContext.unregisterReceiver(TTickReceiver);
+
+						ReceiptTabApplication.prevBtDev = mBtAddr;				//	このＢＬＥのアドレスを保持する
+						SpaceeAppMain.saveSharedPreferences();
 
 //						startICRService();
 						Message msg = new Message();
@@ -117,25 +123,56 @@ public  class  FindIccBleDevice
 						msg.arg1 = 0;
 						msg.obj  = mBtDevice;
 						SpaceeAppMain.mMsgHandler.sendMessage(msg);
-					}
+	android.widget.Toast.makeText(ReceiptTabApplication.AppContext, "request MSG_START_ICR_SERVICE", android.widget.Toast.LENGTH_SHORT).show();
+//					}
+				}
+				else
+				{
+					mBtDevice = null;
+					android.widget.Toast.makeText(ReceiptTabApplication.AppContext, "X1 mBtName=" + mBtName + "  mBtAddr=" + mBtAddr, android.widget.Toast.LENGTH_SHORT).show();
+				}
+			}
+			else if (mBtAddr.compareTo(ReceiptTabApplication.prevBtDev) == 0)
+			{
+//	Log.w("FindIccBle", "mBtAddr=" + mBtAddr + "=ReceiptTabApplication.prevBtDev" + ReceiptTabApplication.prevBtDev);
+				//	ＢＬＥデバイスのアドレスのみが戻る事がある／直前の起動でリンクしたアドレスと一致していたら処理を開始する
+				if (mBtDevice == null)
+				{
+					mBtDevice = mBtDev;
+					mBTLeScanner.stopScan(scanCallback);
+
+//					if (mBtDevice != null)
+//					{
+						ReceiptTabApplication.AppContext.unregisterReceiver(TTickReceiver);
+
+						//						startICRService();
+						Message msg = new Message();
+						msg.what = SpaceeAppMain.MSG_START_ICR_SERVICE;
+						msg.arg1 = 0;
+						msg.obj  = mBtDevice;
+						SpaceeAppMain.mMsgHandler.sendMessage(msg);
+//					}
+				}
+				else
+				{
+					mBtDevice = null;
+					android.widget.Toast.makeText(ReceiptTabApplication.AppContext, "X2 mBtName=" + mBtName + "  mBtAddr=" + mBtAddr, android.widget.Toast.LENGTH_SHORT).show();
 				}
 			}
 			else
 			{
-/*
-		ここでリセットしても同じデバイスしか捉えられないので、無視してタイムアウトを待つ
 				mBtDevice = null;
 				if (mBTLeScanner != null)
 				{
 					if (mBTLeScanner != null)
 					{
 						mBTLeScanner.stopScan(scanCallback);
-						SystemClock.sleep(200);
+						android.os.SystemClock.sleep(200);
 					}
 
-//					prepareService();
+					prepareService();
 				}
-*/
+	android.widget.Toast.makeText(jp.spacee.app.android.spacee_app.ReceiptTabApplication.AppContext, "mBtName=" + mBtName + "  mBtAddr=" + mBtAddr, android.widget.Toast.LENGTH_SHORT).show();
 			}
 		}
 	}

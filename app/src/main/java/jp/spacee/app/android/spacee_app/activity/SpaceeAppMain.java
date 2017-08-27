@@ -472,6 +472,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 		ReceiptTabApplication.officeId		= pref.getString("officeId", "");			//  default : ""
 		ReceiptTabApplication.providerId	= pref.getString("providerId", "");		//  default : ""
 		ReceiptTabApplication.providerPw	= pref.getString("password", "");			//	default ; ""
+		ReceiptTabApplication.prevBtDev		= pref.getString("prevbtaddr", "");		//	default ; ""
 	}
 
 
@@ -482,6 +483,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 		prefEditor.putString("officeId", 	 ReceiptTabApplication.officeId);			//  default : ""
 		prefEditor.putString("providerId",	 ReceiptTabApplication.providerId);			//  default : ""  設定にて入力させる
 		prefEditor.putString("password",	 ReceiptTabApplication.providerPw);			//	default : ""
+		prefEditor.putString("prevbtaddr",	 ReceiptTabApplication.prevBtDev);			//	default : ""
 		prefEditor.commit();
 	}
 
@@ -584,9 +586,7 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 	{
 		if (ReceiptTabApplication.isMsgShown == false)
 		{
-			ReceiptTabApplication.userAuthToken		= "";
-			ReceiptTabApplication.userRegData		= null;
-			ReceiptTabApplication.bookingRoomData	= null;
+			userLogout();
 
 			Message  msg = new Message();
 			msg.what = MSG_HOME_CLICKED;
@@ -782,14 +782,16 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 								if		(msg.arg1 == 1)		startDialogFloorGuide();
 								else if (msg.arg1 == 2)							//	ログアウトしてスペースを詳しく見る
 								{
-									ReceiptTabApplication.userAuthToken		= "";
+									userLogout();
+
 									if (msg.arg2 == 1)
 											startFragmentWorkDetail();
 									else	startFragmentMeetingDetail();
 								}
 								else if (msg.arg1 == 3)
 								{
-									ReceiptTabApplication.userAuthToken		= "";
+									userLogout();
+
 									startFragmentAppMain();							//	ログアウトしてホームに戻る
 								}
 								break;
@@ -990,8 +992,11 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 			ReceiptTabApplication.CallStack[i] = -1;
 		  }
 		ReceiptTabApplication.stackPos			= 0;
-		ReceiptTabApplication.userAuthToken		= "";
 
+		if (ReceiptTabApplication.userAuthToken.equals("") == false)
+		{
+			userLogout();
+		}
 
 		ReceiptTabApplication.CallStack[ReceiptTabApplication.stackPos++] = FRAGMENT_APP_MAIN;
 	}
@@ -1708,6 +1713,23 @@ public  class  SpaceeAppMain  extends  CustomBaseWindow
 		fragmentFloorGuide.show(getSupportFragmentManager(), "TAG_FLOOR_GUIDE");
 
 		hide();
+	}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private  void  userLogout()
+	{
+		if (ReceiptTabApplication.userAuthToken.equals("") == false)
+		{
+			//	ユーザー(user)ログアウト
+			String	result = httpCommGlueRoutines.userLogout();
+
+			ReceiptTabApplication.userAuthToken		= "";
+			ReceiptTabApplication.userRegData		= null;
+			ReceiptTabApplication.bookingRoomData	= null;
+		}
 	}
 
 

@@ -645,7 +645,7 @@ public  class  ICCReaderService  extends  Service
 		if (mBTGatt != null)
 		{
 			mBTGatt.disconnect();
-			mBTGatt.close();
+//			mBTGatt.close();
 			mBTGatt = null;
 		}
 
